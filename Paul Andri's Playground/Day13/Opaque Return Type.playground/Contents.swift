@@ -1,11 +1,11 @@
 import UIKit
 
 
-// 'OPAQUE' RETURN TYPE
+// 'OPAQUE' RETURN TYPE 'some'
 //Let us hide information in our code, but NOT from the Swift compiler
 
 
-//Two Functions that returns Opaque Return Type 'some'
+//Two Functions that returns Opaque Type 'some' of Equatable Protocol
 func getRandomNumber() -> some Equatable { //returns an 'Opaque' Equatable Protocol (Int)
     // Returning a Protocol from a Function is USEFUL because it lets us HIDE information
     Int.random(in: 1...6)
