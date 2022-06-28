@@ -98,9 +98,10 @@ print(numberilCoalescing)  //Prints: '0'  <- Default value provided by '??'
 
 
 //OPTIONAL MATERIALS
-/*
+
 //Ex: Working on a Chat app and wanted to load whatever message draft the user had saved
-let savedData = loadSavedMessage() ?? ""
+
+//CODE: let savedData = loadSavedMessage() ?? ""
 /* COMMENT: IF 'loadSavedMessage()' returns an Optional with a 'String' inside,
  it will be Uwrapped and placed into 'savedData'.
  BUT IF the Optional is ’nil’ THEN Swift will set 'savedData' to be an empty String.
@@ -110,13 +111,14 @@ let savedData = loadSavedMessage() ?? ""
 
 
 //Ex: Chaining multiple '??'
-let savedData = first() ?? second() ?? ""
+
+//CODE: let savedData = first() ?? second() ?? ""
 /* COMMENT: This codes will attempt to run first(),
  and IF that returns ‘nil’ attempt to run second(),
  and IF that returns ‘nil’ then it will use an empty String "" */
 
-*/
-
+ 
+ 
 //Ex: Use '??' to ensure return of NON-Optional value from a Dictionary
 let scores = ["Picard": 800, "Data": 7000, "Troi": 900]
 let crusherScore = scores["Crusher"] ?? 0 //Returns: 0  <- Default value from '??'
