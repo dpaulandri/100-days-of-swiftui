@@ -137,7 +137,7 @@ struct ContentView: View {
                 // Add a "Done' Button on top of iOS keyboard
                 .toolbar {
                     ToolbarItemGroup(placement: .keyboard) {
-                        // 'Spacer()' pushes our Buttom all the way to the RIGHT side of Toolbar
+                        // 'Spacer()' pushes our Button all the way to the RIGHT side of Toolbar
                         Spacer()
                         
                         Button("OK") {
