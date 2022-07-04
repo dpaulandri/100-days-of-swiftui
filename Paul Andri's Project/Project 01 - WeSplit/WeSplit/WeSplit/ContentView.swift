@@ -19,6 +19,10 @@ struct ContentView: View {
     // The selectable options for tip 'tipPercentage' Property
     let tipPercentages = [10, 15, 20, 25, 30, 0]
     
+    // Code for #100DaysOfSwiftUI Day 18 Extra Challenge #4
+    // Currency Code Property
+    var currencyCode: FloatingPointFormatStyle<Double>.Currency = .currency(code: Locale.current.currencyCode ?? "USD")
+    
     // Computed Property for the Amount to Pay per Pax
     var amountPerPerson: Double {
         // Convert Properties Type to 'Double' for Calculation
@@ -38,7 +42,7 @@ struct ContentView: View {
                 // Value Input Section for 'checkAmount' & $numberOfPeople'
                 Section {
                     // Textfield to enter a value to 'checkAmount'
-                    TextField("Amount:", value: $checkAmount, format: .currency(code: Locale.current.currencyCode ?? "USD")) // '??' provides Default
+                    TextField("Amount:", value: $checkAmount, format: currencyCode)
                     // 'Locale' is an built-in Struct in iOS
                     // Handle user device's local/regional settings
                     
@@ -99,14 +103,14 @@ struct ContentView: View {
                 // Input Values Display Section
                 Section {
                     // Display the Tip Percentage selected in 'tipPercentage'
-                    Text("Bill Value: \(checkAmount, format: .currency(code: Locale.current.currencyCode ?? "USD"))")
+                    Text("Bill Value: \(checkAmount, format: currencyCode)")
                     
                     // Display the Tip Amount selected in 'tipPercentage'
-                    Text("Tip Value: \(checkAmount / 100 * Double(tipPercentage), format: .currency(code: Locale.current.currencyCode ?? "USD"))")
+                    Text("Tip Value: \(checkAmount / 100 * Double(tipPercentage), format: currencyCode)")
                     
                     // Code for #100DaysOfSwiftUI Day 18 Challenger #2
                     // Display the Amount entered into 'checkAmount'
-                    Text("Grand Total: \(checkAmount / 100 * Double(tipPercentage) + checkAmount, format: .currency(code: Locale.current.currencyCode ?? "USD"))")
+                    Text("Grand Total: \(checkAmount / 100 * Double(tipPercentage) + checkAmount, format: currencyCode)")
                     
                     // Display the Number of Pax selected in 'numberOfPeople'
                     Text("Split for: \(numberOfPeople + 2)pax")
@@ -122,7 +126,7 @@ struct ContentView: View {
                 // 'amountPerPerson' Computed Property Values Display Section
                 Section {
                     // Display the Computed Property value in 'amountPerPerson'
-                    Text(amountPerPerson, format: .currency(code: Locale.current.currencyCode ?? "USD"))
+                    Text(amountPerPerson, format: currencyCode)
                     
 
                 } header: { // Add a Heading Title to Section
