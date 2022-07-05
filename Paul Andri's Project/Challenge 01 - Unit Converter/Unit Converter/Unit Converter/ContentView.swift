@@ -108,7 +108,7 @@ struct ContentView: View {
                 Section {
                     Text(result)
                 } header: {
-                    Text("Result:")
+                    Text("Result")
                 }
                 
                 .navigationTitle("Unit Converter")
@@ -195,7 +195,7 @@ struct ContentView: View {
                 Section {
                     Text(result)
                 } header: {
-                    Text("Result:")
+                    Text("Result")
                 }
                 
                 .navigationTitle("Unit Converter")
@@ -320,7 +320,7 @@ struct ContentView: View {
                 Section {
                     Text(result)
                 } header: {
-                    Text("Result:")
+                    Text("Result")
                 }
                 
                 .navigationTitle("Unit Converter")
