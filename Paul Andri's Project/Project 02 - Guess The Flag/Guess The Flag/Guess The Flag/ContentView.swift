@@ -65,6 +65,7 @@ struct ContentView: View {
                     .font(.largeTitle.bold())
                     // 'foregroundColor' Modifier for our Text View
                     .foregroundColor(.white)
+                    .shadow(radius: 2, x: 5, y: 5)
                 
                 
                 // VStack for the Content Group
@@ -123,6 +124,7 @@ struct ContentView: View {
                 Text("Score: \(scoreCount) / 8")
                     .foregroundColor(.white)
                     .font(.title.bold())
+                    .shadow(radius: 3, x: 5, y: 5)
                 
                 
                 // Add a Spacer
@@ -141,12 +143,12 @@ struct ContentView: View {
             if scoreResult == "Correct" {
                 Text("""
                     This is the Flag of \(countries[correctFlag])
-                    Score Count: \(scoreCount) / 8
+                    Current Score: \(scoreCount) / 8
                 """) // Part of Challenge #1 Code
             } else {
                 Text("""
-                    This is the Flag of \(countries[chosenFlag])
-                    Score Count: \(scoreCount) / 8
+                    That is the Flag of \(countries[chosenFlag])
+                    Current Score: \(scoreCount) / 8
                 """) // Part of Challenge #2 Code
             }
         }
@@ -158,7 +160,24 @@ struct ContentView: View {
         .alert("Final Score", isPresented: $roundCompleted) {
             Button("Play Again", action: newRound) // call 'newRound' Property to reset game values
         } message: {
-            Text("You've got \(scoreCount) / 8")
+            switch scoreCount {
+            case 0:
+                Text("""
+                Sorry!
+                You've got \(scoreCount) / 8
+                """)
+            case 8:
+                Text("""
+                Great Job!
+                You've got \(scoreCount) / 8
+                """)
+            default:
+                Text("""
+                Good Game!
+                You've got \(scoreCount) / 8
+                """)
+            }
+            
         }
         
     }
@@ -182,14 +201,6 @@ struct ContentView: View {
         // Assign 'number' value as User 'chosenFlag' Program State Property
         chosenFlag = number
         
-        // Part of Challenge #3 Code
-        // Assign increase value for 'roundCount' Program State Property after each round of game
-        if roundCount < 8 { // Increase value ONLY IF 'roundCount' value is < 8
-            roundCount += 1
-        } else { // Increase value ONLY IF 'roundCount' value is  8
-            roundCompleted = true
-        }
-        
     }
     
     
@@ -200,11 +211,20 @@ struct ContentView: View {
         
         // Randomise the 'correctFlag' Int value
         correctFlag = Int.random(in: 0...2)
+        
+        // Part of Challenge #3 Code
+        // Assign increase value for 'roundCount' Program State Property after each round of game
+        if roundCount < 8 { // Increase value ONLY IF 'roundCount' value is < 8
+            roundCount += 1
+        } else { // If 'roundCount' = 8 (8 rounds of Game has been completed)
+            roundCompleted = true   // Set 'roundCompleted' value to 'true', triggers "Final Score" Alert
+        }
+        
     }
     
     
     // Part of Challenge #3 Code
-    // Method to use w/ "Play Again" 'Button' in the Alert window
+    // Method to use w/ "Play Again" 'Button' in the "Final Score" Alert window
     func newRound() {
         roundCount = 1  // Reset value to 1
         scoreCount = 0  // Reset value to 0
