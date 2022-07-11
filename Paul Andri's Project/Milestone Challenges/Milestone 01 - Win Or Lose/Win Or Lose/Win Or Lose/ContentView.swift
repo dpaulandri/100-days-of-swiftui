@@ -190,9 +190,11 @@ struct ContentView: View {
                     
                     // 'Stack' for Instruction & User Move choice input
                     VStack {
+                        
                         Text("You have to: \(userToWin ? "WIN" : "LOSE / DRAW")")
-                            .instStyle()
-                            .padding()
+                        .instStyle()
+                        .padding()
+                        
                         HStack {
                             ForEach(0..<3) { number in
                                 Button {
@@ -203,7 +205,8 @@ struct ContentView: View {
                             }
                         }
                         .selectionStyle()
-                    } .padding()
+                    }
+                    .padding()
                 }
             }
             
