@@ -79,10 +79,8 @@ struct ContentView: View {
                 // 'sleepDuration' is already a 'Double' Data type
                 estimatedSleep: sleepDuration,
                 
-                // PART OF CHALLENGE 2 CODE
                 // Convert 'Int' into 'Double'
-                // Added '+ 1' to reconcile value difference from CHALLENGE #2 'Picker'
-                coffee: Double(coffeeIntake + 1)
+                coffee: Double(coffeeIntake)
             )
             
             
@@ -113,64 +111,99 @@ struct ContentView: View {
                 
                 // PART OF CHALLENGE #1 CODE
                 // Wakeup Time Section
-                Section("Select Wake Up Time") {
+                Section("Wake-Up Time") {
                     
-                    // 'DatePicker' for picking the desired Wake Up TIme
-                    DatePicker(
-                        "Pick a Time:",
-                        selection: $wakeUpTime, // binded to 'WakeUpTime' Program State Property
-                        displayedComponents: .hourAndMinute  // display only Hour & Minute components
-                    ) .labelsHidden()   // Hide labels from user, but available for screen reader
+                    HStack {
+                        
+                        // Add "sun.max.fill" SF symbol to represent "Wake-Up Time"
+                        Image(systemName: "sun.max.fill")
+                        
+                        Spacer()
+                        
+                        // 'DatePicker' for picking the desired Wake Up TIme
+                        DatePicker(
+                            "Select Time",
+                            selection: $wakeUpTime, // binded to 'WakeUpTime' Program State Property
+                            displayedComponents: .hourAndMinute  // display only Hour & Minute components
+                        )
+                        
+                    }
                     
                 }
                 
                 
                 // PART OF CHALLENGE #1 CODE
                 // Desired Amount of Sleep Section
-                Section("Desired amount of sleep") {
+                Section("Sleep Duration") {
                     
-                    // 'Stepper' to input the desired amount of Sleep
-                    Stepper(
-                        "\(sleepDuration.formatted()) hours",
-                        value: $sleepDuration,  // binded to '$sleepDuration' Program State Property
-                        in: 4...12, // Valid range from 4-12
-                        step: 0.25  // Increase/Decrease value by 0.25/step
-                    )
+                    HStack {
+                        
+                        // Add "bed.double.fill" SF symbol to represent "Sleep Duration"
+                        Image(systemName: "bed.double.fill")
+                        
+                        // 'Stepper' to input the desired amount of Sleep
+                        Stepper(
+                            "\(sleepDuration.formatted()) hours",
+                            value: $sleepDuration,  // binded to '$sleepDuration' Program State Property
+                            in: 4...12, // Valid range from 4-12
+                            step: 0.25  // Increase/Decrease value by 0.25/step
+                        )
+                        
+                    }
                     
                 }
                 
                 
                 // PART OF CHALLENGE #1 CODE
-                // Daily Coffee Intake Section
-                Section("Daily coffee intake") {
+                // Coffee Intake Section
+                Section("Coffee Intake") {
                     
-                    /*
-                     // 'Stepper' to input the amount of daily coffee intake
-                     Stepper(
-                     "\(coffeeIntake) \(coffeeIntake > 1 ? "cups" : "cup")",
-                     value: $coffeeIntake,
-                     in: 1...20
-                     )
-                     */
-                    
-                    // PART OF CHALLENGE #2 CODE
-                    Picker("Coffee Intake", selection: $coffeeIntake) {
-                        ForEach(1..<21) {
-                            Text("\($0) \($0 > 1 ? "cups" : "cup")")
+                    HStack {
+                        
+                        // Add "cup.and.saucer.fill" SF symbol to represent "Coffee Intake"
+                        Image(systemName: "cup.and.saucer.fill")
+                        
+                        
+                        /*
+                         // 'Stepper' to input the amount of coffee intake
+                         Stepper(
+                         "\(coffeeIntake) \(coffeeIntake > 1 ? "cups" : "cup")",
+                         value: $coffeeIntake,
+                         in: 1...20
+                         )
+                         */
+                        
+                        // PART OF CHALLENGE #2 CODE
+                        Picker("Today's Intake", selection: $coffeeIntake) {
+                            // Coffee Intake range from 0 - 20 cups
+                            ForEach(0..<21) {
+                                Text("\($0) \($0 > 1 ? "cups" : "cup")")
+                            }
                         }
+                        // !!! BUG ALERT !!!
+                        // LABEL IS NOT HIDDEN ON THE PICKER VIEW on Xcode Ver. 13.4.1 (13F100)
+                        .labelsHidden()
+                        
                     }
-                    // !!! BUG ALERT !!!
-                    // LABEL IS NOT HIDDEN ON THE PICKER VIEW on Xcode Ver. 13.4.1 (13F100)
-                    .labelsHidden()
                     
                 }
                 
                 
                 // PART OF CHALLENGE #3 CODE
                 Section("Ideal Bedtime") {
-                    Text(idealBedtime)
-                        .font(.largeTitle)
-                        .frame(maxWidth: .infinity,alignment: .center)
+                    
+                    HStack {
+                        
+                        // Add "cup.and.saucer.fill" SF symbol to represent "Coffee Intake"
+                        Image(systemName: "powersleep")
+                        
+                        Text(idealBedtime)
+                            .font(.largeTitle)
+                        
+                    }
+                    // Aligning HStack View to the center
+                    .frame(maxWidth: .infinity,alignment: .center)
+                    
                 }
                 // Aligning Section View to the center
                 .frame(maxWidth: .infinity,alignment: .center)
