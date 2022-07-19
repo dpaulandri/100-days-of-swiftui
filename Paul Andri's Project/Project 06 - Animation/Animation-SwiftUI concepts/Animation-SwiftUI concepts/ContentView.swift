@@ -256,7 +256,7 @@ struct ContentView: View {
 
 
 
-
+/*
 // EXPLICIT ANIMATIONS
 struct ContentView: View {
     
@@ -308,6 +308,414 @@ struct ContentView: View {
         
     }
 }
+*/
+
+
+
+/*
+// CONTROLLING THE ANIMATION STACK
+struct ContentView: View {
+    
+    // PROGRAM STATE PROPERTY
+    @State private var enableAnimation = false
+    
+    /*
+    // COMMON "IMPLICIT ANIMATION" ON VIEW
+    var body: some View {
+        
+        // BUTTON VIEW
+        Button("Tap Me") {
+            // Toggle Bool value of 'enableAnimation' Program State w/ each Button tap
+            enableAnimation.toggle()
+        }
+        // BUTTON VIEW MODIFIERS
+        .frame(width: 200, height: 200)
+        
+        // CONDITIONAL MODIFIER USING TERNATY CONDITIONAL OPERATOR
+        .background(enableAnimation ? .blue : .red)
+        
+        .foregroundColor(.white)
+        
+        // ANIMATION MODIFIER
+        // "IMPLICIT ANIMATION" OCCURS WHENEVER THE 'enableAnimation' PROGRAM STATE IS CHANGED
+        .animation(.default, value: enableAnimation)
+        
+    }*/
+    
+    
+    // ANIMATING MULTIPLE VIEW MODIFIERS W/ MULTIPLE 'animation()' MODIFIERS
+    var body: some View {
+        
+        // BUTTON VIEW
+        Button("Tap Me") {
+            // Toggle Bool value of 'enableAnimation' Program State w/ each Button tap
+            enableAnimation.toggle()
+        }
+        // BUTTON VIEW MODIFIERS
+        // VIEW MODIFIER ORDER BEFORE 'animation()' MODIFIER MATTERS!
+        
+        .frame(width: 200, height: 200)
+        
+        // CONDITIONAL MODIFIER USING TERNATY CONDITIONAL OPERATOR
+        // THIS MODIFIER GETS ANIMATED BY ANIMATION MODIFIER 1
+        .background(enableAnimation ? .blue : .red)
+        
+        // ANIMATION MODIFIER 1
+         .animation(.default, value: enableAnimation)
+        // ANIMATION MODIFIER 1 - 'nil' VERSION
+        // WE CAN PASS 'nil' VALUE TO A ANIMATION MODIFIER; DISABLING THE ANIMATION
+        // USE W/ MULTIPLE ANIMATION MODIFIER TO SET THE BREAKPOINT FOR WHERE THE ANIMATION SHOULD START
+        //.animation(nil, value: enableAnimation)
+        
+        .foregroundColor(.white)
+        
+        // CONDITIONAL MODIFIER USING TERNATY CONDITIONAL OPERATOR
+        // THIS MODIFIER GETS ANIMATED BY ANIMATION MODIFIER 2
+        .clipShape(RoundedRectangle(cornerRadius: enableAnimation ? 60 : 0))
+        
+        // ANIMATION MODIFIER 2
+        .animation(.interpolatingSpring(stiffness: 50, damping: 2), value: enableAnimation)
+        
+    }
+    
+}
+*/
+
+
+
+
+// ANIMATING GESTURES : CREDICARD SHAPE OFFSET DRAG GESTURE + ANIMATIONS
+struct ContentView: View {
+    
+    // PROGRAM STATE PROPERTY TO STORE DRAG GESTURE VALUE
+    @State private var dragAmount = CGSize.zero
+    // 'CGSize' = Core Graphic Size
+    // '.zero' = NO WIDTH & HEIGHT VALUE
+    
+    var body: some View {
+        
+        //ZSTACK VIEW
+        ZStack {
+            
+            // CREDITCARD SHAPE
+            // LINEARGRADIENT VIEW
+            LinearGradient(
+                colors: [.yellow, .indigo],
+                startPoint: .topTrailing,
+                endPoint: .bottomLeading
+            )
+            
+            // VSTACK VIEW
+            VStack {
+                
+                HStack {
+                    Text("CREDIT CARD")
+                    Spacer()
+                    Image(systemName: "creditcard")
+                        .font(.largeTitle)
+                    
+                }
+                .padding(.top)
+                
+                Spacer()
+                
+                HStack {
+                    Image(systemName: "rectangle.split.3x3.fill")
+                        .font(.largeTitle)
+                    Spacer()
+                }
+                
+                
+                Spacer()
+                
+                HStack {
+                    Text("JOHN APPLESEED")
+                        .font(.headline)
+                    Spacer()
+                }
+                
+                
+                HStack {
+                    VStack {
+                        Text("1234 5678 9112 3456")
+                            .frame(width: 150, height: 3, alignment: .leading)
+                        Text("09/25")
+                            .frame(width: 150, height: 5, alignment: .leading)
+                    }
+                    .font(.footnote)
+                    
+                    Spacer()
+                }
+                .padding(.bottom)
+            }
+            .foregroundColor(.white)
+            .padding(.horizontal)
+            
+        }
+        // VIEW MODIFIERS
+        .frame(width: 300, height: 200)
+        .clipShape(RoundedRectangle(cornerRadius: 10))
+        .shadow(radius: 5, x: 10, y: 10)
+        // ALL VIEWS & MODIFIERS ABOVE IS USED TO CREATE AN APPROXIMATION OF A CREDITCARD SHAPE
+        
+        
+        
+        // '.offset()' MODIFIER - INFLUENCE the 'X' & 'Y' ON-SCREEN POSITION OF OUR LINEARGARDIENT VIEW
+        .offset(dragAmount)
+        
+        
+        // DRAG GESTURE MODIFIER
+        // '.gesture()' MODIFIER
+        .gesture(
+            DragGesture()
+                // '.onChange { }' Modifier: run a Closure whenever user moves their finger
+                .onChanged { dragAmount = $0.translation }  // Translate value to a CGSize Value
+                
+                // '.onEnded { }' Modifier: run a Closure whenever user lifts their finger off screen
+                // NO ANIMATION
+                // .onEnded { _ in dragAmount = .zero }    // Reset value to 'CGSize.zero'
+            
+                // W/ "EXPLICIT ANIMATION" FOR GESTURE RELEASE ANIMATION
+                .onEnded { _ in
+                    withAnimation {
+                        dragAmount = .zero  // Reset value to 'CGSize.zero'
+                    }
+                }
+        )
+        
+        // "IMPLICIT ANIMATION" FOR BOTH DRAG & RELEASE GESTURES
+        // .animation(.spring(), value: dragAmount)
+        
+        
+    }
+    
+}
+
+
+
+
+/*
+// ANIMATING GESTURES : TEXT OFFSET DRAG GESTURE + DELAYED ANIMATION
+struct ContentView: View {
+    
+    // 'Array()' - CONVERT OUR STRING VALUE TO AN ARRAY CONTAINING EACH LETTER
+    let letters = Array("Hello, SwiftUI")
+    
+    // PROGRAM STATE PROPERTY
+    @State private var enableAnimation = false
+    
+    // PROGRAM STATE PROPERTY TO STORE DRAG GESTURE VALUE
+    @State private var dragAmount = CGSize.zero
+    // 'CGSize' = Core Graphic Size
+    // '.zero' = NO WIDTH & HEIGHT VALUE
+    
+    var body: some View {
+        
+        HStack(spacing: 0) {
+            
+            ForEach(0..<letters.count) { num in
+                Text(String(letters[num]))
+                    .padding(5)
+                    .font(.title)
+                    // CONDITIONAL MODIFIER USING TERNARY CONDITIONAL OPERATOR
+                    .background(enableAnimation ? .blue : .red)
+                
+                    // OFFSET MODIFIER
+                    .offset(dragAmount)
+                
+                    // "IMPLICIT ANIMATION" MODIFIER
+                    .animation(
+                        // '.delay()' - Create a delayed Animation
+                        .default.delay(Double(num) / 20),
+                        
+                        value: dragAmount
+                    )
+            }
+            
+        }
+        // GESTURE MODIFIER FOR THE HSTACK VIEW
+        .gesture(
+            DragGesture()
+                // '.onChange { }' Modifier: run a Closure whenever user moves their finger
+                .onChanged { dragAmount = $0.translation }  // Translate value to a CGSize Value
+            
+                // '.onEnded { }' Modifier: run a Closure whenever user lifts their finger off screen
+                .onEnded { _ in
+                    dragAmount = .zero          // Reset value to 'CGSize.zero'
+                    enableAnimation.toggle()    // Toggle Program State of 'enableAnimation'
+                    
+                }
+        )
+        
+    }
+    
+}
+*/
+
+
+
+/*
+// SHOW/HIDE VIEWS W/ 'transition()' MODIFIER
+struct ContentView: View {
+    
+    // PROGRAM STATE PROPERTY
+    @State private var showRectangle = false
+    
+    var body: some View {
+        
+        VStack {
+            
+            /*
+            // METHOD 1: 'if' STATEMENT + "EXPLICIT ANIMATION" (NO TRANSITION MODIFIER)
+            // BUTTON VIEW
+            Button("Tap Me") {
+                // "EXPLICIT ANIMATION" ON EACH 'showRectangle' PROGRAM STATE
+                withAnimation {
+                    // TOGGLE 'showRectangle' PROGRAM STATE ON EACH BUTTON TAP
+                    showRectangle.toggle()
+                }
+            }
+            
+            // SHOW 'Rectangle' VIEW ONLY IF 'showRectangle' PROGRAM STATE IS 'true'
+            if showRectangle {
+                Rectangle()
+                    .fill(.indigo)
+                    .frame(width: 200, height: 200)
+            }
+            */
+            
+            
+            /*
+            // METHOD 2: 'if' STATEMENT + "EXPLICIT ANIMATION" + 'transition()' MODIFIER
+            // BUTTON VIEW
+            Button("Tap Me") {
+                // "EXPLICIT ANIMATION" ON EACH 'showRectangle' PROGRAM STATE
+                withAnimation {
+                    // TOGGLE 'showRectangle' PROGRAM STATE ON EACH BUTTON TAP
+                    showRectangle.toggle()
+                }
+            }
+            
+            // SHOW 'Rectangle' VIEW ONLY IF 'showRectangle' PROGRAM STATE IS 'true'
+            if showRectangle {
+                Rectangle()
+                    .fill(.indigo)
+                    .frame(width: 200, height: 200)
+                
+                    // TRANSITION MODIFIER
+                    // PROVIDES A BETTER VIEW TRANSITION FX
+                    // TRY OUT DIFFERENT TRANSITION FX
+                    .transition(.scale)
+            }
+            */
+            
+            
+            // METHOD 3: 'if' STATEMENT + "EXPLICIT ANIMATION" + 'asymetric' 'transition()' FX
+            // BUTTON VIEW
+            Button("Tap Me") {
+                // "EXPLICIT ANIMATION" ON EACH 'showRectangle' PROGRAM STATE
+                withAnimation {
+                    // TOGGLE 'showRectangle' PROGRAM STATE ON EACH BUTTON TAP
+                    showRectangle.toggle()
+                }
+            }
+            
+            // SHOW 'Rectangle' VIEW ONLY IF 'showRectangle' PROGRAM STATE IS 'true'
+            if showRectangle {
+                Rectangle()
+                    .fill(.indigo)
+                    .frame(width: 200, height: 200)
+                
+                    // TRANSITION MODIFIER
+                    // PROVIDES A BETTER VIEW TRANSITION FX
+                    // '.asymetric(): Use different transition FX for Insert & Removal of View
+                    .transition(.asymmetric(insertion: .scale, removal: .slide))
+            }
+            
+        }
+        
+    }
+}
+*/
+
+
+
+/*
+// BUILDING CUSTOM TRANSITIONS USING 'ViewModifier'
+
+//CREATE A "CORNER ROTATE" MODIFIER STRUCT
+struct CornerRotateModifier: ViewModifier {
+    // The amount of Rotation Degrees
+    let amount: Double
+    
+    // The anchor point
+    let anchor: UnitPoint
+    
+    // Struct Method
+    func body(content: Content) -> some View {
+        content
+            // ROTATION FX MODIFIER
+            .rotationEffect(.degrees(amount), anchor: anchor)
+            
+            // CONSTRAIN THE TRANSITION FX DRAWING TO OCCUR ONLY INSIDE A CLIPPED VIEW FRAME/SHAPE
+            .clipShape(Circle())    // CONTAIN TRANSITION FX INSIDE A CIRCLE SHAPE
+            // USER 'clipped()' for a SQUARE SHAPE
+    }
+}
+
+// ADD 'CornerRotateModifier' AS AN EXTENSION FOR 'AnyTransition' Protocol
+extension AnyTransition {
+    static var pivot: AnyTransition {
+        .modifier(
+            // THE ACTIVE MODIFIER VALUES
+            active: CornerRotateModifier(amount: -90, anchor: .bottom),
+            // THE NON ACTIVE MODIFIER VALUES
+            identity: CornerRotateModifier(amount: 0, anchor: .bottom)
+        )
+    }
+}
+
+// MAIN CONTENT VIEW
+struct ContentView: View {
+    
+    // PROGRAM STATE PROPERTY
+    @State private var showRed = false
+    
+    var body: some View {
+        
+        ZStack {
+                
+            // RECTANGLE VIEW
+            Circle()
+                .fill(.indigo)
+                .frame(width: 200, height: 200)
+            
+            
+            // IF 'showRed' PROGRAM STATE PROPERTY IS 'true'
+            if showRed {
+                Circle()
+                    .fill(.red)
+                    .frame(width: 200, height: 200)
+                
+                    // OUR CUSTOM 'pivot' TRANSITION FX
+                    .transition(.pivot)
+            }
+            
+        }
+        // TAP GESTURE VIEW MODIFIER ATTACHED TO THE ZSTACK VIEW
+        .onTapGesture {
+            // "EXPLICIT ANIMATION" OCCURS ON EACH USER TAP INPUT
+            // CHANGES THE PROGRAM STATE OF 'showRed'
+            withAnimation {
+                // TOGGLE 'showRed' PROGRAM STATE ON EACH USER TAP INPUT
+                showRed.toggle()
+            }
+        }
+        
+    }
+    
+}
+*/
 
 
 
