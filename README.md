@@ -7,4 +7,4 @@ New files will added until I'm finished with this Course. Directory is structere
 Thanks for checking out!
 
 ## Note
-* Checkpoint codes are my own interpreted solution
+* Checkpoint/Challenge codes are my own interpreted solution
