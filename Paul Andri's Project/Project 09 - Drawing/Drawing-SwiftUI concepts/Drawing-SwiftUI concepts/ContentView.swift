@@ -60,7 +60,6 @@ struct ContentView: View {
 
 // 'Shape' VIEW - DRAWING INSIDE A GIVEN RECTANGLE
 // 'Shape' VIEW DOES NOT REQUIRE ABSOLUTE COORDINATES
-
 // TRIANGLE 'Shape' VIEW
 /*
 // 'Shape' VIEW STRUCT TO DRAW A TRIANGLE
@@ -257,7 +256,7 @@ struct ContentView: View {
 
 
 // 'strokeBorder()' MODIFIER & 'InsettableShape' PROTOCOL
-//
+/*
 // 'Shape' VIEW STRUCT TO DRAW AN ARC SHAPE
 // CONFORMS TO 'Shape' & 'InsettableShape' PROTOCOLS
 struct Arc: Shape, InsettableShape {
@@ -340,28 +339,271 @@ struct ContentView: View {
         
     }
 }
-//
+*/
 
 
+
+// 'CGAffineTransform' & EVEN-ODD FILLS
+// 'CGAffineTransform' - Describes how a Path or View should be rotated, scaled, or sheared
+/*
+// CREATE A FLOWER SHAPE OUT OF 16 ROTATED ELLIPSE PETALS, POSIITONED AROUND A CIRCLE SHAPE
+// FLOWER VIEW STUCT
+struct Flower: Shape {
+    // PROPERTY TO DEFINE HOW MUCH TO MOVE THE PETAL AWAY FROM THE CENTER POINT
+    var petalOffset: Double = -20   // MOVE -20PT FROM THE CENTER POINT
+    
+    // PROPERTY TO DEFINE HOW WIDE IS EACH THE PETAL
+    var petalWidth: Double = 100
+    
+    // METHOD TO DEFINE FLOWER PATH
+    func path(in rect: CGRect) -> Path {
+        // PROPERTY TO HOLD ALL PETAL PATHS
+        var path = Path()
+        
+        // FOR LOOP FUNCTION
+        // 'stride(from:to:by:)' - count in 2s
+        // FOR LOOP LOGIC: COUNT 'from: 0' UP TO 'pi * 2', MOVE UP "AN-EIGHT OF 'PI' VALUE" IN EACH LOOP ITERATION
+        for number in stride(
+            from: 0,
+            through: Double.pi * 2, // PI VALUE * 2 = 360DEGREE
+            by: Double.pi / 8) {
+            
+            // FOR LOOP BODY CODE
+            // ROTATE THE FLOWER PETAL BY THE CURRENT 'number' VALUE OF OUR LOOP
+            let rotation = CGAffineTransform(rotationAngle: number)
+            
+            // MOVE THE FLOWER PETAL TO BE AT THE CENTER OF OUR 'rect' DRAWING RECTANGLE
+            // 'concatenating' returns an Affine Transformation matrix by multiplying two Affine Transformation matrices together
+            let position = rotation.concatenating(
+                CGAffineTransform(                  // DEFINE HOW FAR TO MOVE THE FLOWER PETALS
+                    translationX: rect.width / 2,   // HALF OF THE DRAWING RECTANGLE WIDTH
+                    y: rect.height / 2              // HALF OF THE DRAWING RECTANGLE HEIGHT
+                )
+            )
+            
+            // CREATE A NEW PATH FOR THE FLOWER PETAL USING STRUCT'S PROPERTIES & FIXED 'y' & 'height' VALUES
+            let originalPetal = Path(
+                // ELLIPSE SHAPE PATH
+                ellipseIn: CGRect(
+                    x: petalOffset,         // X POSITION OF THE ELLIPSE PATH
+                    y: 0,
+                    width: petalWidth,      // WIDTH OF THE ELLIPSE PATH
+                    height: rect.width / 2  // HEIGHT OF THE ELLIPSE PATH
+                )
+            )
+            
+            // APPLY ROTATION(POSITION TRANSFORMATION) TO THE 'originalPetal'
+            let rotatedPetal = originalPetal.applying(position)
+            
+            // ADD 'rotatedPetal' INTO OUR MAIN METHOD PROPERTY 'path'
+            path.addPath(rotatedPetal)
+            
+        }
+        
+        // RETURN 'path' VALUE
+        return path
+        
+    }
+    
+}
+
+
+// MAIN CONTENT VIEW
+struct ContentView: View {
+    // STATE PROPETY TO STORE FLOWER PETAL OFFSET VALUE
+    @State private var petalOffset = -20.0
+    // STATE PROPETY TO STORE FLOWER PETAL WIDTH VALUE
+    @State private var petalWidth = 100.0
+    
+    var body: some View {
+        // MAIN VSTACK VIEW
+        VStack {
+            // FLOWER STRUCT VIEW
+            Flower(petalOffset: petalOffset, petalWidth: petalWidth)
+                // FILL MODIFIER W/ "EVEN-ODD" FILL STYLE
+                .fill(.red, style: FillStyle(eoFill: true))
+                // HOW EVEN-ODD FILL STYLE WORK:
+                /*
+                - If a path has no overlaps it will be filled.
+                - If another path overlaps it, the overlapping part won’t be filled
+                - If a third path overlaps the previous two, then it will be filled.
+                -...and so on.*/
+            
+                // STROKE MODIFIER
+                //.stroke(.red, lineWidth: 1)
+            
+                .padding()
+            
+            // USER INTERACTIVE INPUT SECTION TO DYNAMICALLY TRANSFORM THE 'Flower' VIEW
+            Section {
+                VStack {
+                    // PETAL OFFSET SLIDER INPUT
+                    Text("Offset")
+                    Slider(value: $petalOffset, in: -40...40)
+                        .padding([.horizontal, .bottom])
+                    
+                    // PETAL WIDTH SLIDER INPUT
+                    Text("Width")
+                    Slider(value: $petalWidth, in: 0...100)
+                        .padding(.horizontal)
+                    
+                }
+            }
+            // PADDING MODIFIER FOR INPUT SECTION VIEW
+            .padding()
+        }
+    }
+}
+*/
+
+
+
+// 'ImagePaint'
+// A dedicated Type that wraps Images in a way that we have complete control over how they should be rendered
 /*
 struct ContentView: View {
     var body: some View {
-        Text("")
+        
+        // IMAGEPAINT W/ TEXT VIEW's 'border' MODIFIER
+        /*
+        Text("Hello!")
+            .frame(width: 300, height: 300)
+            
+            // BORDER MODIFIER W/ 'ImagePaint'
+            .border(
+                // IMAGEPAINT
+                ImagePaint(
+                    // COMPULSARY IMAGEPAINT PARAMETER 'image'
+                    image: Image("singapore"),
+                    
+                    // OPTIONAL SOURCE RECTANGLE IMAGEPAINT PARAMETER (MUST BE 'CGRect')
+                    // CROPS A SPECIFIC PORTION OF THE IMAGE INTO A RECTANGLE
+                    sourceRect: CGRect(x: 0, y: 0.4, width: 1, height: 0.2),
+                    
+                    // OPTIONAL IMAGE SCALE IMAGEPAINT PARAMETER
+                    // SCALE THE IMAGE FILE
+                    scale: 0.2
+                ), width: 50
+            )
+         */
+        
+        
+        // IMAGEPAINT W/ CAPSULE VIEW 'strokeBorder' MODIFIER
+        Capsule()
+            .strokeBorder(
+                ImagePaint(
+                    // COMPULSARY IMAGEPAINT PARAMETER 'image'
+                    image: Image("singapore"),
+                    
+                    // OPTIONAL SOURCE RECTANGLE IMAGEPAINT PARAMETER (MUST BE 'CGRect')
+                    // CROPS A SPECIFIC PORTION OF THE IMAGE INTO A RECTANGLE
+                    sourceRect: CGRect(x: 0, y: 0.25, width: 1, height: 0.5),
+                    
+                    // OPTIONAL IMAGE SCALE IMAGEPAINT PARAMETER
+                    // SCALE THE IMAGE FILE
+                    scale: 0.3
+                ), lineWidth: 20
+            )
+            .frame(width: 300, height: 200)
+        
     }
 }
+*/
 
-struct ContentView: View {
+
+
+// "METAL" RENDERING W/ 'drawingGroup()'
+// COLOR CYCLING CIRCLE
+//
+// 'ColorCyclingCircle' VIEW STRUCT
+struct ColorCyclingCircle: View {
+    // STORE THE CIRCLE AMOUNT
+    var amount = 0.0
+    // STORE HOW MANY CIRCLE STEPS TO DRAW
+    var steps = 100
+    
+    // VIEW BODY PROPERTY
     var body: some View {
-        Text("")
+        ZStack {
+            ForEach(0..<steps) { value in
+                Circle()
+                    // INSET MODIFIER
+                    .inset(by: Double(value))
+                    
+                    // STROKEBORDER MODIFIER
+                    .strokeBorder(
+                        // VERY COMPLEX LINEAR GRADIENT TO BE RENDERED W/ "CORE GRAPHIC" FOR SO MANY CIRCLE VIEWS
+                        // WOULD IMPACT RESPONSIVENESS & PERFORMANCE IF RENDERED USING "CORE GRAPHIC"
+                        LinearGradient(
+                            gradient: Gradient(
+                                colors: [
+                                    color(for: value, brightness: 1),
+                                    color(for: value, brightness: 0.5)
+                                ]
+                            ), startPoint: .top, endPoint: .bottom
+                        ), lineWidth: 2
+                    )
+                
+            }
+    
+        }
+        // ZSTACK VIEW MODIFIER
+
+        // '.drawingGroup' MODIFIER
+        // RENDER COMPLEX VIEW W/"METAL" FRAMEWORK
+        .drawingGroup()
+        /* RENDER VIEW W/ APPLE'S "METAL" FRAMEWORK
+         1. Render the contents of the View into an off-screen Image
+         2. Put it back onto the screen as a single rendered output
+        */
+        
     }
+    
+    // METHOD TO GET DYNAMIC COLOR VALUES, RETURNS A 'Color' VALUE
+    func color(for value: Int, brightness: Double) -> Color {
+        // METHOD PROPERTY TO STORE TARGET COLOR HUE
+        var targetHue = Double(value) / Double(steps) + amount
+        
+        // CONDITIONAL HUE ADJUSTMENT
+        if targetHue > 1 {
+            targetHue -= 1
+        }
+        
+        return Color(hue: targetHue, saturation: 1, brightness: brightness)
+        
+    }
+    
 }
 
+
+// MAIN CONTENT VIEW
 struct ContentView: View {
+    // STATE PROPERTY TO STORE COLOUR CYCLE
+    @State private var colorCycle = 0.0
+    
     var body: some View {
-        Text("")
+        VStack {
+            // CIRCLE VIEW SECTION
+            Section {
+                ColorCyclingCircle(amount: colorCycle)
+                    .frame(width: 300, height: 300)
+            }
+            
+            // USER INPUT SECTION
+            Section {
+                Slider(value: $colorCycle)
+            }
+            .padding()
+            
+        }
+
     }
 }
+//
 
+
+
+/*
 struct ContentView: View {
     var body: some View {
         Text("")
@@ -372,5 +614,7 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .previewInterfaceOrientation(.portrait)
+            
     }
 }
