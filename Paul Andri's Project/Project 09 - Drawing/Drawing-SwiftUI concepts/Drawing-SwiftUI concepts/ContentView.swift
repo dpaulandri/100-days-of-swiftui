@@ -7,6 +7,8 @@
 
 import SwiftUI
 
+// DRAWING SHAPES W/ SWIFTUI
+/*
 // 'Path' VIEW - DRAWING W/ CUSTOM PATHS
 /*
 struct ContentView: View {
@@ -60,6 +62,7 @@ struct ContentView: View {
 
 // 'Shape' VIEW - DRAWING INSIDE A GIVEN RECTANGLE
 // 'Shape' VIEW DOES NOT REQUIRE ABSOLUTE COORDINATES
+/*
 // TRIANGLE 'Shape' VIEW
 /*
 // 'Shape' VIEW STRUCT TO DRAW A TRIANGLE
@@ -251,6 +254,7 @@ struct ContentView: View {
         }
     }
 }
+*/
 */
 
 
@@ -514,7 +518,7 @@ struct ContentView: View {
 
 // "METAL" RENDERING W/ 'drawingGroup()'
 // COLOR CYCLING CIRCLE
-//
+/*
 // 'ColorCyclingCircle' VIEW STRUCT
 struct ColorCyclingCircle: View {
     // STORE THE CIRCLE AMOUNT
@@ -599,17 +603,332 @@ struct ContentView: View {
 
     }
 }
-//
+*/
+*/
 
 
 
+// SPECIALFX IN SWIFT UI
+/*
+// '.blendMode()' & '.colorMultiply()' MODIFIER
 /*
 struct ContentView: View {
     var body: some View {
+        
+        // '.blendMode()' MODIFIER
+        /*
+        ZStack {
+            Image("paul")
+            
+            Rectangle()
+                .fill(.red)
+                
+                // BLEND MODE MODIFIER
+                .blendMode(.multiply)
+        }
+        */
+        
+        // '.colorMultiply()' MODIFIER
+        /*
+            Image("paul")
+                .colorMultiply(.red)
+        */
+        
         Text("")
     }
 }
 */
+
+// SWIFTUI'S ADAPTIVE COLOUR VS PURE RGB COLOUR
+/*
+struct ContentView: View {
+    // STATE PROPERTY TO STORE USER INPUT SLIDER VALUE
+    @State private var amount = 0.0
+    
+    var body: some View {
+        VStack {
+            ZStack {
+                // CIRCLE SHAPE VIEWS W/ SWIFTUI'S ADAPTIVE COLOUR
+                // Designed to look good in both dark mode and light mode
+                // Custom blend of red, green, and blue rather than pure shades.
+                /*
+                // CIRCLE SHAPE VIEW #1 - RED
+                Circle()
+                    .fill(.red)
+                    // FRAME WIDTH DEPENDS ON THE 'amount' STATE PROPERTY VALUE
+                    .frame(width: 200 * amount)
+                    // CIRCLE VIEW POSITION OFFSET
+                    // TOP-LEFT POSITION
+                    .offset(x: -50, y: -80)
+                    // SCREEN BLEND MODE
+                    .blendMode(.screen)
+                
+                
+                // CIRCLE SHAPE VIEW #2 - GREEN
+                Circle()
+                    .fill(.green)
+                    // FRAME WIDTH DEPENDS ON THE 'amount' STATE PROPERTY VALUE
+                    .frame(width: 200 * amount)
+                    // CIRCLE VIEW POSITION OFFSET
+                    // TOP-RIGHT POSITION
+                    .offset(x: 50, y: -80)
+                    // SCREEN BLEND MODE
+                    .blendMode(.screen)
+                
+                
+                // CIRCLE SHAPE VIEW #3 - BLUE
+                // STAY CENTERED
+                Circle()
+                    .fill(.blue)
+                    // FRAME WIDTH DEPENDS ON THE 'amount' STATE PROPERTY VALUE
+                    .frame(width: 200 * amount)
+                    // SCREEN BLEND MODE
+                    .blendMode(.screen)
+                */
+                
+                
+                // CIRCLE SHAPE VIEWS W/ PURE RGB COLOUR
+                //
+                // CIRCLE SHAPE VIEW #1 - RED
+                Circle()
+                    .fill(Color(red: 1, green: 0, blue: 0))
+                    // FRAME WIDTH DEPENDS ON THE 'amount' STATE PROPERTY VALUE
+                    .frame(width: 200 * amount)
+                    // CIRCLE VIEW POSITION OFFSET
+                    // TOP-LEFT POSITION
+                    .offset(x: -50, y: -80)
+                    // SCREEN BLEND MODE
+                    .blendMode(.screen)
+                
+                
+                // CIRCLE SHAPE VIEW #2 - GREEN
+                Circle()
+                    .fill(Color(red: 0, green: 1, blue: 0))
+                    // FRAME WIDTH DEPENDS ON THE 'amount' STATE PROPERTY VALUE
+                    .frame(width: 200 * amount)
+                    // CIRCLE VIEW POSITION OFFSET
+                    // TOP-RIGHT POSITION
+                    .offset(x: 50, y: -80)
+                    // SCREEN BLEND MODE
+                    .blendMode(.screen)
+                
+                
+                // CIRCLE SHAPE VIEW #3 - BLUE
+                // STAY CENTERED
+                Circle()
+                    .fill(Color(red: 0, green: 0, blue: 1))
+                    // FRAME WIDTH DEPENDS ON THE 'amount' STATE PROPERTY VALUE
+                    .frame(width: 200 * amount)
+                    // SCREEN BLEND MODE
+                    .blendMode(.screen)
+                //
+                
+            }
+            // ZSTACK FRAME MODIFIER
+            .frame(width: 300, height: 300)
+            
+            // USER INPUT SLIDER FOR 'amount' STATE PROPERTY VALUE
+            Slider(value: $amount)
+                .padding()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(.black)
+        .ignoresSafeArea()
+    }
+}
+*/
+
+// 'saturation()'MODIFIERS
+// Adjusts how much colour is used inside a View
+/*
+struct ContentView: View {
+    // STATE PROPERTY TO STORE USER INPUT SLIDER VALUE
+    @State private var amount = 0.0
+    
+    var body: some View {
+        VStack {
+            // IMAGE VIEW
+            Image("paul")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 200, height: 200)
+                // SATURATION MODIFIER BOUND TO 'amount' STATE PROPERTY VALUE
+                .saturation(amount)
+                // BLUE MODIFIER BOUNT TO CALCULATED VALUE W/ 'amount' STATE PROPERTY VALUE
+                .blur(radius: (1-amount) * 20)
+            
+            // USER INPUT SLIDER FOR 'amount' STATE PROPERTY VALUE
+            Slider(value: $amount)
+                .padding()
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(.black)
+        .ignoresSafeArea()
+    }
+}
+*/
+*/
+
+
+
+// ANIMATING SHAPES W/ SWIFT UI
+//
+// ANIMATING SIMPLE SHAPES W/ 'animatableData'
+/*
+// TRAPEZOID SHAPE VIEW STRUCT
+struct Trapezoid: Shape {
+    // PROPERTY TO STORE TRAPEZOID INSET AMOUNT
+    var insetAmount: Double
+    
+    // 'animatableData' COMPUTED PROPERTY
+    // REQUIRED TO MAKE ANIMATING CHANGES IN SHAPE POSSIBLE
+    // USE IN CONJUNCTION W/ 'withAnimation'
+    var animatableData: Double {
+        // READ PROPERTY VALUE
+        get { insetAmount }
+        // WRITE 'newValue' VALUE TO PROPERTY
+        set { insetAmount = newValue} // 'newValue' IS AVAILABLE FOR 'set'
+    }
+    
+    // METHOD TO CREATE THE SHAPE PATHS
+    func path(in rect: CGRect) -> Path {
+        // PATH PROPERTY
+        var path = Path()
+        
+        // DEFINE PATH'S STARTING POINT
+        path.move(to: CGPoint(x: 0, y: rect.maxY))
+        
+        // ADD 1st PATH LINE DRAWN FROM PATH'S STARTING POINT
+        path.addLine(to: CGPoint(x: insetAmount, y: rect.minY))
+        
+        // ADD 2nd PATH LINE DRAWN FROM THE 1st PATH LINE
+        path.addLine(to: CGPoint(x: rect.maxX - insetAmount, y: rect.minY))
+        
+        // ADD 3rd PATH LINE DRAWN FROM THE 2nd PATH LINE
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
+        
+        // ADD 4th PATH LINE DRAWN FROM THE 3rd PATH LINE
+        path.addLine(to: CGPoint(x: 0, y: rect.maxY))
+        
+        // RETURN 'path' VALUE
+        return path
+    }
+}
+
+// MAIN CONTENT VIEW
+struct ContentView: View {
+    // STATE PROPERTY TO STORE TRAPEZOID SHAPE INSERT AMOUNT
+    @State private var insetAmount = 50.0
+    
+    var body: some View {
+        VStack {
+            Trapezoid(insetAmount: insetAmount)
+                .fill(.orange)
+                .frame(width: 200, height: 100)
+                // USER FINGER TAP INPUT GESTURE MODIFIER
+                .onTapGesture {
+                    // MAKE ANIMATING OF 'Trapezoid' SHAPE VIEW POSSIBLE WHEN 'insetAmount' STATE PROPERTY VALUE CHANGES
+                    // USE IN CONJUNCTION W/ 'Trapezoid' VIEW STRUCT'S 'animatableData' COMPUTED PROPERTY
+                    withAnimation {
+                        // SET RANDOM DOUBLE VALUE FROM 10-90 ON EACH TAP GESTURE REGISTERED
+                        insetAmount = Double.random(in: 10...90)
+                    }
+                }
+        }
+    }
+}
+*/
+
+// ANIMATING COMPLEX SHAPES W/ 'AnimatablePair'
+//
+// CHECKERBOARD SHAPE VIEW STRUCT
+struct Checkerboard: Shape {
+    // CHECKERBOARD SPEC PROPERTIES
+    var rows: Int
+    var cols: Int
+    
+    // 'animatablePair' COMPUTED PROPERTY THAT STORE TWO 'Double' VALUES
+    // REQUIRED TO MAKE ANIMATING CHANGES IN SHAPE POSSIBLE
+    // USE IN CONJUNCTION W/ 'withAnimation'
+    var animatableData: AnimatablePair<Double, Double> {
+        // READ 'AnimatablePair' PROPERTY VALUE
+        get {
+            // 'rows' & 'cols' HAD TO BE CONVERTED TO A DOUBLE VALUE
+            // 'Int' WHOLE NUMBER DATA TYPE DO NOT HAVE "IN-BETWEEN" DATA
+            AnimatablePair(Double(rows), Double(cols))
+        }
+        
+        // WRITE 'newValue' VALUES TO ITS CORRESPONDING PROPERTY
+        set {
+            // 'first' 'second' CORRESPONDS TO THE ORDER ON 'get'
+            rows = Int(newValue.first)
+            cols = Int(newValue.second)
+            // 'newValue' VALUES ARE IN 'Double'DATA TYPE
+            // NEEDS TO BE CONVERTED BACK TO THE CORRECT 'Int' DATA TYPE
+        }
+    }
+    
+    // METHOD TO GENERATE CHECKERBOARD PATHS
+    func path(in rect: CGRect) -> Path {
+        // PATH PROPERTY
+        var path = Path()
+        
+        // DEFINING ROW & COL SIZES W/ COMPUTED PROPERTIES
+        let rowSize = rect.height / Double(rows)
+        let colSize = rect.width / Double(cols)
+        
+        // DYNAMICALLY GENERATE THE CHECKERBOARD VIEW USING 'for' LOOP
+        for row in 0..<rows {
+            for col in 0..<cols {
+                // CONDITIONALLY CREATE CHECKERBOX PATTERNS
+                // ONLY COLOUR THE PATTERN OF ALL ODD NUMBERED ROWS & COLS
+                if (row + col).isMultiple(of: 2) {
+                    // DYNAMICALLY GET THE STARTING X & Y AXIS VALUES FOR THE COLOURED CHECKER PATTERN
+                    let startX = colSize * Double(col)
+                    let startY = rowSize * Double(row)
+                    
+                    // CREATE PATTERN RECTANGLE
+                    let rect = CGRect(x: startX, y: startY, width: colSize, height: rowSize)
+                    
+                    // ADD THE 'rect' CGRECT VALUE TO 'path' PROPERTY
+                    path.addRect(rect)
+                }
+            }
+        }
+        
+        // RETURN 'path' VALUE
+        return path
+        
+    }
+}
+
+// MAIN CONTENT VIEW
+struct ContentView: View {
+    // STATE PROPERTY TO STORE CHECKERBOX's ROW SPEC VALUE
+    @State private var rows = 8
+    
+    // STATE PROPERTY TO STORE CHECKERBOX's COL SPEC VALUE
+    @State private var cols = 4
+    
+    var body: some View {
+        Checkerboard(rows: rows, cols: cols)
+            // USER FINGER TAP INPUT GESTURE MODIFIER
+            .onTapGesture {
+                // MAKE ANIMATING OF 'Checkerboard' SHAPE VIEW POSSIBLE WHEN THE STATE PROPERTIES VALUE CHANGES
+                // USE IN CONJUNCTION W/ 'Checkerboard' VIEW STRUCT'S 'animatableData: animatablePair' COMPUTED PROPERTY
+                withAnimation(.linear(duration: 0.2)) {
+                    rows += 4
+                    cols += 8
+                }
+            }
+            .ignoresSafeArea()
+    }
+}
+//
+
+//
+
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
