@@ -21,9 +21,6 @@ struct AddView: View {
     @State private var practiceDate = Date.now
     @State private var practiceNote = ""
     
-    // STATE PROPETY TO SHOW ALERT WINDOW IF 'practiceTopic' IS EMPTY
-    @State private var showAlert = false
-    
     // ARRAY CONTAINING 12 AVAILABLE PRACTICE KEYS
     @State private var topics = ["Scales", "Chord Voicings", "Rhythm Exercises", "Others"]
     

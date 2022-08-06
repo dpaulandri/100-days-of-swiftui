@@ -9,9 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     // '@StateObject' - WATCH FOR ANY '@Published' PROPERTY CHANGE ANNOUNCEMENTS & REFRESHES ANY VIEWS THAT USES THE OBJECT
+    /*
     // '@StateObject' IS ONLY USED WHEN CREATING NEW CLASS INSTANCE, USE 'ObservedObject' FOR OTHER OBJECT
     // CREATE "Practices" CLASS INSTANCES
-    @StateObject var practices = Practices()
+    */
+    @StateObject private var practices = Practices()
     
     // PROGRAM STATE PROPERTY OF WHETHER THE "Addiew" Sheet View is shown
     @State private var showAddView = false
@@ -43,6 +45,7 @@ struct ContentView: View {
                     // 'onDelete()' MODIFIER FOR 'ForEach' VIEW
                     // CALL 'removeLog' METHOD
                     .onDelete(perform: removeLog)
+
                 }
                 
             }
@@ -87,13 +90,16 @@ struct ContentView: View {
     }
     
     // METHOD TO GET THE INDEX OF AN ITEM IN 'practices' ARRAY & REMOVE IT FROM THE COLLECTION VIEW
-    func removeLog(at offsets: IndexSet) {
+    public func removeLog(at offsets: IndexSet) {
         practices.practices.remove(atOffsets: offsets)
     }
-    
+
 }
 
+
+
 struct ContentView_Previews: PreviewProvider {
+
     static var previews: some View {
         ContentView()
     }

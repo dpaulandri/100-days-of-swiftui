@@ -19,12 +19,15 @@ struct DetailView: View {
                     Section("Practice Topic") {
                         Text(practice.practiceTopic)
                     }
-                    Section("Tonic Key") {
-                        Text(practice.practiceTopic != "Rhythm Exercises" ? practice.practiceKey : "N/A")
+                    
+                    if practice.practiceTopic != "Rhythm Exercises" {
+                        Section("Tonic Key") {
+                            Text(practice.practiceTopic != "Rhythm Exercises" ? practice.practiceKey : "N/A")
+                        }
                     }
                     
                     Section("Date/Time") {
-                        Text(practice.practiceDate.formatted())
+                        Text(practice.practiceDate.formatted(.dateTime.day().month().year().hour().minute()))
                     }
                     
                     Section("Note") {
