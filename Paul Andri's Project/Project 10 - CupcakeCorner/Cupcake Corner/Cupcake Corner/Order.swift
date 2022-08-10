@@ -8,9 +8,15 @@
 import SwiftUI
 
 // 'Order' CLASS TO STORE ALL OUR APP ORDER DATAS
-// CLASS CONFORMS TO 'ObservableObject' PROTOCOL
+// CLASS CONFORMS TO 'ObservableObject' & 'Codable' PROTOCOLS
 // ALLOWS CLASS DATA WILL BE PASSED TO EVERY VIEWS
-class Order: ObservableObject {
+class Order: ObservableObject, Codable {
+    // 3 STEPS TO MAKE 'Order' CLASS' '@Published' PROPERTIES CONFORM TO 'Codable' PROTOCOL:
+    // STEP 01: CREATE AN ENUM W/ ALL REQUIRED '@Published' PROPERTIES AS ITS CASES
+    enum CodingKeys: CodingKey {
+        case flavor, quantity, extraFrosting, chocoShavings, addSprinkles, name, address, city, zip
+    }
+    
     // STATIC ARRAY TO STORE THE AVAILABLE CUPCAKE FLAVOURS
     static let flavors = ["Vanilla", "Chocolate", "Cream Cheese", "Salted Caramel", "Rainbow"]
     
@@ -102,4 +108,48 @@ class Order: ObservableObject {
         return price
     }
     
+    
+    // CREATE A CUSTOM INITIALIZER TO CREATE AN EMPTY 'Order' CLASS INSTANCE
+    init() {
+        // DO NOTHING
+    }
+    
+    
+    // 3 STEPS TO MAKE 'Order' CLASS' '@Published' PROPERTIES CONFORM TO 'Codable' PROTOCOL:
+    // STEP 02: CREATE A METHOD TO ENCODE THE '@Published' PROPERTIES USING THE 'CodingKeys' ENUM CASES AS THE CODING KEY
+    func encode(to encoder: Encoder) throws {
+        // CREATE AN ENCODING CONTAINER W/ ITS CORRESPONDING CODING KEY
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        // LIST OUT ALL '@Published' PROPERTY & ITS CODING KEY TO ENCODE
+        try container.encode(flavor, forKey: .flavor)
+        try container.encode(quantity, forKey: .quantity)
+        try container.encode(extraFrosting, forKey: .extraFrosting)
+        try container.encode(chocoShavings, forKey: .chocoShavings)
+        try container.encode(addSprinkles, forKey: .addSprinkles)
+        try container.encode(name, forKey: .name)
+        try container.encode(address, forKey: .address)
+        try container.encode(city, forKey: .city)
+        try container.encode(zip, forKey: .zip)
+    }
+    
+    // 3 STEPS TO MAKE 'Order' CLASS' '@Published' PROPERTIES CONFORM TO 'Codable' PROTOCOL:
+    // STEP 03: CREATE A CUSTOM INITIALIZER TO DECODE A CLASS INSTANCE OF 'Order' USING THE 'CodingKeys' ENUM CASES AS THE CODING KEY
+    required init(from decoder: Decoder) throws {
+        // CREATE A DECODING CONTAINER & TRY TO DECODE THE CLASS INSTANCE W/ ITS CORRESPONDING CODING KEY
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        
+        // TRY ASSIGNINING THE DECODED VALUE TO ITS CORRESPONDING '@Published' PROPERTY & ITS DATA TYPE
+        flavor = try container.decode(Int.self, forKey: .flavor)
+        quantity = try container.decode(Int.self, forKey: .quantity)
+        extraFrosting = try container.decode(Bool.self, forKey: .extraFrosting)
+        chocoShavings = try container.decode(Bool.self, forKey: .chocoShavings)
+        addSprinkles = try container.decode(Bool.self, forKey: .addSprinkles)
+        name = try container.decode(String.self, forKey: .name)
+        address = try container.decode(String.self, forKey: .address)
+        city = try container.decode(String.self, forKey: .city)
+        zip = try container.decode(String.self, forKey: .zip)
+              
+    }
+
 }

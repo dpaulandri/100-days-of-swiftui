@@ -15,21 +15,6 @@ struct OrderSummaryView: View {
     var body: some View {
         // MAIN VSTACK VIEW
         VStack {
-            // CUSTOMER SECTION
-            Section {
-                Spacer()
-                
-                VStack {
-                    Text(order.name)
-                        .font(.title3)
-                        .bold()
-                    Text("\(order.city), \(order.zip)")
-                }
-                .font(.callout)
-                
-                Spacer()
-                Spacer()
-            }
             
             // ORDER SUMMARY SECTION
             Section {
@@ -40,6 +25,14 @@ struct OrderSummaryView: View {
                 Spacer()
                 
                 VStack {
+                    // CUSTOMER NAME HSTACK
+                    HStack {
+                        Text("Customer:")
+                            .font(.headline)
+                        Spacer()
+                        Text(order.name)
+                    }
+                    
                     // CUPCAKE FLAVOUR HSTACK
                     HStack {
                         Text("Cupcake Flavor:")

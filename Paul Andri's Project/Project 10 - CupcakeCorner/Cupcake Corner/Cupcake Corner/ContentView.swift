@@ -22,7 +22,7 @@ struct ContentView: View {
                 // USER ORDER INPUT SECTION
                 Section {
                     // PICKER TO SELECT CUPCAKE FLAVOUR
-                    Picker("Flavour", selection: $order.flavor) {
+                    Picker("Flavor", selection: $order.flavor) {
                         // FOREACH LOOP TO ITERATE EACH ARRAY ITEM IN 'flavors' PUBLISHED PROPERTY
                         // 'indices' GO UP THE ARRAY INDEX IN ASCENDING ORDER
                         ForEach(Order.flavors.indices) {

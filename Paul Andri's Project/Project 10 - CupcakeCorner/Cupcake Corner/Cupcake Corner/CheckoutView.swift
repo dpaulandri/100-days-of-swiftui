@@ -12,6 +12,12 @@ struct CheckoutView: View {
     // OBSERVED OBJECT TO READ THE DATA FROM 'ContentView's 'order' STATE OBJECT PROPERTY
     @ObservedObject var order: Order
     
+    // ALERT WINDOW STAT PROPERTIES:
+    // STATE PROPERTY TO STORE THE CONFIRMATION MESSAGE STRING VALUE
+    @State private var confirmationMsg = ""
+    // STATE PROPERTY TO STORE THE BOOL STATE  OF CONFIRMATION ALERT WINDOW
+    @State private var showConfirmation = false
+    
     var body: some View {
         // MAIN SCROLL VIEW
         ScrollView {
@@ -37,6 +43,7 @@ struct CheckoutView: View {
                 
                 // ORDER SUMMARY SECTION
                 OrderSummaryView(order: order)
+                
             }
             // VSTACK VIEW MODIFIERS
             .navigationTitle("Checkout")
@@ -47,18 +54,91 @@ struct CheckoutView: View {
                 ToolbarItem(placement: .bottomBar) {
                     // BUTTON TO PLACE USER ORDER
                     Button {
-                        //
-                    } label: {
-                        HStack {
-                            Image(systemName: "bag")
-                            Text("Place Order")
+                        // CREATE 'Task' TO MAKE BUTTON VIEW SUPPORT CALLING ASYNC METHOD
+                        Task {
+                            // CALL 'placeOrder' ASYNC METHOD
+                            await placeOrder()
+                            // MARK 'await' TO INDICATE THE METHOD MAY SLEEP
                         }
-                        .foregroundColor(.primary)
+                    } label: {
+                        RoundedRectangle(cornerRadius: 25)
+                            .fill(.green)
+                            .frame(width: 250, height: 44)
+                            .overlay(
+                                HStack {
+                                    Image(systemName: "bag")
+                                        .foregroundColor(.white)
+                                    Text("Place Order")
+                                        .padding()
+                                        .foregroundColor(.white)
+                                        .font(.title2.bold())
+                                }
+                            )
                     }
                 }
             }
+            
+            // ALERT WINDOW
+            .alert("Thank you, \(order.name)!", isPresented: $showConfirmation) {
+                Button("Ok") { }
+            } message: {
+                // ALERT WINDOW MESSAGE
+                Text(confirmationMsg)
+            }
         }
     }
+    
+    // ASYNC METHOD TO HANDLE ORDER PLACEMENT
+    func placeOrder() async {
+        // TRY TO ENCODE 'order' DATA INTO A JSON DATA
+        guard let encodedOrder = try? JSONEncoder().encode(order) else {
+            // IF ENCODING FAILS
+            print("Failed to encode Order data!")
+            return
+        }
+        
+        // DEFINE HOW THE 'encodedOrder' JSON DATA IS TO BE SENT
+        // STEP 01: Define the Backend/Testing Server's URL address ('!' FORCE UNWRAP)
+        let url = URL(string: "https://reqres.in/api/cupcakes")!
+        // STEP 02: Create a 'URLRequest' Object using 'url' URL address
+        var request = URLRequest(url: url)
+        // STEP 03: Define the Data Type we're sending over to the Backend Server
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        // STEP 04: Define the HTTP Method of the ''URLRequest' Object
+        request.httpMethod = "POST"
+        // 'POST' = SEND/UPLOAD, 'GET' = READ/DOWNLOAD
+        
+        
+        // TRY MAKING NETWORK REQUEST (SENDING DATA) IN 'do' & 'catch' BLOCKS
+        do {
+            // CREATE A NEW 'data' CONSTANT
+            // '(data, _)' RETAIN ONLY THE REAL DATA & '_' OMIT OUT THE 'metadata'
+            // TRY TO SEND/UPLOAD OUR 'encodedOrder' JSON DATA USING 'request' URLRequest Object
+            // MARK 'await' TO EXPLICITLY STATE IT MIGHT GO TO "SLEEP"
+            let (data, _) = try await URLSession.shared.upload(for: request, from: encodedOrder)
+            
+            
+            // ASSIGNING CUSTOMISED CONFIRMATION ALERT WINDOW MESSAGE:
+            // STEP 1: DECODE THE JSON ENCODED 'Order' DATA from 'data' CONSTANT
+            let decodedOrder = try JSONDecoder().decode(Order.self, from: data)
+            
+            // STEP 2: ASSIGN STRING INTERPOLATION VALUE USING 'decodedOrder' DATA VALUES
+                confirmationMsg = """
+                You've ordered:
+                \(decodedOrder.quantity)x \(Order.flavors[decodedOrder.flavor]) \(decodedOrder.quantity > 1 ? "Cupcakes" : "Cupcake")
+                            
+                Your order is on its way!
+            """
+            
+            // STEP 3: SET 'showConfirmation' PROGRAM STATE TO TRIGGER ALERT WINDOW
+            showConfirmation = true
+            
+        } catch {
+            // CATCH ANY ERROR THROWN
+            print("Checkout failed!")
+        }
+    }
+    
 }
 
 struct CheckoutView_Previews: PreviewProvider {
