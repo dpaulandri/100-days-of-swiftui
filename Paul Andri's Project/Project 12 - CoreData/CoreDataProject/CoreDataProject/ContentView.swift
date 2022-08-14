@@ -377,7 +377,7 @@ struct ContentView: View {
                 
                 // HSTACK VIEW FOR SORTING BUTTONS
                 HStack {
-                    // BUTTON TO SHOW ONLT ARTIST W/ LAST NAME THAT STARTS W/ THE LETTER "A"
+                    // BUTTON TO SHOW ONLY ARTIST W/ LAST NAME THAT STARTS W/ THE LETTER "A"
                     Button {
                         lastNameFilter = "A"
                     } label: {
@@ -392,7 +392,7 @@ struct ContentView: View {
                     }
                     
                     
-                    // BUTTON TO SHOW ONLT ARTIST W/ LAST NAME THAT STARTS W/ THE LETTER "L
+                    // BUTTON TO SHOW ONLY ARTIST W/ LAST NAME THAT STARTS W/ THE LETTER "L
                     Button {
                         lastNameFilter = "L"
                     } label: {
@@ -407,7 +407,7 @@ struct ContentView: View {
                     }
                     
                     
-                    // BUTTON TO SHOW ONLT ARTIST W/ LAST NAME THAT STARTS W/ THE LETTER "S"
+                    // BUTTON TO SHOW ONLY ARTIST W/ LAST NAME THAT STARTS W/ THE LETTER "S"
                     Button {
                         lastNameFilter = "S"
                     } label: {
