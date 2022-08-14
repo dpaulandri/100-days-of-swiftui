@@ -34,6 +34,7 @@ class DataController: ObservableObject {
             }
             
             
+            // PART OF DAY 57 MATERIALS: ENSURE COREDATA OBJECT UNIQUENESS BY USING "CONSTRAINTS"
             // WE'VE PLACED CONSTAINT ON 'Wizard' OBJECT'S 'name' ATTRIBUTE (HAS TO BE UNIQUE/NO DUPLICATES)
             // IF WE WANT TO STILL ALLOW DATA SAVING FOR 'Wizard' OBJECTS THAT HAVE THE SAME 'name' ATTRIBUTE VALUE:
             // SPECIFY 'mergePolicy' TO HANDLE 'Wizard' OBJECTS THAT HAVE THE SAME 'name' ATTRIBUTE VALUE

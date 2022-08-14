@@ -5,6 +5,7 @@
 //  Created by Paul Andri on 08/13/2022.
 //
 //
+// PART OF DAY 57 MATERIALS: CREATING 'NSManagedObject' SUBCLASSES
 // 'NSManagedObject' "Movie" PUBLIC SUBCLASS EXTENSIONS
 
 import Foundation
