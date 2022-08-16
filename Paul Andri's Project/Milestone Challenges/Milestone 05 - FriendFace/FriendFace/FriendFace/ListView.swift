@@ -79,7 +79,7 @@ struct ListView: View {
             } message: {
                 // ALERT WINDOW MESSAGE
                 Text("""
-                Unable to download User List.
+                Unable to update User List.
                 Ensure network access is available.
                 """)
             }
