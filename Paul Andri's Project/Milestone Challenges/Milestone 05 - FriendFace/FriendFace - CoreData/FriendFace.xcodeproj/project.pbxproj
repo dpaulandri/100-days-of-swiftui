@@ -16,11 +16,11 @@
 		7B32AC9128AA4296004EB372 /* UserDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B32AC9028AA4296004EB372 /* UserDetailsView.swift */; };
 		7B32AC9328AA577E004EB372 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B32AC9228AA577E004EB372 /* ListView.swift */; };
 		7B32AC9728AA76F3004EB372 /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B32AC9628AA76F3004EB372 /* ButtonView.swift */; };
+		7B37DF7128ACC79B005D6091 /* CachedFriend+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B37DF6F28ACC79B005D6091 /* CachedFriend+CoreDataProperties.swift */; };
 		7B737CD228AB51B4007E866D /* FriendFace.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7B737CD028AB51B4007E866D /* FriendFace.xcdatamodeld */; };
 		7B737CDC28AB59C7007E866D /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B737CDB28AB59C7007E866D /* DataController.swift */; };
 		7B737CDE28AB5E17007E866D /* SortedListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B737CDD28AB5E17007E866D /* SortedListView.swift */; };
 		7B94E17128ABC5CC00C14AB1 /* CachedFriend+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B94E16D28ABC5CC00C14AB1 /* CachedFriend+CoreDataClass.swift */; };
-		7B94E17228ABC5CC00C14AB1 /* CachedFriend+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B94E16E28ABC5CC00C14AB1 /* CachedFriend+CoreDataProperties.swift */; };
 		7B94E17328ABC5CC00C14AB1 /* CachedUser+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B94E16F28ABC5CC00C14AB1 /* CachedUser+CoreDataClass.swift */; };
 		7B94E17428ABC5CC00C14AB1 /* CachedUser+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B94E17028ABC5CC00C14AB1 /* CachedUser+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
@@ -36,11 +36,11 @@
 		7B32AC9028AA4296004EB372 /* UserDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsView.swift; sourceTree = "<group>"; };
 		7B32AC9228AA577E004EB372 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		7B32AC9628AA76F3004EB372 /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
+		7B37DF6F28ACC79B005D6091 /* CachedFriend+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CachedFriend+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		7B737CD128AB51B4007E866D /* FriendFace.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = FriendFace.xcdatamodel; sourceTree = "<group>"; };
 		7B737CDB28AB59C7007E866D /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
 		7B737CDD28AB5E17007E866D /* SortedListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortedListView.swift; sourceTree = "<group>"; };
 		7B94E16D28ABC5CC00C14AB1 /* CachedFriend+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CachedFriend+CoreDataClass.swift"; sourceTree = "<group>"; };
-		7B94E16E28ABC5CC00C14AB1 /* CachedFriend+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CachedFriend+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		7B94E16F28ABC5CC00C14AB1 /* CachedUser+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CachedUser+CoreDataClass.swift"; sourceTree = "<group>"; };
 		7B94E17028ABC5CC00C14AB1 /* CachedUser+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CachedUser+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -85,7 +85,7 @@
 				7B32AC8E28AA422F004EB372 /* Friend.swift */,
 				7B737CDB28AB59C7007E866D /* DataController.swift */,
 				7B94E16D28ABC5CC00C14AB1 /* CachedFriend+CoreDataClass.swift */,
-				7B94E16E28ABC5CC00C14AB1 /* CachedFriend+CoreDataProperties.swift */,
+				7B37DF6F28ACC79B005D6091 /* CachedFriend+CoreDataProperties.swift */,
 				7B94E16F28ABC5CC00C14AB1 /* CachedUser+CoreDataClass.swift */,
 				7B94E17028ABC5CC00C14AB1 /* CachedUser+CoreDataProperties.swift */,
 				7B737CD028AB51B4007E866D /* FriendFace.xcdatamodeld */,
@@ -182,7 +182,7 @@
 				7B737CDE28AB5E17007E866D /* SortedListView.swift in Sources */,
 				7B32AC7B28AA29C6004EB372 /* FriendFaceApp.swift in Sources */,
 				7B737CDC28AB59C7007E866D /* DataController.swift in Sources */,
-				7B94E17228ABC5CC00C14AB1 /* CachedFriend+CoreDataProperties.swift in Sources */,
+				7B37DF7128ACC79B005D6091 /* CachedFriend+CoreDataProperties.swift in Sources */,
 				7B737CD228AB51B4007E866D /* FriendFace.xcdatamodeld in Sources */,
 				7B32AC8928AA2A45004EB372 /* User.swift in Sources */,
 				7B94E17428ABC5CC00C14AB1 /* CachedUser+CoreDataProperties.swift in Sources */,

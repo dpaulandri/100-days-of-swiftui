@@ -10,26 +10,31 @@
 import SwiftUI
 
 struct ButtonView: View {
+    // USER PROPERTY
+    let user: CachedUser
+    
     var body: some View {
         HStack {
             // CALL BUTTON
             Button {
                 // CALLING METHOD
+                print("Calling...")
             } label: {
                 Label("Call", systemImage: "phone.fill")
                     .labelStyle(.titleAndIcon)
                     .foregroundColor(.white)
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background {
-                        Color.green
-                            .clipShape(Capsule())
-                    }
+                    .background(user.isActive ? Color.green : Color.gray)
+                    .opacity(user.isActive ? 1 : 0.7)
+                    .clipShape(Capsule())
             }
+            .disabled(!user.isActive)
             
             // SEND MESSAGE BUTTON
             Button {
                 // MESSAGING METHOD
+                print("Messaging...")
             } label: {
                 Label("Message", systemImage: "text.bubble.fill")
                     .labelStyle(.titleAndIcon)
@@ -47,7 +52,10 @@ struct ButtonView: View {
 }
 
 struct ButtonView_Previews: PreviewProvider {
+    // DUMMY DATA
+    static let user = CachedUser()
+    
     static var previews: some View {
-        ButtonView()
+        ButtonView(user: user)
     }
 }

@@ -12,6 +12,10 @@ struct ListView: View {
     // ACCESS SWIFTUI ENVIRONMENT'S COREDATA 'managedObjectContext'
     @Environment(\.managedObjectContext) var moc
     
+    // STATE PROPERTY TO STORE THE BOOL VALUE OF APP LAUNCH
+    // USE TO STOP FETCHING REMOTE DATABASE AFTER THE INITIAL FETCH WHEN THE APP LAUNCHES
+    @State private var appLaunched = false
+    
     // STATE PROPERTY TO STORE THE BOOL STATE OF USER LIST SORTING ORDER
     @State private var ascendingSort = true
     
@@ -83,13 +87,17 @@ struct ListView: View {
                 }
             }
         }
-        
-        
-        // TASK MODIFIER TO CALL 'loadUserData' METHOD IF 'users' STATE PROPERTY ARRAY IS EMPTY
+        // TASK MODIFIER TO CALL 'loadUserData' METHOD IF 'appLaunched' STATE PROPERTY IS 'false'
+        // FETCHING REMOTE DATA ONLY ON EVERY APP LAUNCH
         .task {
-            // Call 'loadUserData()' Method
-            // 'await' - Explicitly acknowledging that a sleep might happen
-            await loadUserData()
+            if !appLaunched {
+                // TOGGLE 'appLaunched' STATE PROPERTY BOOL VALUE
+                appLaunched.toggle()
+                
+                // Call 'loadUserData()' Method
+                // 'await' - Explicitly acknowledging that a sleep might happen
+                await loadUserData()
+            }
         }
         // NETWORK ERROR ALERT WINDOW
         .alert("Network Error", isPresented: $showNetworkAlert) {
@@ -130,6 +138,8 @@ struct ListView: View {
         // THIS STEP IS LIKELY WHERE A "SLEEP" MIGHT HAPPEN
         // 'do' & 'catch' BLOCK
         do {
+            print("Downloading New User JSON Data from server...")
+            
             // 'data(from: url)' - Returns a 'Tuple' containing 'Data' object from 'url' & some metadata describing how the request went
             // '(data, _)' -  We create a new local Constant for the 'data', and toss the metadata away
             // 'await' - Explicitly acknowledging that a sleep might happen
@@ -138,22 +148,28 @@ struct ListView: View {
                 // SET 'showNetworkAlert' PROGRAM STATE TO TRIGGER ALERT WINDOW
                 showNetworkAlert = true
                 
+                print("Unable to download User JSON Data from server!")
                 // EXIT THE DO BLOCK
                 return
             }
-
             
+            print("User JSON Data downloaded!")
+
             // IF DATA IS SUCCESFULLY FETCHED FROM 'url'
             // STEP 3: DECODE THE FETCHED JSON DATA INTO A 'User' ARRAY DATA TYPE STRUCT
             let decoder = JSONDecoder()
             // ADD DATE-DECODING STRATEGY FROM 'ISO-8601' DATE FORMAT TO SWIFT'S 'Date' FORMAT
             decoder.dateDecodingStrategy = .iso8601
             
+            print("Attempting to decode User JSON Data...")
+            
             // TRY TO DECODE JSON DATA W/ 'FetchedUserData' DATA TYPE FROM 'data'
             guard let decodedUserData = try? decoder.decode([User].self, from: data) else {
                 print("Can't decode JSON Data!")
                 return
             }
+            
+            print("User JSON Data successfully decoded!")
             
             // ATTEMPT TO UPDATE PERSISTANT STORAGE CACHE USING 'updateCache' METHOD
             // QUEUE THE CACHE UPDATE USING 'MainActor'
@@ -171,6 +187,8 @@ struct ListView: View {
     func updateCache(with updateData: [User]) {
         // DO BLOCK TO ATTEMPT UPDATING DATABASE IN PRESISTENT STORAGE
         do {
+            print("Updating cached User Database...")
+            
             // FOR LOOP ITERATING ALL ITEM in 'updateData'
             for user in updateData {
                 // CREATE 'CachedUser' OBJECT IN MOC
@@ -199,13 +217,14 @@ struct ListView: View {
                     cachedUser.addToFriends(cachedFriend)
                 }
             }
-            
-            // TRY
+                        
             // TRY TO SAVE UPDATE OBJECTS IN MOC TO PERSISTANT STORAGE
             try? moc.save()
+            
+            print("User Database updated!")
 
         } catch {
-            print("Failed to update Local User Database!")
+            print("Failed to update cached User Database!")
         }
     }
 

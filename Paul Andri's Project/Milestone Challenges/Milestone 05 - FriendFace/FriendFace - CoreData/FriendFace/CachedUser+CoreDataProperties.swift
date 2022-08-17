@@ -78,13 +78,10 @@ extension CachedUser {
     
     var friendsArray: [CachedFriend] {
         let friendList = friends as? Set<CachedFriend> ?? []
-        // SORT 'friendList' SET ITEMS BY 'wrappedName' STRING VALUE
-        return friendList.sorted {
-            // ASCENDING ORDER
-            $0.wrappedName < $1.wrappedName
-        }
+        
+        // RETURN A SORTED ARRAY BASED ON 'wrappedName' STRING VALUE
+        return Array(friendList.sorted {$0.wrappedName < $1.wrappedName})
     }
-
 }
 
 // MARK: Generated accessors for friends

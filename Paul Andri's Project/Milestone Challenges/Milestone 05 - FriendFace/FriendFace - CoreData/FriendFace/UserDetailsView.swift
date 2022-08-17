@@ -53,8 +53,9 @@ struct UserDetailsView: View {
                     Spacer()
                     Spacer()
                     
+                    
                     // VSTACK FOR USER DETAILS
-                    VStack(spacing: 10) {
+                    VStack(spacing: 5) {
                         // AGE
                         HStack {
                             Text("Age")
@@ -104,55 +105,57 @@ struct UserDetailsView: View {
                         }
                         
                     }
-                    .padding(30)
+                    .padding()
+                    
+                    Spacer()
+                    Spacer()
                     
                     // USER FRIEND LIST SECTION VIEW
                     Section {
                         if user.friendsArray.isEmpty {
                             VStack(spacing: 20) {
-                                Text("\(user.firstName)'s Frienda")
-                                    .font(.title3)
-                                    .fontWeight(.bold)
                                 Text("-")
                             }
                             .padding()
                             
                         } else {
-                            Text("\(user.firstName)'s Frienda")
-                                .font(.title3)
-                                .fontWeight(.bold)
                             // HORIZONTAL USER'S FRIEND LIST SCROLL VIEW
                             ScrollView(.horizontal, showsIndicators: false) {
-                                HStack {
+                                HStack(spacing: 30) {
                                     ForEach(user.friendsArray) { friend in
-                                        HStack {
+                                        VStack(spacing: 5) {
                                             Image(systemName: "person.circle")
                                                 .resizable()
                                                 .scaledToFit()
                                                 .foregroundColor(user.isActive ? .blue : .gray)
-                                                .opacity(user.isActive ? 1 : 0.3)
+                                                .frame(height: geo.size.height * 0.1)
                                             
-                                            Text(friend.wrappedName)
+                                            Text(friend.firstName)
+                                                .font(.subheadline)
+                                                .truncationMode(.tail)
                                         }
-                                        
+                                        .frame(height: geo.size.height * 0.2)
                                     }
-                                    .padding()
-                                    .background(.ultraThickMaterial)
-                                    .clipShape(Capsule())
+                                    
                                 }
                             }
+                            .padding(.horizontal)
                         }
+                    } header: {
+                        Text("\(user.firstName)'s Friends")
+                            .fontWeight(.bold)
                     }
-                    .padding(.horizontal)
+                    
                 }
             }
             .padding(.bottom)
             
+            Spacer()
             
             // BUTTON VIEW
-            ButtonView()
+            ButtonView(user: user)
                 .frame(maxHeight: 44)
-            
+                .padding(.bottom)
         }
     }
     
