@@ -10,7 +10,7 @@ import Foundation
 // 'User' DATA TYPE STRUCT
 // CONFORMS TO 'Codable' & 'Identifiable' PROTOCOLS
 struct User: Codable, Identifiable {
-    let id: String
+    let id: UUID
     let isActive: Bool
     let name: String
     let age: Int

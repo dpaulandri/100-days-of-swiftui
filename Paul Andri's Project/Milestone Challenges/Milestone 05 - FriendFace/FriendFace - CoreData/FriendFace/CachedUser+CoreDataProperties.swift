@@ -23,7 +23,7 @@ extension CachedUser {
     @NSManaged public var age: Int16
     @NSManaged public var company: String?
     @NSManaged public var email: String?
-    @NSManaged public var id: String?
+    @NSManaged public var id: UUID?
     @NSManaged public var isActive: Bool
     @NSManaged public var name: String?
     @NSManaged public var registered: Date?
@@ -34,18 +34,32 @@ extension CachedUser {
     // WORKAROUND TO ELIMINATE THE NEED TO USE '??' IN PLACES WHERE 'CoreData's MANAGED OBJECT IS USED:
     // PUBLIC COMPUTED PROPERTIES TO USE IN PLACE OF THE '@NSManaged' OBJECTS ABOVE
     // GREAT FOR CODE MAINTAINABILITY (UPDATE DEFAULT VALUES IN ONE PLACE)
-    public var wrappedID: String {
-        id ?? "Unknown ID"
+    public var idUUID: UUID {
+        id ?? UUID()
     }
     
     public var wrappedName: String {
         name ?? "Unknown"
     }
     
+    private var nameComponents: [String] {
+        wrappedName.components(separatedBy: " ")
+    }
+    
     public var firstName: String {
-        let components = wrappedName.components(separatedBy: " ")
-        let first = components[0]
-        return first
+        nameComponents[0]
+    }
+    
+    public var lastName: String {
+        nameComponents[nameComponents.count - 1]
+    }
+    
+    public var userInitials: String {
+        let firstInit = firstName.trimmingCharacters(in: .lowercaseLetters)
+        let lastInit = lastName.trimmingCharacters(in: .lowercaseLetters)
+        let initials = firstInit + lastInit
+        return initials
+
     }
     
     public var wrappedCompany: String {

@@ -26,7 +26,7 @@ struct ButtonView: View {
                     .padding()
                     .frame(maxWidth: .infinity)
                     .background(user.isActive ? Color.green : Color.gray)
-                    .opacity(user.isActive ? 1 : 0.7)
+                    .opacity(user.isActive ? 1 : 0.5)
                     .clipShape(Capsule())
             }
             .disabled(!user.isActive)
@@ -47,7 +47,6 @@ struct ButtonView: View {
                     }
             }
         }
-        .padding()
     }
 }
 

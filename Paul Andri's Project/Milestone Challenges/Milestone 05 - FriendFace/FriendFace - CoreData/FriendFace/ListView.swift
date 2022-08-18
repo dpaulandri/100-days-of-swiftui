@@ -34,17 +34,43 @@ struct ListView: View {
             } label: {
                 HStack {
                     HStack {
-                        Image(systemName: "person.circle")
-                            .resizable()
-                            .scaledToFit()
-                            .foregroundColor(user.isActive ? .blue : .gray)
-                            .opacity(user.isActive ? 1 : 0.3)
-                            .frame(width: 50, height: 50)
+                        // USER IMAGE ZSTACK VIEW
+                        // BASED ON USER OBJECT'S 'isActive' BOOL VALUE
+                        ZStack {
+                            if user.isActive {
+                                Image(systemName: "person.circle")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .foregroundColor(.blue)
+                                    .symbolRenderingMode(.multicolor)
+                                    
+                            } else {
+                                Circle()
+                                    //.fill(.secondary)
+                                    .stroke()
+                                
+                                Text(user.userInitials)
+                                    .font(.title3)
+                                    .fontWeight(.semibold)
+                            }
+                        }
+                        .opacity(user.isActive ? 1 : 0.5)
+                        .frame(width: 50, height: 50)
+                        .overlay(alignment: .topTrailing) {
+                            Image(systemName: "circle.fill")
+                                .resizable()
+                                .foregroundColor(user.isActive ? .green : .red)
+                                .frame(width: 10, height: 10)
+                                .clipShape(Circle())
+                        }
+                        
+                        // VSTACK VIEW FOR USER'S FIRST NAME & COMPANY NAME
                         VStack(alignment: .leading) {
                             Text(user.wrappedName)
                                 .font(.headline)
                                 .lineLimit(1)
                                 .truncationMode(.tail)
+                                .opacity(user.isActive ? 1 : 0.5)
                             
                             Text(user.wrappedCompany)
                                 .font(.subheadline)
@@ -54,10 +80,6 @@ struct ListView: View {
                         }
                     }
                     
-                    Spacer()
-                    
-                    Image(systemName: "circle.fill")
-                        .foregroundColor(user.isActive ? .green : .red)
                 }
             }
         }
@@ -69,7 +91,7 @@ struct ListView: View {
                     withAnimation {
                         ascendingSort.toggle()
                     }
-                        
+                    
                 } label: {
                     Label("Name List Sorting", systemImage: "arrow.up.arrow.down")
                         .labelsHidden()
@@ -119,7 +141,6 @@ struct ListView: View {
         }
     }
     
-    
     // METHOD TO FETCH 'User' DATA FROM REMOTE JSON DATA
     // 'async' - Asynchronous Function:
     // Leave code running in background w/o freezing the main App code
@@ -154,7 +175,7 @@ struct ListView: View {
             }
             
             print("User JSON Data downloaded!")
-
+            
             // IF DATA IS SUCCESFULLY FETCHED FROM 'url'
             // STEP 3: DECODE THE FETCHED JSON DATA INTO A 'User' ARRAY DATA TYPE STRUCT
             let decoder = JSONDecoder()
@@ -217,17 +238,19 @@ struct ListView: View {
                     cachedUser.addToFriends(cachedFriend)
                 }
             }
-                        
-            // TRY TO SAVE UPDATE OBJECTS IN MOC TO PERSISTANT STORAGE
-            try? moc.save()
             
-            print("User Database updated!")
-
+            // TRY TO SAVE UPDATE OBJECTS IN MOC TO PERSISTANT STORAGE
+            if moc.hasChanges {
+                try? moc.save()
+            }
+            
+            print("Cache User Database updated!")
+            
         } catch {
             print("Failed to update cached User Database!")
         }
     }
-
+    
 }
 
 

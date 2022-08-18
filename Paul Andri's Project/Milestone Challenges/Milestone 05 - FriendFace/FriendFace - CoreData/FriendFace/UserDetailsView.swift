@@ -89,7 +89,7 @@ struct UserDetailsView: View {
                                 .lineLimit(3)
                                 .truncationMode(.tail)
                                 .multilineTextAlignment(.trailing)
-                                .frame(maxWidth: geo.size.width * 0.45, alignment: .trailing)
+                                .frame(maxWidth: geo.size.width * 0.55, alignment: .trailing)
                         }
                         
                         // ACCOUNT CREATION DATE
@@ -112,39 +112,20 @@ struct UserDetailsView: View {
                     
                     // USER FRIEND LIST SECTION VIEW
                     Section {
-                        if user.friendsArray.isEmpty {
-                            VStack(spacing: 20) {
-                                Text("-")
-                            }
-                            .padding()
-                            
-                        } else {
+                        VStack(spacing: 5) {
                             // HORIZONTAL USER'S FRIEND LIST SCROLL VIEW
                             ScrollView(.horizontal, showsIndicators: false) {
-                                HStack(spacing: 30) {
-                                    ForEach(user.friendsArray) { friend in
-                                        VStack(spacing: 5) {
-                                            Image(systemName: "person.circle")
-                                                .resizable()
-                                                .scaledToFit()
-                                                .foregroundColor(user.isActive ? .blue : .gray)
-                                                .frame(height: geo.size.height * 0.1)
-                                            
-                                            Text(friend.firstName)
-                                                .font(.subheadline)
-                                                .truncationMode(.tail)
-                                        }
-                                        .frame(height: geo.size.height * 0.2)
-                                    }
-                                    
-                                }
+                                // CALL 'FriendListView'
+                                FriendListView(user: user)
                             }
-                            .padding(.horizontal)
+                            .frame(maxHeight: geo.size.height * 0.2)
+                            .padding([.horizontal, .bottom])
                         }
                     } header: {
                         Text("\(user.firstName)'s Friends")
                             .fontWeight(.bold)
                     }
+                    .padding(.bottom)
                     
                 }
             }
@@ -152,10 +133,10 @@ struct UserDetailsView: View {
             
             Spacer()
             
-            // BUTTON VIEW
+            // CALL BUTTON VIEW
             ButtonView(user: user)
                 .frame(maxHeight: 44)
-                .padding(.bottom)
+                .padding([.horizontal, .bottom])
         }
     }
     
@@ -164,7 +145,6 @@ struct UserDetailsView: View {
         // ASSIGN PASSED-IN 'user' PARAM VALUE AS STRUCT'S 'user' PROPERTY VALUE
         self.user = user
     }
-    
 }
 
 

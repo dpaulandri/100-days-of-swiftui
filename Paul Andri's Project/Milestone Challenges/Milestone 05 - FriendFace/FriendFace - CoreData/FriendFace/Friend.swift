@@ -10,6 +10,6 @@ import Foundation
 // 'Friend' DATA TYPE STRUCT
 // CONFORMS TO 'Codable' & 'Identifiable' PROTOCOLS
 struct Friend: Codable, Identifiable {
-    let id: String
+    let id: UUID
     let name: String
 }

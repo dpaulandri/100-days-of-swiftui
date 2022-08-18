@@ -17,7 +17,7 @@ extension CachedFriend {
         return NSFetchRequest<CachedFriend>(entityName: "CachedFriend")
     }
 
-    @NSManaged public var id: String?
+    @NSManaged public var id: UUID?
     @NSManaged public var name: String?
     @NSManaged public var user: NSSet?
 
@@ -25,8 +25,8 @@ extension CachedFriend {
     // WORKAROUND TO ELIMINATE THE NEED TO USE '??' IN PLACES WHERE 'CoreData's MANAGED OBJECT IS USED:
     // PUBLIC COMPUTED PROPERTIES TO USE IN PLACE OF THE '@NSManaged' OBJECTS ABOVE
     // GREAT FOR CODE MAINTAINABILITY (UPDATE DEFAULT VALUES IN ONE PLACE)
-    public var wrappedID: String {
-        id ?? "Unknown ID"
+    public var idUUID: UUID {
+        id ?? UUID()
     }
     
     public var wrappedName: String {
