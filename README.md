@@ -10,4 +10,4 @@ Thanks for checking out!
 Checkpoint/Challenge codes are of my own interpreted.
 
 ## LICENSE
-The entire content & codes of this repository is under [**GNU AGPLv3**](README.md) license.
+The entire content & codes of this repository is under [**GNU AGPLv3**](LICENSE.MD) license.
