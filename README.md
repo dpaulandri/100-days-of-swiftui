@@ -7,7 +7,7 @@ New files will added until I'm finished with this Course. Directory is structere
 Thanks for checking out!
 
 ## NOTE
-Checkpoint/Challenge codes are my own interpreted solution
+Checkpoint/Challenge codes are of my own interpreted.
 
 ## LICENSE
 The entire content & codes of this repository is under GNU AGPLv3 license.
