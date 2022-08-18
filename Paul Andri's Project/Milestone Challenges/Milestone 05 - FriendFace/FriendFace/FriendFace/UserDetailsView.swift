@@ -96,9 +96,6 @@ struct UserDetailsView: View {
                 }
                 .padding(30)
                 
-                
-                // 'FriendScrollView'
-                
             }
         }
         

@@ -15,7 +15,6 @@
 		7B32AC8F28AA422F004EB372 /* Friend.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B32AC8E28AA422F004EB372 /* Friend.swift */; };
 		7B32AC9128AA4296004EB372 /* UserDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B32AC9028AA4296004EB372 /* UserDetailsView.swift */; };
 		7B32AC9328AA577E004EB372 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B32AC9228AA577E004EB372 /* ListView.swift */; };
-		7B32AC9528AA6983004EB372 /* FriendScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B32AC9428AA6983004EB372 /* FriendScrollView.swift */; };
 		7B32AC9728AA76F3004EB372 /* ButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B32AC9628AA76F3004EB372 /* ButtonView.swift */; };
 /* End PBXBuildFile section */
 
@@ -29,7 +28,6 @@
 		7B32AC8E28AA422F004EB372 /* Friend.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friend.swift; sourceTree = "<group>"; };
 		7B32AC9028AA4296004EB372 /* UserDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailsView.swift; sourceTree = "<group>"; };
 		7B32AC9228AA577E004EB372 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
-		7B32AC9428AA6983004EB372 /* FriendScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendScrollView.swift; sourceTree = "<group>"; };
 		7B32AC9628AA76F3004EB372 /* ButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -68,7 +66,6 @@
 				7B32AC9228AA577E004EB372 /* ListView.swift */,
 				7B32AC9028AA4296004EB372 /* UserDetailsView.swift */,
 				7B32AC9628AA76F3004EB372 /* ButtonView.swift */,
-				7B32AC9428AA6983004EB372 /* FriendScrollView.swift */,
 				7B32AC8828AA2A45004EB372 /* User.swift */,
 				7B32AC8E28AA422F004EB372 /* Friend.swift */,
 				7B32AC7E28AA29C7004EB372 /* Assets.xcassets */,
@@ -160,7 +157,6 @@
 				7B32AC9728AA76F3004EB372 /* ButtonView.swift in Sources */,
 				7B32AC9328AA577E004EB372 /* ListView.swift in Sources */,
 				7B32AC7B28AA29C6004EB372 /* FriendFaceApp.swift in Sources */,
-				7B32AC9528AA6983004EB372 /* FriendScrollView.swift in Sources */,
 				7B32AC8928AA2A45004EB372 /* User.swift in Sources */,
 				7B32AC8F28AA422F004EB372 /* Friend.swift in Sources */,
 			);
