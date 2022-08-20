@@ -131,7 +131,7 @@ struct ContentView: View {
 
 
 // DAY 63 MATERIALS
-//
+/*
 // INTEGRATING 'CoreImage' W/ SWIFTUI
 /// 'CoreImage' - Apple's framework for manipulation Image files; applying image sharpening, blurs, vignettes, etc.
 /*
@@ -260,7 +260,7 @@ struct ContentView: View {
 
 // WRAPPING 'UIKit' 'UIViewController' IN SWIFTUI VIEW
 /// WORK IN CONJUCTION W/ 'ImagePicker' VIEW STRUCT
-//
+/*
 struct ContentView: View {
 	// STATE PROPERTY OF OPTIONAL 'Image' VIEW
 	@State private var image: Image?
@@ -299,27 +299,184 @@ struct ContentView: View {
 		}
 	}
 }
-//
- 
-//
+*/
+*/
 
+
+
+// DAY 64 MATERIALS
+//
+// USING "COORDINATORS" TO MANAGE SWIFTUI "View Controllers"
+/// CONTAINS CODES FROM DAY 63 MATERIAL - WRAPPING 'UIKit' 'UIViewController' IN SWIFTUI VIEW
+/// WORK IN CONJUCTION W/ 'ImagePicker' VIEW STRUCT
 /*
-//
 struct ContentView: View {
+	// STATE PROPERTY OF OPTIONAL 'Image' VIEW
+	@State private var image: Image?
+	
+	// STATE PROPERTY TO STORE INCOMING UIKIT'S 'UIImage' (OPTIONAL)
+	@State private var inputImage: UIImage?
+	
+	// STATE PROPERTY FOR SHOWING 'ImagePicker' VIEW
+	@State private var showImagePicker = false
+	
+	
 	var body: some View {
-		Text("Hello, world!")
+		VStack {
+			// DRAW 'image' IMAGE PROPERTY (OPTIONAL)
+			/// WILL BE DRAWN IF 'image' VALUE EXIST
+			image?
+				.resizable()
+				.scaledToFit()
+		}
+		// VSTACK VIEW MODIFIERS
+		// TOOLBAR FOR BUTTON
+		.toolbar {
+			ToolbarItem(placement: .bottomBar) {
+				/// BUTTON TO SHOW 'ImagePicker' VIEW
+				Button {
+					// SET 'true' BOOL VALUE TO 'showImagePicker' STATE PROPERTY
+					showImagePicker = true
+				} label: {
+					Text("Select Image")
+						.foregroundColor(.white)
+						.padding()
+						.background {
+							Capsule()
+								.fill(.blue)
+						}
+						.frame(width: 200, height: 50)
+				}
+			}
+		}
+		// SHEET VIEW MODIFIER
+		.sheet(isPresented: $showImagePicker) {
+			// CALL 'ImagePicker' VIEW, BOUND TO 'inputImage' STATE PROPERTY
+			ImagePicker(image: $inputImage)
+		}
+		// ONCHANGE MODFIIER
+		/// PERFORM 'loadImage()' METHOD WHENEVER THERE'S CHANGES IN 'inputImage' STATE PROPERTY VALUE
+		.onChange(of: inputImage) { _ in /* IGNORE ANY VALUE COMING IN & CALL:*/ loadImage() }
 	}
-}
-//
-
-//
-//
-struct ContentView: View {
-	var body: some View {
-		Text("Hello, world!")
+	
+	
+	// METHOD TO ASSIGN AN 'Image' DATA TO 'image' STATE PROPERTY
+	/// CONDITION: IF 'inputImage' STATE PROEPRTY HAS A 'UIImage' VALUE
+	/// USE IN CONJUCTION W/ 'onChange()' MODIFIER
+	func loadImage() {
+		// CHECK IF 'inputImage' STATE PROPERTY HAS A VALUE, EXIT METHOD IF FAILS
+		guard let inputImage = inputImage else { return }
+		
+		// ASSIGN SWIFTUI 'Image' DATA TO 'image' STATE PROPERTY
+		/// MAKE A SWIFTUI'S 'Image' FROM 'UIImage' DATA
+		image = Image(uiImage: inputImage)
 	}
+	
 }
 */
+
+
+
+// SAVE IMAGES TO USER'S PHOTO LIBRARY - 'UIImageWriteToSavedPhotosAlbum()'
+/// CONTAINS CODES FROM DAY 64 MATERIAL - USING "COORDINATORS" TO MANAGE SWIFTUI "View Controllers"
+/// WORK IN CONJUCTION W/ 'ImagePicker' VIEW STRUCT & 'ImagePicker' OBJECT CLASS
+//
+struct ContentView: View {
+	// STATE PROPERTY OF OPTIONAL 'Image' VIEW
+	@State private var image: Image?
+	
+	// STATE PROPERTY TO STORE INCOMING UIKIT'S 'UIImage' (OPTIONAL)
+	@State private var inputImage: UIImage?
+	
+	// STATE PROPERTY FOR SHOWING 'ImagePicker' VIEW
+	@State private var showImagePicker = false
+	
+	// STATE PROPERTY TO SHOW 'showStatusScreen' WINDOW ALERT
+	@State private var showStatusScreen = false
+	
+	
+	var body: some View {
+		NavigationView {
+			VStack {
+				// DRAW 'image' IMAGE PROPERTY (OPTIONAL)
+				/// WILL BE DRAWN IF 'image' VALUE EXIST
+				image?
+					.resizable()
+					.scaledToFit()
+			}
+			// VSTACK VIEW MODIFIERS
+			// TOOLBAR FOR BUTTONS
+			.toolbar {
+				///  'ImagePicker' VIEW BUTTON
+				ToolbarItem(placement: .bottomBar) {
+					/// BUTTON TO SHOW 'ImagePicker' VIEW
+					Button {
+						// SET 'true' BOOL VALUE TO 'showImagePicker' STATE PROPERTY
+						showImagePicker = true
+					} label: {
+						Text("Select Image")
+							.foregroundColor(.white)
+							.padding()
+							.background {
+								Capsule()
+									.fill(.blue)
+							}
+							.frame(width: 200, height: 50)
+					}
+				}
+				
+				/// SAVE IMAGE  BUTTON
+				ToolbarItem(placement: .confirmationAction) {
+					Button {
+						// CHECK IF 'inputImage' STATE PROPERTY HAS A VALUE, EXIT IF FAILS
+						guard let inputImage = inputImage else { return }
+						
+						// CREATE A NEW 'ImageSaver' OBJECT CLASS INSTANCE
+						let imageSaver = ImageSaver()
+						// CALL 'writeToPhotoAlbum' FUNCTION TO SAVE 'inputImage' INTO PHOTO LIBRARY
+						imageSaver.writeToPhotoAlbum(image: inputImage)
+						
+						showStatusScreen = true
+						
+					} label: {
+						Label("Save Image", systemImage: "square.and.arrow.down")
+							.labelStyle(.iconOnly)
+					}
+				}
+			}
+			// SHEET VIEW MODIFIER
+			.sheet(isPresented: $showImagePicker) {
+				// CALL 'ImagePicker' VIEW, BOUND TO 'inputImage' STATE PROPERTY
+				ImagePicker(image: $inputImage)
+			}
+			// ONCHANGE MODFIIER
+			/// PERFORM 'loadImage()' METHOD WHENEVER THERE'S CHANGES IN 'inputImage' STATE PROPERTY VALUE
+			.onChange(of: inputImage) { _ in /* IGNORE ANY VALUE COMING IN & CALL:*/ loadImage() }
+			// ALERT WINDOWN MODIFIER
+			.alert("Status", isPresented: $showStatusScreen) {
+				Button("Ok") { }
+			} message: { Text("Image saved.")}
+		}
+	}
+	
+	
+	// METHOD TO ASSIGN AN 'Image' DATA TO 'image' STATE PROPERTY
+	/// CONDITION: IF 'inputImage' STATE PROEPRTY HAS A 'UIImage' VALUE
+	/// USE IN CONJUCTION W/ 'onChange()' MODIFIER
+	func loadImage() {
+		// CHECK IF 'inputImage' STATE PROPERTY HAS A VALUE, EXIT METHOD IF FAILS
+		guard let inputImage = inputImage else { return }
+		
+		// ASSIGN SWIFTUI 'Image' DATA TO 'image' STATE PROPERTY
+		/// MAKE A SWIFTUI'S 'Image' FROM 'UIImage' DATA
+		image = Image(uiImage: inputImage)
+	}
+	
+}
+//
+
+//
+
 
 
 struct ContentView_Previews: PreviewProvider {

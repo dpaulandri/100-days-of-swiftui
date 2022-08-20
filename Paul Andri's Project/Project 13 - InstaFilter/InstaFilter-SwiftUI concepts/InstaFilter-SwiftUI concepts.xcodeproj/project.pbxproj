@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7B0218A428B0B1CD002314F3 /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B0218A328B0B1CD002314F3 /* ImageSaver.swift */; };
 		7B90611828AF3988008198DA /* InstaFilter_SwiftUI_conceptsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B90611728AF3988008198DA /* InstaFilter_SwiftUI_conceptsApp.swift */; };
 		7B90611A28AF3988008198DA /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B90611928AF3988008198DA /* ContentView.swift */; };
 		7B90611C28AF398A008198DA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B90611B28AF398A008198DA /* Assets.xcassets */; };
@@ -15,6 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7B0218A328B0B1CD002314F3 /* ImageSaver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
 		7B90611428AF3988008198DA /* InstaFilter-SwiftUI concepts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "InstaFilter-SwiftUI concepts.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B90611728AF3988008198DA /* InstaFilter_SwiftUI_conceptsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstaFilter_SwiftUI_conceptsApp.swift; sourceTree = "<group>"; };
 		7B90611928AF3988008198DA /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -56,6 +58,7 @@
 				7B90611728AF3988008198DA /* InstaFilter_SwiftUI_conceptsApp.swift */,
 				7B90611928AF3988008198DA /* ContentView.swift */,
 				7B90612528AF6D03008198DA /* ImagePicker.swift */,
+				7B0218A328B0B1CD002314F3 /* ImageSaver.swift */,
 				7B90611B28AF398A008198DA /* Assets.xcassets */,
 				7B90611D28AF398A008198DA /* Preview Content */,
 			);
@@ -143,6 +146,7 @@
 				7B90612628AF6D03008198DA /* ImagePicker.swift in Sources */,
 				7B90611A28AF3988008198DA /* ContentView.swift in Sources */,
 				7B90611828AF3988008198DA /* InstaFilter_SwiftUI_conceptsApp.swift in Sources */,
+				7B0218A428B0B1CD002314F3 /* ImageSaver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -274,6 +278,7 @@
 				DEVELOPMENT_TEAM = 2F5N2ZP6G6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save the final photo";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -304,6 +309,7 @@
 				DEVELOPMENT_TEAM = 2F5N2ZP6G6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save the final photo";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
