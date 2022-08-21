@@ -23,7 +23,7 @@ class ImageSaver: NSObject {
 	// METHOD MARKED W/ '@objc' ATTRIBUTE
 	/// Tells Swift to generate code that can be read by Objective-C
 	/// this Method NEEDS to have a specific signature (list of Parameters) otherwise our code just won’t work
-	@objc func saveCompleted(_ image: UIImage, didFinishSavingWithError: Error?, contextInfo: UnsafeRawPointer) {
+	@objc func saveCompleted(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
 		print("Image is saved!")
 	}
 }
