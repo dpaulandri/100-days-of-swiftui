@@ -9,7 +9,7 @@ import SwiftUI
 
 
 // DAY 68 MATERIALS
-
+/*
 // CONFORMING "CUSTOM TYPES" TO 'Comparable' PROTOCOL
 //
 // 'User' CUSTOM DATA MODEL TYPE STRUCT, CONFORMS W/ 'Identifiable' & 'Comparable' PROTOCOLS
@@ -107,7 +107,7 @@ struct ContentView: View {
 
 
 // SWITCHING VIEW STATES W/ ENUMS
-//
+/*
 // ENUMS FOR APP LOADING STATES
 enum LoadingState {
 	case loading, success, failed
@@ -165,31 +165,265 @@ struct ContentView: View {
 		}
 	}
 }
-//
-
-//
-
-
-
-
-/*
-//
-struct ContentView: View {
-	var body: some View {
-		Text("Hello, world!")
-	}
-}
-//
-
-//
-//
-struct ContentView: View {
-	var body: some View {
-		Text("Hello, world!")
-	}
-}
-//
 */
+*/
+
+
+
+// DAY 69 MATERIALS
+//
+// INTEGRATING 'MapKit' W/ SWIFTUI
+/*
+// IMPORT 'MapKit' FRAMEWORK MODULE
+import MapKit
+
+// 'Location' DATA TYPE STRUCT
+/// NEED TO CONFORMS TO 'Identifiable' PROTOCOL TO BE USED AS MAP MARKER
+struct Location: Identifiable {
+	let id = UUID()
+	let name: String
+	let coordinate: CLLocationCoordinate2D
+}
+
+struct ContentView: View {
+	// STATE PROPERTY TO STORE 'MKCoordinateRegion' DATA;
+	/// SAMPLE 'MKCoordinateRegion' VALUE POINTS TO THE CITY OF LONDON, UK
+	/// 'MKCoordinateRegion' Type - a dedicated 'MapKit' data type that stores the map’s current centre Coordinate and zoom level
+	/// 'center' - Map's centre point  (pinpoint)   |   'span' - Map's zoom level
+	/// 'CLLocationCoordinate2D' - data type that stores Latitude & Longitude (map coordinate) values
+	/// 'MKCoordinateSpan' - data type that stores the Width & Height of a map region
+	@State private var mapRegion = MKCoordinateRegion(
+		center: CLLocationCoordinate2D(latitude: 51.5, longitude: -0.12),
+		span: MKCoordinateSpan(latitudeDelta: 0.15, longitudeDelta: 0.15)
+	)
+	
+	// PROPERTY STORING AN ARRAY OF 'Location' DATA OBJECT
+	let locations = [
+		Location(
+			name: "Buckingham Palace",
+			coordinate: CLLocationCoordinate2D(latitude: 51.501, longitude: -0.141)),
+		Location(
+			name: "Tower of London",
+			coordinate: CLLocationCoordinate2D(latitude: 51.508, longitude: -0.076))
+	]
+	
+	
+	var body: some View {
+		// SIMPLE MAP VIEW W/ ANNOTATION FUNCTIONS
+		/*
+		// MAP VIEW BOUNDED TO 'mapRegion' STATE PROPERTY VALUE,
+		/// ALLOWING 'MKCoordinateRegion' VALUE UPDATE AS THE USER INTERACTS W/ THE MAP VIEW
+		/// 'annotationItems' VALUE IS USED FOR ADDING VISIBILE ANNOTATION ON THE MAP VIEW
+		Map(coordinateRegion: $mapRegion, annotationItems: locations) { location in
+			// 'MapMarker' - "BALLOON" MAP VIEW ANNOTATION FUNCTION
+			///MapMarker(coordinate: location.coordinate)
+			
+			// 'MapAnnotation' - CUSTOMISABLE MAP VIEW ANNOTATION FUNCTION
+			/// ACCEPTS ANY KIND OF SWIFTUI VIEW
+			MapAnnotation(coordinate: location.coordinate) {
+				/// CUSTOM VIEW AS MAP ANNOTATION - EX1
+				/*
+				Circle()
+					.stroke(.red, lineWidth: 3)
+					.frame(width: 44, height: 44)
+				*/
+				
+				/// CUSTOM VIEW AS MAP ANNOTATION - EX2
+				Circle()
+					.stroke(.red, lineWidth: 3)
+					.frame(width: 44, height: 44)
+					.onTapGesture {
+						print("\"\(location.name)\" was tapped")
+					}
+				
+				/// CUSTOM VIEW AS MAP ANNOTATION - EX3
+				/*
+				VStack {
+					Circle()
+						.stroke(.red, lineWidth: 3)
+						.frame(width: 44, height: 44)
+					
+					Text(location.name)
+				}
+				*/
+			}
+		}
+		*/
+		
+		// MAP VIEW W/ CUSTOM NAVIGATABLE ANNOTATION FUNCTION
+		NavigationView {
+			// MAP VIEW BOUNDED TO 'mapRegion' STATE PROPERTY VALUE,
+			/// ALLOWING 'MKCoordinateRegion' VALUE UPDATE AS THE USER INTERACTS W/ THE MAP VIEW
+			/// 'annotationItems' VALUE IS USED FOR ADDING VISIBILE ANNOTATION ON THE MAP VIEW
+			Map(coordinateRegion: $mapRegion, annotationItems: locations) { location in
+				// 'MapAnnotation' - CUSTOMISABLE MAP VIEW ANNOTATION FUNCTION
+				/// ACCEPTS ANY KIND OF SWIFTUI VIEW
+				MapAnnotation(coordinate: location.coordinate) {
+					/// CUSTOM VIEW AS MAP ANNOTATION
+					NavigationLink {
+						/// NAVIGATE TO:
+						Text(location.name)
+					} label: {
+						Circle()
+							.stroke(.red, lineWidth: 3)
+							.frame(width: 44, height: 44)
+					}
+				}
+			}
+			.navigationTitle("Visit UK")
+		}
+	}
+	
+}
+*/
+
+
+
+// 'LocalAuthentication' FRAMEWORK - An Objective-C API for biometric authentication
+// 'Touch ID' & 'Face ID' IN SWIFTUI
+//
+// IMPORT 'LocalAuthentication' FRAMEWORK MODULE
+import LocalAuthentication
+
+struct ContentView: View {
+	// STATE PROPERTY TO STORE WHETHER THE BIOMETRIC AUTHENTICATION IS SUCCESSFUL
+	@State private var isAuthenticated = false
+	
+	
+	var body: some View {
+		VStack {
+			// CONDITIONAL VIEW STATE DEPENDING ON 'isAuthenticated' PROPERTY STATE
+			if isAuthenticated {
+				NavigationView{
+					ScrollView {
+						VStack {
+							Image("JamesBond")
+								.frame(width: 400, height: 400)
+							
+							Spacer()
+							
+							VStack {
+								HStack {
+									Text("Status")
+										.font(.title3)
+										.fontWeight(.bold)
+									Spacer()
+									Text("⚫️ Inactive")
+										.font(.title3)
+										.fontWeight(.bold)
+								}
+								HStack {
+									Text("Agent ID")
+										.font(.title3)
+										.fontWeight(.bold)
+									Spacer()
+									Text("007")
+										.font(.title3)
+								}
+								HStack {
+									Text("Agent Name")
+										.font(.title3)
+										.fontWeight(.bold)
+									Spacer()
+									Text("James Bond")
+										.font(.title3)
+								}
+								HStack {
+									Text("D.O.B.")
+										.font(.title3)
+										.fontWeight(.bold)
+									Spacer()
+									Text("11 November 1921")
+										.font(.title3)
+								}
+								HStack {
+									Text("Sex")
+										.font(.title3)
+										.fontWeight(.bold)
+									Spacer()
+									Text("Male")
+										.font(.title3)
+								}
+								HStack {
+									Text("Nationality")
+										.font(.title3)
+										.fontWeight(.bold)
+									Spacer()
+									Text("British")
+										.font(.title3)
+								}
+								HStack {
+									Text("Title")
+										.font(.title3)
+										.fontWeight(.bold)
+									Spacer()
+									Text("Commander (RNR)")
+										.font(.title3)
+								}
+							}
+							.padding()
+							
+							Spacer()
+						}
+					}
+					.padding()
+					.navigationTitle("Agent Data")
+				}
+			} else {
+				Text("🔒 Content is locked 🔒")
+			}
+		}
+		// ONAPPER MODIFIER TO CALL 'authenticate()' METHOD
+		/// STARTS THE AUTHENTICATION PROCESS AS SOON AS THE VIEW APPEAR ON SCREEN
+		.onAppear(perform: authenticate)
+	}
+	
+	
+	// METHOD TO HANDLE & PERFORM BIOMETRIC AUTHENTICATIONS
+	func authenticate() {
+		// CREATE A NEW 'LAContext' NSOBJECT CLASS INSTANCE
+		/// 'LAContext' NSObject Class - A mechanism for evaluating authentication policies and access controls
+		let context = LAContext()
+		
+		// A PROPERTY TO STORE OPTIONAL OBJ-C 'NSError' CLASS OBJECT
+		var error: NSError?
+		
+		
+		// CHECK WHETHER BIOMETRIC AUTHENTICATION IS AVAILABLE ON THE DEVICE
+		/// 'LAPolicy' ENUM - the set of available "Local Authentication" policies
+		/// '.deviceOwnerAuthenticationWithBiometrics' IS A CASE OF 'LAPolicy' ENUM
+		/// '&' PASS THE 'NSError' CLASS OBJECT DIRECTLY INTO THE FUNCTION & ALLOWS IT TO CHANGE INSIDE THE FUNCTION
+		if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+			// IF BIOMETRIC AUTHENTICATION IS AVAILABLE ON THE DEVICE:
+			
+			/// SET 'localizedReason' STRING VALUE
+			let reason = "Unlock user Data"
+			
+			// START BIOMETRIC AUTHENTICATION REQUEST PROCESS
+			///  'localizedReason' STRING VALUE IS SHOWN TO THE USER AS THE REASON TO AUTHENTICATE
+			context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
+				
+				// COMPLETION CLOSURE
+				/// CALLED WHENEVER AN AUTHENTICATION PROCESS IS DONE (SUCCESS/FAIL)
+				if success {
+					/// IF BIOMETRIC AUTHENTICATION IS SUCCESSFUL
+					isAuthenticated = true
+				} else {
+					/// IF BIOMETRIC AUTHENTICATION FAILS
+					isAuthenticated = false
+				}
+			}
+			
+		} else {
+			// BIOMETRIC AUTHENTICATION NOT POSSIBLE ON DEVICE
+			/// POSSIBLE REASONS;
+			/// - DEVICE HAVE NO 'Face ID' OR 'Touch ID' CAPABILITIES,
+			/// - USER HAS NOT ENROLL THEIR BIOMETRIC DATA
+		}
+	}
+}
+//
+//
 
 
 
