@@ -52,10 +52,7 @@ struct EditView: View {
 					case .loading:
 						Text("Loading data...")
 					case .failed:
-						Text("""
-						Unable to reach server.
-						Please try again later.
-						""")
+						Text("Unable to reach server. Please try again later.")
 					default:
 						/// IF NETWORK CALL TO WIKIPEDIA GET BACK RESULT;
 						/// GENERATE DYNAMIC LIST FROM 'pages' STATE PROPERTY

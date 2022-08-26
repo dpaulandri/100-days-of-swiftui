@@ -14,6 +14,8 @@
 		7B928FD728B5E809000E9592 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B928FD628B5E809000E9592 /* Preview Assets.xcassets */; };
 		7B928FDE28B5ED05000E9592 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B928FDD28B5ED05000E9592 /* Location.swift */; };
 		7B928FE028B5FD39000E9592 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B928FDF28B5FD39000E9592 /* EditView.swift */; };
+		7BA7A0EA28B8859500737035 /* ContentView-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA7A0E928B8859500737035 /* ContentView-ViewModel.swift */; };
+		7BA7A0EC28B8954400737035 /* FileManager-DocumentsDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BA7A0EB28B8954400737035 /* FileManager-DocumentsDirectory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +27,8 @@
 		7B928FD628B5E809000E9592 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7B928FDD28B5ED05000E9592 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		7B928FDF28B5FD39000E9592 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
+		7BA7A0E928B8859500737035 /* ContentView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView-ViewModel.swift"; sourceTree = "<group>"; };
+		7BA7A0EB28B8954400737035 /* FileManager-DocumentsDirectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager-DocumentsDirectory.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,9 +63,11 @@
 			children = (
 				7B928FCF28B5E807000E9592 /* BucketListApp.swift */,
 				7B928FD128B5E807000E9592 /* ContentView.swift */,
+				7BA7A0E928B8859500737035 /* ContentView-ViewModel.swift */,
 				7B928FDF28B5FD39000E9592 /* EditView.swift */,
 				7B928FDD28B5ED05000E9592 /* Location.swift */,
 				7B13CCF328B769EF00CB7E3B /* Result.swift */,
+				7BA7A0EB28B8954400737035 /* FileManager-DocumentsDirectory.swift */,
 				7B928FD328B5E809000E9592 /* Assets.xcassets */,
 				7B928FD528B5E809000E9592 /* Preview Content */,
 			);
@@ -147,6 +153,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				7B928FD228B5E807000E9592 /* ContentView.swift in Sources */,
+				7BA7A0EC28B8954400737035 /* FileManager-DocumentsDirectory.swift in Sources */,
+				7BA7A0EA28B8859500737035 /* ContentView-ViewModel.swift in Sources */,
 				7B13CCF428B769EF00CB7E3B /* Result.swift in Sources */,
 				7B928FDE28B5ED05000E9592 /* Location.swift in Sources */,
 				7B928FE028B5FD39000E9592 /* EditView.swift in Sources */,
@@ -282,6 +290,7 @@
 				DEVELOPMENT_TEAM = 2F5N2ZP6G6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Unlock app";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -312,6 +321,7 @@
 				DEVELOPMENT_TEAM = 2F5N2ZP6G6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Unlock app";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
