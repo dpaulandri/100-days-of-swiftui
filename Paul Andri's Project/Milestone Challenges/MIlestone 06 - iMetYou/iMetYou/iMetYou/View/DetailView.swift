@@ -14,10 +14,24 @@ extension DetailView {
 		moc.delete(person)
 		
 		// STEP 2: TRY TO WRITE/SAVE THE DELETE CHANGES TO 'COREDATA' PERSISTENT STORAGE
-		//try? moc.save()
+		try? moc.save()
 		
-		// STEP 3: CALL DISMISS TO DISMISS THE CURRENT 'DetailView'
+		// STEP 3: DELETE ASSOCIATED PROFILE PICTURE
+		// FILENAME CORRESPONDS TO THE PERSON UUID
+		let url = FileManager.documentsDirectory.appendingPathComponent(person.wrappedID)
+		try? FileManager.default.removeItem(at: url)
+		
+		// STEP 4: CALL DISMISS TO DISMISS THE CURRENT 'DetailView'
 		dismiss()
+	}
+	
+	func profilePicture(person: Person) -> Image {
+		// FILENAME CORRESPONDS TO THE PERSON UUID
+		let url = FileManager.documentsDirectory.appendingPathComponent(person.wrappedID)
+		
+		if let profilePicture = UIImage(contentsOfFile: url.path) {
+			return Image(uiImage: profilePicture)
+		} else { return Image(systemName: "person.crop.circle.fill") }
 	}
 }
 
@@ -34,15 +48,19 @@ struct DetailView: View {
 	
 	// STATE PROPERTY SHOW BOOK PERSON DELETE CONFIRMATION ALERT WINDOW
 	@State private var showDeleteAlert = false
+
 	
 	var body: some View {
 		VStack {
-			Image(systemName: "person.crop.circle.fill")
+			profilePicture(person: person)
 				.resizable()
-				.scaledToFit()
-				.frame(width: 200, height: 200)
+				.scaledToFill()
 				.clipShape(Circle())
+				.frame(width: 250, height: 250)
 				.padding(.bottom)
+				.accessibilityElement()
+				.accessibilityLabel("Profile Picture of \(person.fullName)")
+				.accessibilityAddTraits(.isImage)
 			
 			// DETAIL SECTION
 			Section {
@@ -53,6 +71,8 @@ struct DetailView: View {
 					Text(person.fullName)
 						.fontWeight(.semibold)
 				}
+				.accessibilityElement()
+				.accessibilityLabel("Full name, \(person.fullName)")
 				
 				HStack {
 					Text("Gender")
@@ -61,6 +81,8 @@ struct DetailView: View {
 					Text(person.wrappedGender)
 						.fontWeight(.semibold)
 				}
+				.accessibilityElement()
+				.accessibilityLabel("Gender, \(person.wrappedGender)")
 				
 				HStack {
 					Text("Email")
@@ -69,6 +91,8 @@ struct DetailView: View {
 					Text(person.wrappedEmail)
 						.fontWeight(.semibold)
 				}
+				.accessibilityElement()
+				.accessibilityLabel("Email Address, \(person.wrappedEmail)")
 				
 				HStack {
 					Text("Phone #")
@@ -77,6 +101,8 @@ struct DetailView: View {
 					Text(person.wrappedPhoneNumber)
 						.fontWeight(.semibold)
 				}
+				.accessibilityElement()
+				.accessibilityLabel("Phone number, \(person.wrappedPhoneNumber)")
 				
 				HStack {
 					Text("First Met")
@@ -85,6 +111,8 @@ struct DetailView: View {
 					Text(person.wrappedDate)
 						.fontWeight(.semibold)
 				}
+				.accessibilityElement()
+				.accessibilityLabel("First Met on \(person.wrappedDate)")
 			}
 			
 			Spacer()

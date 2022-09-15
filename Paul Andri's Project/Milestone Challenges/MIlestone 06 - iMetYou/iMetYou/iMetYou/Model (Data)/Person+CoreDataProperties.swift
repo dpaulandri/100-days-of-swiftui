@@ -25,8 +25,8 @@ extension Person {
     @NSManaged public var email: String?
 
 	// COMPUTED PROPERTIES W/ DEFAULT VALUES
-	var wrappedID: UUID {
-		UUID()
+	var wrappedID: String {
+		id?.uuidString ?? "Unknown ID"
 	}
 	
 	var wrappedfirstName: String {

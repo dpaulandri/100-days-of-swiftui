@@ -10,11 +10,25 @@ import SwiftUI
 extension AddNewPersonView {
 	// METHOD TO LOAD USER SELECTED IMAGE
 	func loadImage() {
-		/// TRY TO GET THE FILTER INPUT IMAGE FROM 'inputImage' STATE PROPERTY, EXIT IF FAIL
+		// TRY TO GET THE INPUT IMAGE FROM 'inputImage' STATE PROPERTY, EXIT IF FAIL
 		guard let inputImage = inputImage else { return }
 		
 		// CREATE AN 'Image' USING 'uiImage' VALUE AND SET THE VALUE TO 'image' STATE PROPERTY
 		image = Image(uiImage: inputImage)
+	}
+	
+	// METHOD TO SAVE USER SELECTED IMAGE TO DOCUMENTSDIRECTORY
+	func saveImage(person: Person) {
+		// TRY TO GET THE INPUT IMAGE FROM 'inputImage' STATE PROPERTY, EXIT IF FAIL
+		guard let inputImage = inputImage else { return }
+		
+		// FILENAME CORRESPONDS TO THE PERSON UUID
+		let url = FileManager.documentsDirectory.appendingPathComponent(person.wrappedID)
+		
+		if let jpegData = inputImage.jpegData(compressionQuality: 0.6)
+		{
+			try? jpegData.write(to: url, options: [.atomic, .completeFileProtection])
+		}
 	}
 	
 	// METHOD TO CHECK FOR PERSON DETAIL INPUT VALIDITY
@@ -69,11 +83,16 @@ struct AddNewPersonView: View {
 						// DRAW 'image' IF IT HAS AN 'Image' VALUE
 						image?
 							.resizable()
+							.scaledToFill()
 							.frame(width: 250, height: 250)
 							.clipShape(Circle())
 					}
-					Text("Add Profile Picture")
+					if image == nil { Text("Add Profile Picture") }
 				}
+				.accessibilityElement()
+				.accessibilityLabel("Profile Picture")
+				.accessibilityHint((image == nil ? "No Image selected, Tap to select" : "Image selected, Tap to replace"))
+				.accessibilityAddTraits(image == nil ? .isButton : [.isImage, .isButton])
 				// ZSTACK MODIFIER
 				// ONTAPGESTURE TO TRIGGER IMAGE PICKER
 				.onTapGesture {
@@ -102,25 +121,36 @@ struct AddNewPersonView: View {
 							.autocorrectionDisabled()
 							.textInputAutocapitalization(.words)
 							.focused($textFieldIsFocused)
+							.accessibilityHint("TextField Input (Data Required)")
 						TextField("Last Name", text: $lastName)
 							.autocorrectionDisabled()
 							.textInputAutocapitalization(.words)
 							.focused($textFieldIsFocused)
+							.accessibilityHint("TextField Input (Data Required)")
 						TextField("Email Address", text: $email)
 							.keyboardType(.emailAddress)
 							.autocorrectionDisabled()
 							.textInputAutocapitalization(.never)
 							.focused($textFieldIsFocused)
+							.accessibilityHint("TextField Input (Data Required)")
 						TextField("Phone Number", text: $phoneNumber)
 							.keyboardType(.phonePad)
 							.focused($textFieldIsFocused)
+							.accessibilityElement()
+							.accessibilityHint("Phone Number Input (Data Required)")
 						Picker("Gender", selection: $gender) {
 							ForEach(availableGender, id: \.self) {
 								Text($0)
 							}
 						}
+						.accessibilityElement()
+						.accessibilityLabel("Gender Picker Input")
+						.accessibilityHint("\(gender) is currently selected")
 						DatePicker("First Met", selection: $date, displayedComponents: .date)
-						
+							.accessibilityElement()
+							.accessibilityLabel("Date Picker Input")
+							.accessibilityHint("Currently set to \(date.formatted(date: .complete, time: .omitted))")
+							
 					}
 				}
 				
@@ -144,6 +174,9 @@ struct AddNewPersonView: View {
 						newPerson.gender = gender
 						newPerson.date = date
 						
+						// CALL SAVEIMAGE METHOD
+						saveImage(person: newPerson)
+						
 						// TRY TO SAVE THE "LIVE" DATA STORED FROM SWIFTUI ENVIRONMENT'S MOC INTO COREDATA'S PERSISTENT STORAGE
 						try? moc.save()
 						
@@ -164,6 +197,9 @@ struct AddNewPersonView: View {
 					} label: {
 						Image(systemName: "arrow.down.forward.and.arrow.up.backward")
 					}
+					.accessibilityElement()
+					.accessibilityLabel("Dismiss Add New Person View")
+					.accessibilityAddTraits(.isButton)
 				}
 				
 				// DISMISS KEYBOARD INPUT FOCUS
