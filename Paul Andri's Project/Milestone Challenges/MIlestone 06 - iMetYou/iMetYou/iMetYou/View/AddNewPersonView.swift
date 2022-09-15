@@ -7,6 +7,24 @@
 
 import SwiftUI
 
+extension AddNewPersonView {
+	// METHOD TO LOAD USER SELECTED IMAGE
+	func loadImage() {
+		/// TRY TO GET THE FILTER INPUT IMAGE FROM 'inputImage' STATE PROPERTY, EXIT IF FAIL
+		guard let inputImage = inputImage else { return }
+		
+		// CREATE AN 'Image' USING 'uiImage' VALUE AND SET THE VALUE TO 'image' STATE PROPERTY
+		image = Image(uiImage: inputImage)
+	}
+	
+	// METHOD TO CHECK FOR PERSON DETAIL INPUT VALIDITY
+	func inputDetailValid() -> Bool {
+		if firstName.isEmpty || lastName.isEmpty || email.isEmpty || email.count < 5 || !email.contains("@") || !email.contains(".") || phoneNumber.isEmpty {
+			return false
+		} else { return true }
+	}
+}
+
 struct AddNewPersonView: View {
 	// GET ACCESS TO 'managedObjectContext' IN SWIFTUI'S ENVIRONMENT
 	// ENVIRONMENT PROPERTY TO STORE 'managedObjectContext' "LIVE" DATA IN SWIFTUI'S ENVIRONMENT
@@ -160,22 +178,6 @@ struct AddNewPersonView: View {
 			}
 		}
     }
-	
-	// METHOD TO LOAD USER SELECTED IMAGE
-	func loadImage() {
-		/// TRY TO GET THE FILTER INPUT IMAGE FROM 'inputImage' STATE PROPERTY, EXIT IF FAIL
-		guard let inputImage = inputImage else { return }
-		
-		// CREATE AN 'Image' USING 'uiImage' VALUE AND SET THE VALUE TO 'image' STATE PROPERTY
-		image = Image(uiImage: inputImage)
-	}
-	
-	// METHOD TO CHECK FOR PERSON DETAIL INPUT VALIDITY
-	func inputDetailValid() -> Bool {
-		if firstName.isEmpty || lastName.isEmpty || email.isEmpty || email.count < 5 || !email.contains("@") || !email.contains(".") || phoneNumber.isEmpty {
-			return false
-		} else { return true }
-	}
 }
 
 

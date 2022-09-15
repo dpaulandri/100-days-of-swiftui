@@ -7,6 +7,20 @@
 
 import SwiftUI
 
+extension DetailView {
+	// METHOD TO DELETE PERSON DATA FROM COREDATA PERSISTENT STORAGE & DISMISS 'DetailView' BACK TO ITS PREVIOUS VIEW
+	func deletePerson() {
+		// STEP 1: DELETE THE CURRENT PERSON DATA SHOWN ON OUR 'managedObjectContext' "LIVE" DATA ON iDevice MEMORY
+		moc.delete(person)
+		
+		// STEP 2: TRY TO WRITE/SAVE THE DELETE CHANGES TO 'COREDATA' PERSISTENT STORAGE
+		//try? moc.save()
+		
+		// STEP 3: CALL DISMISS TO DISMISS THE CURRENT 'DetailView'
+		dismiss()
+	}
+}
+
 struct DetailView: View {
 	// PERSON PROPERTY
 	let person: Person
@@ -97,25 +111,6 @@ struct DetailView: View {
 				Label("Delete this person", systemImage: "trash")
 			}
 		}
-	}
-	
-	// CUSTOM INITIALIZER FOR 'DetailView' STRUCT
-	init(person: Person) {
-		// ASSIGN PASSED-IN 'person' PARAM VALUE AS STRUCT'S 'person' PROPERTY VALUE
-		self.person = person
-	}
-	
-	
-	// METHOD TO DELETE PERSON DATA FROM COREDATA PERSISTENT STORAGE & DISMISS 'DetailView' BACK TO ITS PREVIOUS VIEW
-	func deletePerson() {
-		// STEP 1: DELETE THE CURRENT PERSON DATA SHOWN ON OUR 'managedObjectContext' "LIVE" DATA ON iDevice MEMORY
-		moc.delete(person)
-		
-		// STEP 2: TRY TO WRITE/SAVE THE DELETE CHANGES TO 'COREDATA' PERSISTENT STORAGE
-		//try? moc.save()
-		
-		// STEP 3: CALL DISMISS TO DISMISS THE CURRENT 'DetailView'
-		dismiss()
 	}
 }
 

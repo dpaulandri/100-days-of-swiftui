@@ -7,6 +7,30 @@
 
 import SwiftUI
 
+extension ListView {
+	// METHOD TO DELETE PERSON DATA FROM COREDATA 'FetchRequest'
+	func deletePerson(at offsets: IndexSet) {
+		
+		// STEP 1: FIND THE PERSON DATA INDEX & DELETE THE "LIVE" DATA FROM 'managedObjectContext' ON iDevice MEMORY
+		// FOR LOOP TO LOOP OVER EVERY DATA INDEX FROM THE PASSED-IN 'offsets' COLLECTION
+		for offset in offsets {
+			
+			// STEP 1A:
+			// FIND THE PERSON DATA INDEX USING THE 'offset' INDEXSET ON 'persons' 'FetchRequest' PROPERTY DATA
+			// DEFINE IT AS THE 'person' OBJECT
+			let person = persons[offset]
+			
+			// STEP 1B:
+			// DELETE THAT PERSON DATA ON OUR 'managedObjectContext' "LIVE" DATA ON iDevice MEMORY
+			moc.delete(person)
+		}
+		
+		// STEP 2: TRY TO WRITE/SAVE THE DELETE CHANGES TO 'COREDATA' PERSISTENT STORAGE
+		//try? moc.save()
+		
+	}
+}
+
 struct ListView: View {
 	// ACCESS SWIFTUI ENVIRONMENT'S COREDATA 'managedObjectContext'
 	@Environment(\.managedObjectContext) var moc
@@ -44,28 +68,6 @@ struct ListView: View {
 				EditButton()
 			}
 		}
-	}
-	
-	// METHOD TO DELETE PERSON DATA FROM COREDATA 'FetchRequest'
-	func deletePerson(at offsets: IndexSet) {
-		
-		// STEP 1: FIND THE PERSON DATA INDEX & DELETE THE "LIVE" DATA FROM 'managedObjectContext' ON iDevice MEMORY
-		// FOR LOOP TO LOOP OVER EVERY DATA INDEX FROM THE PASSED-IN 'offsets' COLLECTION
-		for offset in offsets {
-			
-			// STEP 1A:
-			// FIND THE PERSON DATA INDEX USING THE 'offset' INDEXSET ON 'persons' 'FetchRequest' PROPERTY DATA
-			// DEFINE IT AS THE 'person' OBJECT
-			let person = persons[offset]
-			
-			// STEP 1B:
-			// DELETE THAT PERSON DATA ON OUR 'managedObjectContext' "LIVE" DATA ON iDevice MEMORY
-			moc.delete(person)
-		}
-		
-		// STEP 2: TRY TO WRITE/SAVE THE DELETE CHANGES TO 'COREDATA' PERSISTENT STORAGE
-		//try? moc.save()
-		
 	}
 }
 
