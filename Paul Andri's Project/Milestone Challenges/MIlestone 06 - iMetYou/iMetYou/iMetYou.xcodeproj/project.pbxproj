@@ -1,0 +1,443 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7B50A0A628D18A2900186050 /* iMetYouApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B50A0A528D18A2900186050 /* iMetYouApp.swift */; };
+		7B50A0A828D18A2900186050 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B50A0A728D18A2900186050 /* ContentView.swift */; };
+		7B50A0AA28D18A2B00186050 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B50A0A928D18A2B00186050 /* Assets.xcassets */; };
+		7B50A0AD28D18A2B00186050 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7B50A0AC28D18A2B00186050 /* Preview Assets.xcassets */; };
+		7B50A0B428D18CBB00186050 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B50A0B328D18CBB00186050 /* ImagePicker.swift */; };
+		7B50A0B628D18FD100186050 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B50A0B528D18FD100186050 /* DetailView.swift */; };
+		7B50A0B828D18FEC00186050 /* AddNewPersonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B50A0B728D18FEC00186050 /* AddNewPersonView.swift */; };
+		7B50A0BB28D1929400186050 /* iMetYou.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 7B50A0B928D1929400186050 /* iMetYou.xcdatamodeld */; };
+		7B50A0BD28D1941300186050 /* DataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B50A0BC28D1941300186050 /* DataController.swift */; };
+		7B50A0BF28D194F700186050 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B50A0BE28D194F700186050 /* ListView.swift */; };
+		7B50A0C828D1ADAF00186050 /* Person+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B50A0C628D1ADAF00186050 /* Person+CoreDataClass.swift */; };
+		7B50A0C928D1ADAF00186050 /* Person+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B50A0C728D1ADAF00186050 /* Person+CoreDataProperties.swift */; };
+		7B50A0CB28D1CDFD00186050 /* FileManager-DocumentsDirectory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B50A0CA28D1CDFD00186050 /* FileManager-DocumentsDirectory.swift */; };
+		7B50A0D028D1CFC000186050 /* ListView-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B50A0CF28D1CFC000186050 /* ListView-ViewModel.swift */; };
+		7B50A0D228D1CFDB00186050 /* AddNewPersonView-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B50A0D128D1CFDB00186050 /* AddNewPersonView-ViewModel.swift */; };
+		7B50A0D428D1D01300186050 /* DetailView-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B50A0D328D1D01300186050 /* DetailView-ViewModel.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		7B50A0A228D18A2900186050 /* iMetYou.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iMetYou.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B50A0A528D18A2900186050 /* iMetYouApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iMetYouApp.swift; sourceTree = "<group>"; };
+		7B50A0A728D18A2900186050 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		7B50A0A928D18A2B00186050 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7B50A0AC28D18A2B00186050 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		7B50A0B328D18CBB00186050 /* ImagePicker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		7B50A0B528D18FD100186050 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		7B50A0B728D18FEC00186050 /* AddNewPersonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewPersonView.swift; sourceTree = "<group>"; };
+		7B50A0BA28D1929400186050 /* iMetYou.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = iMetYou.xcdatamodel; sourceTree = "<group>"; };
+		7B50A0BC28D1941300186050 /* DataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataController.swift; sourceTree = "<group>"; };
+		7B50A0BE28D194F700186050 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
+		7B50A0C628D1ADAF00186050 /* Person+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Person+CoreDataClass.swift"; sourceTree = "<group>"; };
+		7B50A0C728D1ADAF00186050 /* Person+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Person+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		7B50A0CA28D1CDFD00186050 /* FileManager-DocumentsDirectory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager-DocumentsDirectory.swift"; sourceTree = "<group>"; };
+		7B50A0CF28D1CFC000186050 /* ListView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ListView-ViewModel.swift"; path = "iMetYou/View Model/ListView-ViewModel.swift"; sourceTree = SOURCE_ROOT; };
+		7B50A0D128D1CFDB00186050 /* AddNewPersonView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddNewPersonView-ViewModel.swift"; sourceTree = "<group>"; };
+		7B50A0D328D1D01300186050 /* DetailView-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "DetailView-ViewModel.swift"; path = "iMetYou/View Model/DetailView-ViewModel.swift"; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7B50A09F28D18A2900186050 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		7B50A09928D18A2900186050 = {
+			isa = PBXGroup;
+			children = (
+				7B50A0A428D18A2900186050 /* iMetYou */,
+				7B50A0A328D18A2900186050 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7B50A0A328D18A2900186050 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7B50A0A228D18A2900186050 /* iMetYou.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		7B50A0A428D18A2900186050 /* iMetYou */ = {
+			isa = PBXGroup;
+			children = (
+				7B50A0A528D18A2900186050 /* iMetYouApp.swift */,
+				7B50A0CC28D1CEC200186050 /* View */,
+				7B50A0CD28D1CEE900186050 /* Model (Data) */,
+				7B50A0CE28D1CF1D00186050 /* View Model */,
+				7B50A0B328D18CBB00186050 /* ImagePicker.swift */,
+				7B50A0CA28D1CDFD00186050 /* FileManager-DocumentsDirectory.swift */,
+				7B50A0A928D18A2B00186050 /* Assets.xcassets */,
+				7B50A0AB28D18A2B00186050 /* Preview Content */,
+			);
+			path = iMetYou;
+			sourceTree = "<group>";
+		};
+		7B50A0AB28D18A2B00186050 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				7B50A0AC28D18A2B00186050 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		7B50A0CC28D1CEC200186050 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7B50A0A728D18A2900186050 /* ContentView.swift */,
+				7B50A0BE28D194F700186050 /* ListView.swift */,
+				7B50A0B728D18FEC00186050 /* AddNewPersonView.swift */,
+				7B50A0B528D18FD100186050 /* DetailView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7B50A0CD28D1CEE900186050 /* Model (Data) */ = {
+			isa = PBXGroup;
+			children = (
+				7B50A0BC28D1941300186050 /* DataController.swift */,
+				7B50A0C628D1ADAF00186050 /* Person+CoreDataClass.swift */,
+				7B50A0C728D1ADAF00186050 /* Person+CoreDataProperties.swift */,
+				7B50A0B928D1929400186050 /* iMetYou.xcdatamodeld */,
+			);
+			path = "Model (Data)";
+			sourceTree = "<group>";
+		};
+		7B50A0CE28D1CF1D00186050 /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+				7B50A0CF28D1CFC000186050 /* ListView-ViewModel.swift */,
+				7B50A0D128D1CFDB00186050 /* AddNewPersonView-ViewModel.swift */,
+				7B50A0D328D1D01300186050 /* DetailView-ViewModel.swift */,
+			);
+			path = "View Model";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7B50A0A128D18A2900186050 /* iMetYou */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7B50A0B028D18A2B00186050 /* Build configuration list for PBXNativeTarget "iMetYou" */;
+			buildPhases = (
+				7B50A09E28D18A2900186050 /* Sources */,
+				7B50A09F28D18A2900186050 /* Frameworks */,
+				7B50A0A028D18A2900186050 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = iMetYou;
+			productName = iMetYou;
+			productReference = 7B50A0A228D18A2900186050 /* iMetYou.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		7B50A09A28D18A2900186050 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1400;
+				LastUpgradeCheck = 1400;
+				TargetAttributes = {
+					7B50A0A128D18A2900186050 = {
+						CreatedOnToolsVersion = 14.0;
+					};
+				};
+			};
+			buildConfigurationList = 7B50A09D28D18A2900186050 /* Build configuration list for PBXProject "iMetYou" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 7B50A09928D18A2900186050;
+			productRefGroup = 7B50A0A328D18A2900186050 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7B50A0A128D18A2900186050 /* iMetYou */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7B50A0A028D18A2900186050 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B50A0AD28D18A2B00186050 /* Preview Assets.xcassets in Resources */,
+				7B50A0AA28D18A2B00186050 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7B50A09E28D18A2900186050 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B50A0BF28D194F700186050 /* ListView.swift in Sources */,
+				7B50A0CB28D1CDFD00186050 /* FileManager-DocumentsDirectory.swift in Sources */,
+				7B50A0BD28D1941300186050 /* DataController.swift in Sources */,
+				7B50A0D228D1CFDB00186050 /* AddNewPersonView-ViewModel.swift in Sources */,
+				7B50A0D428D1D01300186050 /* DetailView-ViewModel.swift in Sources */,
+				7B50A0C828D1ADAF00186050 /* Person+CoreDataClass.swift in Sources */,
+				7B50A0B828D18FEC00186050 /* AddNewPersonView.swift in Sources */,
+				7B50A0B428D18CBB00186050 /* ImagePicker.swift in Sources */,
+				7B50A0BB28D1929400186050 /* iMetYou.xcdatamodeld in Sources */,
+				7B50A0B628D18FD100186050 /* DetailView.swift in Sources */,
+				7B50A0A828D18A2900186050 /* ContentView.swift in Sources */,
+				7B50A0A628D18A2900186050 /* iMetYouApp.swift in Sources */,
+				7B50A0C928D1ADAF00186050 /* Person+CoreDataProperties.swift in Sources */,
+				7B50A0D028D1CFC000186050 /* ListView-ViewModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		7B50A0AE28D18A2B00186050 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		7B50A0AF28D18A2B00186050 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		7B50A0B128D18A2B00186050 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"iMetYou/Preview Content\"";
+				DEVELOPMENT_TEAM = 2F5N2ZP6G6;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.paulandri.iMetYou;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		7B50A0B228D18A2B00186050 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"iMetYou/Preview Content\"";
+				DEVELOPMENT_TEAM = 2F5N2ZP6G6;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.paulandri.iMetYou;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7B50A09D28D18A2900186050 /* Build configuration list for PBXProject "iMetYou" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7B50A0AE28D18A2B00186050 /* Debug */,
+				7B50A0AF28D18A2B00186050 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7B50A0B028D18A2B00186050 /* Build configuration list for PBXNativeTarget "iMetYou" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7B50A0B128D18A2B00186050 /* Debug */,
+				7B50A0B228D18A2B00186050 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		7B50A0B928D1929400186050 /* iMetYou.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				7B50A0BA28D1929400186050 /* iMetYou.xcdatamodel */,
+			);
+			currentVersion = 7B50A0BA28D1929400186050 /* iMetYou.xcdatamodel */;
+			path = iMetYou.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 7B50A09A28D18A2900186050 /* Project object */;
+}
