@@ -8,6 +8,8 @@
 
 import Foundation
 import CoreData
+import CoreLocation
+import MapKit
 
 
 extension Person {
@@ -16,14 +18,17 @@ extension Person {
         return NSFetchRequest<Person>(entityName: "Person")
     }
 
-    @NSManaged public var firstName: String?
-    @NSManaged public var lastName: String?
-    @NSManaged public var phoneNumber: String?
-    @NSManaged public var id: UUID?
-    @NSManaged public var gender: String?
     @NSManaged public var date: Date?
     @NSManaged public var email: String?
+    @NSManaged public var firstName: String?
+    @NSManaged public var gender: String?
+    @NSManaged public var id: UUID?
+    @NSManaged public var lastName: String?
+    @NSManaged public var latitude: Double
+    @NSManaged public var longitude: Double
+    @NSManaged public var phoneNumber: String?
 
+	
 	// COMPUTED PROPERTIES W/ DEFAULT VALUES
 	var wrappedID: String {
 		id?.uuidString ?? "Unknown ID"

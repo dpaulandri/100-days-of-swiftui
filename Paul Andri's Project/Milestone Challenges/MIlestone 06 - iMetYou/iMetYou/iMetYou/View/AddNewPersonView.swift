@@ -6,38 +6,8 @@
 //
 
 import SwiftUI
-
-extension AddNewPersonView {
-	// METHOD TO LOAD USER SELECTED IMAGE
-	func loadImage() {
-		// TRY TO GET THE INPUT IMAGE FROM 'inputImage' STATE PROPERTY, EXIT IF FAIL
-		guard let inputImage = inputImage else { return }
-		
-		// CREATE AN 'Image' USING 'uiImage' VALUE AND SET THE VALUE TO 'image' STATE PROPERTY
-		image = Image(uiImage: inputImage)
-	}
-	
-	// METHOD TO SAVE USER SELECTED IMAGE TO DOCUMENTSDIRECTORY
-	func saveImage(person: Person) {
-		// TRY TO GET THE INPUT IMAGE FROM 'inputImage' STATE PROPERTY, EXIT IF FAIL
-		guard let inputImage = inputImage else { return }
-		
-		// FILENAME CORRESPONDS TO THE PERSON UUID
-		let url = FileManager.documentsDirectory.appendingPathComponent(person.wrappedID)
-		
-		if let jpegData = inputImage.jpegData(compressionQuality: 0.6)
-		{
-			try? jpegData.write(to: url, options: [.atomic, .completeFileProtection])
-		}
-	}
-	
-	// METHOD TO CHECK FOR PERSON DETAIL INPUT VALIDITY
-	func inputDetailValid() -> Bool {
-		if firstName.isEmpty || lastName.isEmpty || email.isEmpty || email.count < 5 || !email.contains("@") || !email.contains(".") || phoneNumber.isEmpty {
-			return false
-		} else { return true }
-	}
-}
+import CoreLocation
+import MapKit
 
 struct AddNewPersonView: View {
 	// GET ACCESS TO 'managedObjectContext' IN SWIFTUI'S ENVIRONMENT
@@ -49,24 +19,36 @@ struct AddNewPersonView: View {
 	
 	// IMAGE PROPERTIES:
 	/// STATE PROPERTY FOR STORING OPTIONAL 'Image' DATA
-	@State private var image: Image?
+	@State var image: Image?
 	/// STATE PROPERTY TO STORE USER SELECTED PICTURE AS FILTER INPUT IMAGE
-	@State private var inputImage: UIImage?
+	@State var inputImage: UIImage?
 	
-	@State private var firstName = ""
-	@State private var lastName = ""
-	@State private var email = ""
-	@State private var phoneNumber = ""
-	@State private var gender = "Male"
-	@State private var date = Date.now
+	@State var firstName = ""
+	@State var lastName = ""
+	@State var email = ""
+	@State var phoneNumber = ""
+	@State var gender = "Male"
+	@State var date = Date.now
+	@State private var location: CLLocationCoordinate2D?
+	
+	@State private var region = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: 40.75773, longitude: -73.985708), span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1))
+	
+	// USER LOCATION FETCHER CLASS INSTANCE
+	let locationFetcher = LocationFetcher()
 	
 	let availableGender = ["Male", "Female", "Others"]
 	
 	// FOCUS STATE TO DISMISS 'phoneNumber' TEXTFIELD PHONE PAD INPUT
 	@FocusState private var textFieldIsFocused: Bool
 	
+	// STATE PROPERTY TO TRACK WHETHER 'Confirmation Dialog' IS CURRENTLY SHOWN
+	@State private var showingConfirmationDialog = false
+	
 	// STATE PROPERTY TO TRACK WHETHER 'PHPickerView' IS CURRENTLY SHOWN
 	@State private var showingImagePicker = false
+	
+	// STATE PROPERTY TO TRACK WHETHER 'AccessCamera' VIEW IS CURRENTLY SHOWN
+	@State private var showingCameraView = false
 	
     var body: some View {
 		NavigationView {
@@ -96,19 +78,33 @@ struct AddNewPersonView: View {
 				// ZSTACK MODIFIER
 				// ONTAPGESTURE TO TRIGGER IMAGE PICKER
 				.onTapGesture {
-					// SET 'showingImagePicker' PROPERTY STATE TO 'true' ON TAP
-					/// TRIGGERS IMAGE PICKER
-					showingImagePicker = true
+					// TRIGGERS CONFIRMATION DIALOG
+					showingConfirmationDialog = true
 				}
 				// ONCHANGE MODIFIER;
 				/// WATCH FOR ANY VALUE CHANGES IN 'inputImage' STATE PROPERTY
 				/// CALL 'loadImage()' METHOD WHEN IT DID, INVOKING VIEW REDRAW
 				/// '_ in' - IGNORE THE INPUT
 				.onChange(of: inputImage) { _ in loadImage() }
-				// SHEET VIEW BINDED TO 'showingImagePicker' PROPERTY STATE
+				.confirmationDialog("Add Profile Picture", isPresented: $showingConfirmationDialog) {
+					// TRIGGERS IMAGE PICKER
+					Button("Choose Photo") { showingImagePicker = true }
+					// TRIGGERS iDEVICE CAMERA
+					Button("Take Picture") { showingCameraView = true }
+					// CLEAR EXISTING PICTURE
+					Button("Clear", role: .destructive) {
+						image = nil
+					}
+					// CANCEL
+					Button("Cancel", role: .cancel) { }
+				}
 				.sheet(isPresented: $showingImagePicker) {
 					// CREATE AN 'ImagePicker' STRUCT INSTANCE FOR 'PHPickerViewController'
 					ImagePicker(image: $inputImage)
+				}
+				.sheet(isPresented: $showingCameraView) {
+					// CREATE AN 'ImagePicker' STRUCT INSTANCE FOR 'PHPickerViewController'
+					AccessCamera(image: $inputImage)
 				}
 				
 				Spacer()
@@ -122,22 +118,26 @@ struct AddNewPersonView: View {
 							.textInputAutocapitalization(.words)
 							.focused($textFieldIsFocused)
 							.accessibilityHint("TextField Input (Data Required)")
+						
 						TextField("Last Name", text: $lastName)
 							.autocorrectionDisabled()
 							.textInputAutocapitalization(.words)
 							.focused($textFieldIsFocused)
 							.accessibilityHint("TextField Input (Data Required)")
+						
 						TextField("Email Address", text: $email)
 							.keyboardType(.emailAddress)
 							.autocorrectionDisabled()
 							.textInputAutocapitalization(.never)
 							.focused($textFieldIsFocused)
 							.accessibilityHint("TextField Input (Data Required)")
+						
 						TextField("Phone Number", text: $phoneNumber)
 							.keyboardType(.phonePad)
 							.focused($textFieldIsFocused)
 							.accessibilityElement()
 							.accessibilityHint("Phone Number Input (Data Required)")
+						
 						Picker("Gender", selection: $gender) {
 							ForEach(availableGender, id: \.self) {
 								Text($0)
@@ -146,14 +146,35 @@ struct AddNewPersonView: View {
 						.accessibilityElement()
 						.accessibilityLabel("Gender Picker Input")
 						.accessibilityHint("\(gender) is currently selected")
+						
 						DatePicker("First Met", selection: $date, displayedComponents: .date)
 							.accessibilityElement()
 							.accessibilityLabel("Date Picker Input")
 							.accessibilityHint("Currently set to \(date.formatted(date: .complete, time: .omitted))")
-							
+						
+						Button {
+							// TRY R/WT LAST KNOWN LOCATION COORDINATE AS THE 'location' PROPERTY VALUE
+							if let location = self.locationFetcher.lastKnownLocation {
+								self.location = location
+							}
+						} label: {
+							HStack {
+								Spacer()
+								Label("Add Current Location", systemImage: "location.viewfinder")
+								Spacer()
+							}
+						}
+						.accessibilityHint("Current location's coordinate will be added to the entry")
+						
+						Map(coordinateRegion: $region, showsUserLocation: true, userTrackingMode: .constant(.follow))
+							.frame(height: 200)
+							.onAppear {
+								// START FETCHING USER LOCATION
+								self.locationFetcher.start()
+							}
+							.accessibilityElement()
 					}
 				}
-				
 			}
 			.toolbar {
 				// SAVE NEW PERSON DATA BUTTON
@@ -173,6 +194,8 @@ struct AddNewPersonView: View {
 						newPerson.phoneNumber = phoneNumber
 						newPerson.gender = gender
 						newPerson.date = date
+						newPerson.longitude = location?.longitude ?? 0.0
+						newPerson.latitude = location?.latitude ?? 0.0
 						
 						// CALL SAVEIMAGE METHOD
 						saveImage(person: newPerson)
