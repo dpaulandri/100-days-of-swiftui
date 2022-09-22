@@ -267,6 +267,104 @@ struct ContentView: View {
 }
 */
 
+ 
+ 
+// IMAGE INTERPOLATION IN SWIFTUI - '.interpolation()' MODIFIER
+/// The 'interpolation()' modifier that lets us control how pixel blending is applied
+/*
+struct ContentView: View {
+	var body: some View {
+		Image("example")
+			.interpolation(.none) // TURN OFF IMAGE INTERPOLATION
+			.resizable()
+			.scaledToFit()
+			.frame(maxHeight: .infinity)
+			.background(.blue)
+			.ignoresSafeArea()
+	}
+}
+*/
+
+*/
+
+
+
+// DAY 81 MATERIALS
+//
+// CONTEXT MENUS
+/*
+struct ContentView: View {
+	@State private var backgroundColor = Color.red
+	
+	var body: some View {
+		VStack {
+			Text("Hello, World!")
+				.padding()
+				.background(backgroundColor)
+			
+			Text("Change Color")
+				.padding()
+				.contextMenu {
+					Button(role: .destructive) {
+						backgroundColor = .red
+					} label: {
+						Label("Red", systemImage: "checkmark.circle.fill")
+					}
+					
+					Button("Yellow") {
+						backgroundColor = .yellow
+					}
+					
+					Button("Green") {
+						backgroundColor = .green
+					}
+				}
+		}
+	}
+}
+*/
+
+
+
+// ADD CUSTOM "ROW SWIPE ACTIONS" TO A LIST
+/*
+struct ContentView: View {
+	var body: some View {
+		List {
+			Text("James Bond")
+				// NORMAL SWIPE ACTION
+				.swipeActions {
+					Button {
+						print("Hi")
+					} label: {
+						Label("Send message", systemImage: "message")
+					}
+				}
+				// "DESTRUCTIVE" SWIPE ACTION BUTTON
+				.swipeActions {
+					/// "DESTRUCTIVE" BUTTON  (COLOURED RED)
+					Button(role: .destructive) {
+						print("Deleting")
+					} label: {
+						Label("Delete", systemImage: "minus.circle")
+					}
+				}
+				// "LEADING" SWIPE ACTION BUTTON
+				/// '(edge: .leading)' - PLACE THE SWIPE ACTION BUTTON ON THE LEADING EDGE OF THE ROW
+				.swipeActions(edge: .leading) {
+					Button {
+						print("Pinning")
+					} label: {
+						Label("Pin", systemImage: "pin")
+					}
+					/// BUTTON'S COLOUR TINT MODIFIER
+					.tint(.orange)
+				}
+		}
+	}
+}
+*/
+
 
 
 // SCHEDULING LOCAL NOTIFICATIONS
@@ -312,48 +410,40 @@ struct ContentView: View {
 }
 */
 
- 
- 
-// IMAGE INTERPOLATION IN SWIFTUI - '.interpolation()' MODIFIER
-/// The 'interpolation()' modifier that lets us control how pixel blending is applied
-/*
+
+
+// SWIFT PACKAGE DEPENDENCIES & XCODE'S SWIFT PACKAGE MANAGER (SPM)
+//
+// IMPORT THE DEPENDENCY PACKAGE MODULE
+import SamplePackage
+
 struct ContentView: View {
+	let possibleNumbers = Array(1...60)
+	
 	var body: some View {
-		Image("example")
-			.interpolation(.none) // TURN OFF IMAGE INTERPOLATION
-			.resizable()
-			.scaledToFit()
-			.frame(maxHeight: .infinity)
-			.background(.blue)
-			.ignoresSafeArea()
+		Text(results)
+	}
+	
+	// COMPUTED PROPERTY OF A STRING TYPE
+	var results: String {
+		// SELECT 7 RANDOM INT NUMBERS FROM 'possibleNumbers' ARRAY INTO A SORTED INT ARRAY
+		// THE 'random()' FUNCTION IS FROM THE IMPORTED 'SamplePackage' DEPENDENCY PACKAGE
+		/// REF. THE DEPENENCY PACKAGE SWIFT FILE " SamplePackage.swift"
+		let selected = possibleNumbers.random(7).sorted()
+
+		// CONVERT THE SORTED INT ARRAY INTO AN ARRAY OF STRING VALUES
+		/// 'Sequence' Type have a 'map()' method :
+		/// Convert an Array of one Type into an Array of another Type by applying a function to each element
+		let strings = selected.map(String.init)
+		
+		// RETURN A STRING VALUE BY JOINING THE ARRAY OF STRING VALUES TOGETHER W/ ", "
+		return strings.joined(separator: ", ")
 	}
 }
-*/
-
-*/
-
-
-
-// DAY 81 MATERIALS
-//
-//
-//
-struct ContentView: View {
-	var body: some View {
-		Text("Hello, world!")
-	}
-}
 //
 
 //
 
-/*
-struct ContentView: View {
-	var body: some View {
-		Text("Hello, world!")
-	}
-}
-*/
 
 
 struct ContentView_Previews: PreviewProvider {
