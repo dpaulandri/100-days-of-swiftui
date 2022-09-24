@@ -15,6 +15,7 @@
 		7B01565A28DD6DE60010EB44 /* MeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B01565928DD6DE60010EB44 /* MeView.swift */; };
 		7B01565C28DD74170010EB44 /* Prospect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B01565B28DD74170010EB44 /* Prospect.swift */; };
 		7B01565F28DD8B6F0010EB44 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 7B01565E28DD8B6F0010EB44 /* CodeScanner */; };
+		7BC96ACA28DEAC6200EDAA8C /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BC96AC928DEAC6200EDAA8C /* ImageSaver.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		7B01565728DD6DC40010EB44 /* ProspectsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProspectsView.swift; sourceTree = "<group>"; };
 		7B01565928DD6DE60010EB44 /* MeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeView.swift; sourceTree = "<group>"; };
 		7B01565B28DD74170010EB44 /* Prospect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Prospect.swift; sourceTree = "<group>"; };
+		7BC96AC928DEAC6200EDAA8C /* ImageSaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageSaver.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +66,7 @@
 				7B01565728DD6DC40010EB44 /* ProspectsView.swift */,
 				7B01565928DD6DE60010EB44 /* MeView.swift */,
 				7B01565B28DD74170010EB44 /* Prospect.swift */,
+				7BC96AC928DEAC6200EDAA8C /* ImageSaver.swift */,
 				7B01564D28DD6D0A0010EB44 /* Assets.xcassets */,
 				7B01564F28DD6D0A0010EB44 /* Preview Content */,
 			);
@@ -155,6 +158,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7B01565A28DD6DE60010EB44 /* MeView.swift in Sources */,
+				7BC96ACA28DEAC6200EDAA8C /* ImageSaver.swift in Sources */,
 				7B01565C28DD74170010EB44 /* Prospect.swift in Sources */,
 				7B01565828DD6DC40010EB44 /* ProspectsView.swift in Sources */,
 				7B01564C28DD6D090010EB44 /* ContentView.swift in Sources */,
@@ -291,11 +295,13 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Needed for scanning QR Code";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save QR Code Image";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -321,11 +327,13 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Needed for scanning QR Code";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "Save QR Code Image";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

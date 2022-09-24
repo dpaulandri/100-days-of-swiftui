@@ -7,6 +7,8 @@
 
 // IMPORT 'CodeScanner' DEPENDENCY MODULE
 import CodeScanner
+// IMPORT 'UserNotifications' FRAMEWORK TO SCHEDULE LOCAL USER NOTIFICATIONS
+import UserNotifications
 import SwiftUI
 
 struct ProspectsView: View {
@@ -43,9 +45,11 @@ struct ProspectsView: View {
 						Text(prospect.emailAddress)
 							.foregroundColor(.secondary)
 					}
-					// TOGGLE PROSPECT'S 'isContacted' BOOL STATE W/ SWIPE ACTIONS
+					// SWIPE ACTIONS
 					.swipeActions {
+						// CHECK FOR PROSPECT'S 'isContacted' STATE
 						if prospect.isContacted {
+							// TOGGLE PROSPECT'S 'isContacted' STATE TO 'false'
 							Button {
 								// CALL 'toggleContacted' METHOD IN THE ENVIRONMENT
 								/// TOGGLE THE STATE OF 'isContacted', WILL ENSURE VIEW IS UPDATED CORRECTLY
@@ -55,6 +59,7 @@ struct ProspectsView: View {
 							}
 							.tint(.blue)
 						} else {
+							// TOGGLE PROSPECT'S 'isContacted' STATE TO 'true'
 							Button {
 								// CALL 'toggleContacted' METHOD IN THE ENVIRONMENT
 								/// TOGGLE THE STATE OF 'isContacted', WILL ENSURE VIEW IS UPDATED CORRECTLY
@@ -63,6 +68,14 @@ struct ProspectsView: View {
 								Label("Mark Contacted", systemImage: "person.crop.circle.fill.badge.checkmark")
 							}
 							.tint(.green)
+							
+							// BUTTON TO ADD LOCAL USERNOTIFICATION
+							Button {
+								addNotification(for: prospect)
+							} label: {
+								Label("Remind Me", systemImage: "bell")
+							}
+							.tint(.orange)
 						}
 					}
 				}
@@ -144,11 +157,64 @@ struct ProspectsView: View {
 			person.name = details[0]
 			person.emailAddress = details[1]
 			
-			// APPEND THE CREATED 'Prospect' OBJECT INSTANCE INTO 'prospects' ENVIRONMENTOBJECT'S ARRAY
-			prospects.people.append(person)
+			// CALL 'addProspect' METHOD TO ADD & SAVE PROSPECT OBJECT INTO USERDEFAULTS
+			prospects.addProspect(person)
 			
 		case .failure(let error):
 			print("Scanning failed: \(error.localizedDescription)")
+		}
+	}
+	
+	// METHOD TO ADD LOCAL USER NOTIFICATION
+	func addNotification(for prospect: Prospect) {
+		// CREATE AN INSTANCE OF USER NOTIFICATION CENTER
+		let center = UNUserNotificationCenter.current()
+		
+		// CLOSURE TO ADD USER NOTIFICATION REQUEST
+		let addRequest = {
+			// CREATE NEW MUTABLE NOTIFICATION CONTENTS W/ ITS VALUES
+			let content = UNMutableNotificationContent()
+			content.title = "Contact \(prospect.name)"
+			content.subtitle = prospect.emailAddress
+			content.sound = UNNotificationSound.default
+			
+			// CREATE NEW HOUR DATE COMPONENT
+			var dateComponents = DateComponents()
+			/// DEFINE HOUR COMPONENT TO "9 AM"
+			dateComponents.hour = 9
+			
+			// CREATE NOTIFICATION TRIGGERER
+			// let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+			
+			// TRIGGERER FOR TESTING PURPOSE (TRIGGER AFTER 5SECS)
+			let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+			
+			// CREATE NOTIFICATION REQUEST
+			/// USE RANDOM 'UUID().uuidString' AS IDENTIFIER IF WE DON'T NEED TO UPDATE THE NOTIFICATION ITEM
+			let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+			
+			// ADD NOTIFICATION REQUEST TO USER NOTIFICATION CENTER
+			center.add(request)
+		}
+		
+		// READ USER'S NOTIFICATION SETTING FOR THIS APP & ACT ACCORDINGLY
+		center.getNotificationSettings { settings in
+			// IF USER HAS AUTHROISED USERNOTIFICATION PERMISSION FOR THIS APP
+			if settings.authorizationStatus == .authorized {
+				// CALL 'addRequest' CLOSURE
+				addRequest()
+			} else { // ELSE
+				// REQUEST USER'S AUTHORISATION FOR THIS APP'S USERNOTIFICATION SETTING
+				center.requestAuthorization(options: [.alert, .badge, .sound]) { success, error in
+					if success {
+						// IF USER GRANT AUTHORISATION; CALL 'addRequest' CLOSURE
+						addRequest()
+					} else {
+						// ELSE PRINT THIS:
+						print("User do not authorise Notification")
+					}
+				}
+			}
 		}
 	}
 }
