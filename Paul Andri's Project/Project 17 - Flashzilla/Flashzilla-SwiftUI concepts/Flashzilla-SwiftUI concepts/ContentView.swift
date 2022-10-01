@@ -8,7 +8,7 @@
 import SwiftUI
 
 // DAY 86 MATERIALS
-//
+/*
 // "GESTURES" IN SWIFTUI
 /*
 // 'onTapGesture()' & 'onLongPressGesture()' GESTURE MODIFIERS
@@ -372,7 +372,7 @@ struct ContentView: View {
 
 // DISABLE "USER INTERACTIVITY" - '.allowsHitTesting()' & '.contentShape()' Modifiers
 // SwiftUI's User interactivity controls:
-//
+/*
 // '.allowsHitTesting()' Modifier
 /// When this Modifier is attached to a View with its parameter set to 'false', the View isn’t tappable.
 /*
@@ -405,7 +405,7 @@ struct ContentView: View {
 
 // '.contentShape()' Modifier
 /// Lets us specify the "tappable shape" of a View.
-//
+/*
 struct ContentView: View {
 	var body: some View {
 		/// Where the 'contentShape()' Modifier really becomes useful is w/  "tap" actions attached to Stacks with 'Spacer()',
@@ -423,22 +423,244 @@ struct ContentView: View {
 		}
 	}
 }
+*/
+*/
+
+*/
+
+
+
+// DAY 87 MATERIALS
 //
-//
-
-//
-
-
-
+// TRIGGER EVENTS REPEATEDLY USING A "TIMER"
+// 'Timer' Class & '.onReceive()' Modifier
 /*
-//
+ 'Timer' Class
+ An iOS 'Foundation' core system library's built-in Class.
+ Designed to run a Function after a certain number of seconds,
+ but it can also run code repeatedly.
+
+ Use w/ Apple's 'Combine' framework to add an Extension,
+ so that "Timers" can become "Publishers"; things that announce when their value changes.
+ 
+ The 'Timer' Class is “best effort” – the system makes no guarantee it will execute precisely.
+*/
+/*
 struct ContentView: View {
+	// CODE TO CREATE 'Timer' "PUBLISHER"
+	let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+	/// Code Logic:
+	/*
+	 1. It asks the 'Timer' to fire every "1 second".
+	 2. It says the 'Timer' should run on the "main thread".
+	 3. It says the 'Timer' should run on the "common run loop",
+		which is the one you’ll want to use most of the time.
+		("Run loops" lets iOS handle "running code while the user is actively doing something",
+		such as scrolling in a 'List'.)
+	 4. It "connects the 'Timer' immediately", which means it will start counting time.
+	 5. It "assigns the whole thing to the 'Timer' constant" so that it stays alive.
+	*/
+	
+	// AN EXAMPLE OF 'Timer' PUBLISHER'S 'tolerance' PARAMETER
+	/*
+	 Example code:
+	 let timer = Timer.publish(every: 1, tolerance: 0.5, on: .main, in: .common).autoconnect()
+	 
+	 if you’re OK with your Timer having a little "float", you can specify some 'tolerance'.
+	 This allows iOS to perform important energy optimization, because it can fire the Timer at any point "between its "scheduled fire time" and its "scheduled fire time" PLUS the 'tolerance' you specify".
+	 
+	 In practice this means the system can perform "Timer Coalescing":
+	 It can "push back your Timer just a little so that it fires at the same time as one or more other Timers", which means it can keep the CPU idling more and save battery power.
+
+	 If you need to keep time strictly then leaving off the 'tolerance' Parameter will make your Timer as accurate as possible, but please note that EVEN WITHOUT any 'tolerance' the 'Timer' Class is still “best effort” – the system makes no guarantee it will execute precisely.
+	*/
+	
+	// TRACK HOW MANY TIME THE 'Timer' "PUBLISHER" CHANGE NOTIFICATION HAS BEEN RECEIVED
+	@State private var counter = 0
+	
+	
 	var body: some View {
 		Text("Hello, world!")
-		.padding()
+			/// '.onReceive()' Modifier
+			/*
+			 '.onReceive()' Modifier
+			 Accepts a "Publisher" as its first Parameter and a "Function" to run as its second.
+
+			 It will make sure that "Function" is called whenever the "Publisher" sends its "Change Notification".
+			*/
+			.onReceive(timer) { time in
+				if counter == 5 {
+					/// Cancel the 'Timer' "Publisher" activity once 'counter' State reached '5'
+					timer.upstream.connect().cancel()
+					/// Code Explanation:
+					/*
+					 The 'timer' Property we made is an 'autoconnect' Publisher,
+					 so we need to go to its 'upstream' Publisher to find the 'timer' itself.
+					 From there we can 'connect' to the 'timer' Publisher, and ask it to "cancel" itself.
+					*/
+				} else {
+					/// If the 'Timer' "Publisher" activity once 'counter' State HAS NOT reached '5';
+					/// Print out every 1 second (ref. 'Timer' "Publisher" Property setting above)
+					print("The time is now \(time)")
+				}
+				
+				/// Increase  'counter' State value by '1' whenever a 'Timer' "PUBLISHER" Change Notification is received
+				counter += 1
+			}
 	}
 }
 */
+
+
+
+// BE NOTIFIED WHEN SWIFTUI APP IS "ACTIVE" / "INACTIVE" / "MOVED TO THE BACKGROUND"
+// '.scenePhase' Environment Value
+/*
+struct ContentView: View {
+	// '.scenePhase' ENVIRONMENT VALUE
+	@Environment(\.scenePhase) var scenePhase
+	
+	var body: some View {
+		Text("Hello, world!")
+			.padding()
+			/// 'onChange()' Modifier watching value changes from App's '.scenePhase' Environment Value
+			.onChange(of: scenePhase) { newPhase in
+				if newPhase == .active {
+					print("App is Active!")
+				} else if newPhase == .inactive {
+					print("App is Inactive!")
+				} else if newPhase == .background {
+					print("App is in the Background!")
+				}
+				/// Code Logic & Explanation:
+				/*
+				 There are three "Scene Phases" we need to care about:
+				 • "Active scenes" are running right now, which on iOS means they are visible to the User. On macOS an App’s window might be wholly hidden by another App’s window, but that’s okay – it’s still considered to be "active".
+				 • "Inactive scenes" are running and might be visible to the User, but the User isn’t able to access them.
+					For example, if you’re swiping down to partially reveal the "Control Center" then the App underneath is considered inactive.
+				 • "Background scenes" are not visible to the User, which on iOS means they might be terminated at some point in the future.
+				 */
+			}
+	}
+}
+*/
+
+
+
+// SUPPORTING SPECIFIC "ACCESSIBILITY" NEEDS - Accessibility Environment Values
+//
+// Accessibility Setting: "Differentiate without Color"
+/*
+ “Differentiate without color”, helpful for the 1 in 12 men who have Color Blindness.
+ When this setting is enabled, Apps should try to make their UI clearer using Shapes, Icons, and Textures rather than Colors.
+*/
+/*
+struct ContentView: View {
+	// ENVIRONMENT VALUE TO READ iOS "Differentiate without Color" ACCESSIBILITY SETTING VALUE
+	@Environment(\.accessibilityDifferentiateWithoutColor) var differentiateWithoutColor
+	
+	var body: some View {
+		HStack {
+			if differentiateWithoutColor {
+				Image(systemName: "checkmark.circle")
+			}
+			Text("Success")
+		}
+		.padding()
+		.background(differentiateWithoutColor ? .black : .green)
+		.foregroundColor(.white)
+		.clipShape(Capsule())
+	}
+}
+*/
+
+
+// Accessibility Setting: "Reduce Motion"
+/*
+ When this is enabled, Apps should limit the amount of Animation that causes Movement on screen.
+ For example, the iOS App Switcher makes views fade in and out rather than scale up and down.
+*/
+// METHOD 1: USES "ACCESSIBILITY" ENVIRONMENT VALUE W/O WRAPPER
+/*
+struct ContentView: View {
+	// ENVIRONMENT VALUE TO READ iOS "Reduce Motion" ACCESSIBILITY SETTING VALUE
+	@Environment(\.accessibilityReduceMotion) var reduceMotion
+	@State private var scale = 1.0
+	
+	var body: some View {
+		Text("Hellow, World!")
+			.scaleEffect(scale)
+			.onTapGesture {
+				if reduceMotion {
+					scale *= 1.5
+				} else {
+					withAnimation {
+						scale *= 1.5
+					}
+				}
+			}
+	}
+}
+*/
+
+
+// METHOD 2: USES METHOD WRAPPER & UIKIT'S 'UIAccessibility' DATA
+/*
+// METHOD TO READ iOS 'UIAccessibility.isReduceMotionEnabled' SETTING VALUE
+// METHOD MIGHT THROW ERROR, RETURNS SUITABLE 'Result' VALUE
+/// Uses UKit’s 'UIAccessibility' Data
+func withOptionalAnimation<Result>(_ animation: Animation? = .default, _ body: () throws -> Result) rethrows -> Result {
+	/// If iOS "Reduce Motion" Accessibility Setting is Enabled
+	if UIAccessibility.isReduceMotionEnabled {
+		/// Return 'body' only (NO Animation)
+		return try body()
+	} else {
+		/// Else, return 'body' w/ Default Animation
+		return try withAnimation(animation, body)
+	}
+}
+
+struct ContentView: View {
+	// STATE PROPERTY TO TRACK SCALE FX'S SCALE AMOUNT
+	@State private var scale = 1.0
+	
+	var body: some View {
+		Text("Hellow, World!")
+			.scaleEffect(scale)
+			.onTapGesture {
+				/// Call 'withOptionalAnimation' Method
+				withOptionalAnimation {
+					/// Multiply 'scale' State value by 1.5 with each User Tap Input
+					scale *= 1.5
+				}
+			}
+	}
+}
+*/
+
+
+// Accessibility Setting: "Reduce Transparency"
+/*
+ When enabled, Apps should reduce the amount of "Blur" and "Translucency" used in their Designs to make doubly sure everything is clear.
+*/
+//
+struct ContentView: View {
+	// ENVIRONMENT VALUE TO READ iOS "Reduce Transparency" ACCESSIBILITY SETTING VALUE
+	@Environment(\.accessibilityReduceTransparency) var reduceTransparency
+	
+	var body: some View {
+		Text("Hello, world!")
+			.padding()
+			.background(reduceTransparency ? .black : .black.opacity(0.5))
+			.foregroundColor(.white)
+			.clipShape(Capsule())
+	}
+}
+//
+
+//
+
+//
 
 
 
