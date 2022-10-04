@@ -16,6 +16,9 @@ struct CardView: View {
 	///  Defaulting to 'nil' so we don’t need to provide it unless it’s explicitly needed
 	var removal: (() -> Void)? = nil
 	
+	/// Environment Property to read iDevice's "Differentiate Without Color" Accessibility setting
+	@Environment(\.accessibilityDifferentiateWithoutColor) var differentiateWithoutColor
+	
 	/// State Property to hide 'Card's 'answer' Property by default
 	@State private var isShowingAnswer = false
 	
@@ -26,7 +29,51 @@ struct CardView: View {
     var body: some View {
 		ZStack {
 			RoundedRectangle(cornerRadius: 25, style: .continuous)
-				.fill(.white)
+				.fill(
+					/* Paul Hudson's code
+					/// Ternary Conditional Operator for 'fill' depending on iDevice's "Differentiate Without Color" Accessibility setting
+					differentiateWithoutColor
+					? .white
+					: .white
+					/// 'fill' Color will fade away as the User Drag/Swipe the Card away
+					.opacity(1 - Double(abs(offset.width / 50)))
+					/// '.opacity()' Code Explanation:
+					/*
+					• We’re going to take 1/50th of the "Drag" amount, so the card doesn’t fade out too quickly.
+					• We don’t care whether they have moved to the left (negative numbers) or to the right (positive numbers), so we’ll put our value through the 'abs()' (Absolute number) Function.
+					  If this is given a positive number it returns the same number, but if it’s given a negative number it removes the negative sign and returns the same value as a positive number.
+					• We then use this result to subtract from '1'.
+					*/
+					*/
+					.white
+					/// 'fill' Color will fade away as the User Drag/Swipe the Card away
+					.opacity(1 - Double(abs(offset.width / 50)))
+					/// '.opacity()' Code Explanation:
+					/*
+					• We’re going to take 1/50th of the "Drag" amount, so the card doesn’t fade out too quickly.
+					• We don’t care whether they have moved to the left (negative numbers) or to the right (positive numbers), so we’ll put our value through the 'abs()' (Absolute number) Function.
+					  If this is given a positive number it returns the same number, but if it’s given a negative number it removes the negative sign and returns the same value as a positive number.
+					• We then use this result to subtract from '1'.
+					*/
+				)
+				.background(
+					/* Paul Hudson's code
+					/// Ternary Conditional Operator for 'background' depending on iDevice's "Differentiate Without Color" Accessibility setting
+					differentiateWithoutColor
+					? nil /// No background
+					: RoundedRectangle(cornerRadius: 25, style: .continuous)
+						/// Fill Color depends on User Drag/Swipe direction (Right = Green, Left = Red)
+						.fill(offset.width > 0 ? .green : .red)
+					*/
+					/// Ternary Conditional Operator for 'background' depending on iDevice's "Differentiate Without Color" Accessibility setting
+					differentiateWithoutColor
+					? RoundedRectangle(cornerRadius: 25, style: .continuous)
+					/// Fill Color depends on User Drag/Swipe direction (Right = White, Left = Black)
+						.fill(offset.width > 0 ? .white : .black)
+					: RoundedRectangle(cornerRadius: 25, style: .continuous)
+						/// Fill Color depends on User Drag/Swipe direction (Right = Green, Left = Red)
+						.fill(offset.width > 0 ? .green : .red)
+				)
 				.shadow(radius: 10)
 				/// Shadow is added to add depth & separate 'RoundedRectangle' from the Background
 			
@@ -40,6 +87,15 @@ struct CardView: View {
 					Text(card.answer)
 						.font(.title)
 						.foregroundColor(.gray)
+						/// Ternary Conditional Operator for 'opacity' depending on "Differentiate Without Color" Accessibility setting
+						.opacity(offset.width < 0 ? (differentiateWithoutColor ? (1 - Double(abs(offset.width / 50))) : 1) : 1)
+						/// '.opacity()' Code Explanation:
+						/*
+						• We’re going to take 1/50th of the "Drag" amount, so the card doesn’t fade out too quickly.
+						• We don’t care whether they have moved to the left (negative numbers) or to the right (positive numbers), so we’ll put our value through the 'abs()' (Absolute number) Function.
+						  If this is given a positive number it returns the same number, but if it’s given a negative number it removes the negative sign and returns the same value as a positive number.
+						• We then use this result to subtract from '1'.
+						*/
 				}
 			}
 			.padding()
