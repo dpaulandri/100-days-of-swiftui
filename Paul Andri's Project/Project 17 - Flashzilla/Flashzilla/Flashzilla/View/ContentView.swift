@@ -11,6 +11,9 @@ struct ContentView: View {
 	/// Environment Property to read iDevice's "Differentiate Without Color" Accessibility setting
 	@Environment(\.accessibilityDifferentiateWithoutColor) var differentiateWithoutColor
 	
+	/// Environment Property to read iDevice's "VoiceOver" Accessibility setting
+	@Environment(\.accessibilityVoiceOverEnabled) var voiceOverEnabled
+	
 	/// Environment Property to read App's "Scene Phases"
 	@Environment(\.scenePhase) var scenePhase
 	/// State Property to track App's '.active" Scene Phase
@@ -21,7 +24,10 @@ struct ContentView: View {
 	 which takes one Value and Repeats it a number of times to create the Array
 	*/
 	/// State Property for an Array of 'Card' Object
-	@State private var cards = [Card](repeating: Card.exampleCard, count: 10)
+	@State private var cards = [Card]()
+	
+	/// State Property to track whether 'EditCardsView' is being shown
+	@State private var showingEditScreen = false
 	
 	/// Properties for "Timer" function
 	@State private var timeRemaining = 99
@@ -36,35 +42,6 @@ struct ContentView: View {
 				.resizable()
 				.ignoresSafeArea()
 			
-			/// Show "Swipe Direction Info" VStack if iDevice's "Differentiate Without Color" Accessibility setting is ON
-			if differentiateWithoutColor {
-				VStack {
-					HStack {
-						HStack {
-							Image(systemName: "xmark.circle")
-							Image(systemName: "rectangle.lefthalf.inset.filled.arrow.left")
-						}
-						.font(.title3)
-						.padding()
-						.background(.black.opacity(0.7))
-						.clipShape(RoundedRectangle(cornerRadius: 25))
-							
-						Spacer()
-						
-						HStack {
-							Image(systemName: "rectangle.righthalf.inset.filled.arrow.right")
-							Image(systemName: "checkmark.circle")
-						}
-						.font(.title3)
-						.padding()
-						.background(.black.opacity(0.7))
-						.clipShape(RoundedRectangle(cornerRadius: 25))
-					}
-					.foregroundColor(.white)
-					.font(.largeTitle)
-					.padding()
-				}
-			}
 			
 			/// 'VStack' containing 'Timer' and "3D Card Stack"
 			VStack {
@@ -90,6 +67,10 @@ struct ContentView: View {
 						}
 						/// Call '.stacked()' 'View' Extension to offset 'CardView' in a "Card Stack"
 						.stacked(at: index, in: cards.count)
+						/// Allow only the "top" Card on the "Card Stack" to be Interactive
+						.allowsHitTesting(index == cards.count - 1)
+						/// HIde all but the "top" Card on the "Card Stack" from VoiceOver
+						.accessibilityHidden(index < cards.count - 1)
 					}
 				}
 				/// Conditionally Allow View's User Interativity / Input
@@ -102,6 +83,80 @@ struct ContentView: View {
 						.background(.white)
 						.foregroundColor(.black)
 						.clipShape(Capsule())
+				}
+			}
+			
+			
+			/// '+' Button to show 'EditCardsView' VStack
+			VStack {
+				HStack {
+					Spacer()
+					
+					Button {
+						showingEditScreen = true
+					} label: {
+						Image(systemName: "plus.circle")
+							.padding()
+							.background(.black.opacity(0.7))
+							.clipShape(Circle())
+					}
+				}
+				
+				Spacer()
+			}
+			.foregroundColor(.white)
+			.font(.largeTitle)
+			.padding()
+			
+			
+			/// IF iDevice's "Differentiate Without Color" OR "VoiceOver" Accessibility setting is ON:
+			/// Show "Correct" & "Incorrect" Button VStack as the alternative Input Method
+			if differentiateWithoutColor || voiceOverEnabled {
+				VStack {
+					Spacer()
+					
+					HStack {
+						/// Button to mark Answer as "Wrong / Incorrect"
+						Button {
+							withAnimation {
+								removeCard(at: cards.count - 1)
+							}
+						} label: {
+							HStack {
+								Image(systemName: "xmark.circle")
+								Image(systemName: "rectangle.lefthalf.inset.filled.arrow.left")
+							}
+							.font(.title3)
+							.padding()
+							.background(.black.opacity(0.7))
+							.clipShape(RoundedRectangle(cornerRadius: 25))
+						}
+						.accessibilityLabel("Wrong")
+						.accessibilityHint("Mark answer as incorrect")
+							
+						Spacer()
+						
+						/// Button to mark Answer as "Correct"
+						Button {
+							withAnimation {
+								removeCard(at: cards.count - 1)
+							}
+						} label: {
+							HStack {
+								Image(systemName: "rectangle.righthalf.inset.filled.arrow.right")
+								Image(systemName: "checkmark.circle")
+							}
+							.font(.title3)
+							.padding()
+							.background(.black.opacity(0.7))
+							.clipShape(RoundedRectangle(cornerRadius: 25))
+						}
+						.accessibilityLabel("Correct")
+						.accessibilityHint("Mark answer as correct")
+					}
+					.foregroundColor(.white)
+					.font(.largeTitle)
+					.padding()
 				}
 			}
 		}
@@ -127,10 +182,42 @@ struct ContentView: View {
 				isActive = false
 			}
 		}
+		/// Sheet View to show 'EditCardsView'
+		/// Code Logic & Explanations:
+		/*
+		'onDismiss' - attach a Function to the 'sheet' that'll run automatically when the 'sheet' is dismissed
+		
+		'content: EditCardsView.init' - pass the 'EditCardsView' initializer directly to the 'sheet':
+		“When we want to read the 'content' for the 'sheet', call the 'EditCardsView' initializer and it will send you back the View to use.”
+		 
+		IMPORTANT:
+		This approach only works because 'EditCardsView' has an initializer that accepts NO Parameters. If you need to pass in specific values you need to use the "closure-based" approach instead:
+		 
+		 .sheet(isPresented: $showingEditScreen, onDismiss: resetCards) {
+		   EditCards()
+		 }
+		*/
+		.sheet(isPresented: $showingEditScreen, onDismiss: resetCardStack, content: EditCardsView.init)
+		/// Perform 'resetCardStack' whenever the View appear
+		.onAppear(perform: resetCardStack)
     }
+	
+	
+	/// Method to load saved "Card Stack" JSON Data from 'UserDefaults'
+	func loadData() {
+		if let data = UserDefaults.standard.data(forKey: "Card Stack") {
+			if let decoded = try? JSONDecoder().decode([Card].self, from: data) {
+				cards = decoded
+			}
+		}
+	}
 	
 	/// Method to remove 'Card' from "Card Stack"
 	func removeCard(at index: Int) {
+		/// Check to make sure the "Card Stack" Index value is NOT lesser than '0', EXIT if "Card Stack" Index value is less than '0'
+		guard index >= 0 else { return }
+		
+		/// Remove "Card" at its recevied 'index' Position
 		cards.remove(at: index)
 		
 		/// Conditionally stop the "Countdown Timer" when 'cards' Array is Empty
@@ -141,9 +228,10 @@ struct ContentView: View {
 	
 	/// Method to Start New Game (Reset App Property State values)
 	func resetCardStack() {
-		cards = [Card](repeating: Card.exampleCard, count: 10)
 		timeRemaining = 99
 		isActive = true
+		/// Call 'loadData' Method to load saved "Card Stack" JSON Data from 'UserDefaults'
+		loadData()
 	}
 }
 

@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct Card {
+/// 'Card' Object struct, conforms to 'Codable' Protocol to allow saving as JSON Data
+struct Card: Codable {
 	let prompt: String
 	let answer: String
 	

@@ -19,8 +19,14 @@ struct CardView: View {
 	/// Environment Property to read iDevice's "Differentiate Without Color" Accessibility setting
 	@Environment(\.accessibilityDifferentiateWithoutColor) var differentiateWithoutColor
 	
+	/// Environment Property to read iDevice's "VoiceOver" Accessibility setting
+	@Environment(\.accessibilityVoiceOverEnabled) var voiceOverEnabled
+	
 	/// State Property to hide 'Card's 'answer' Property by default
 	@State private var isShowingAnswer = false
+	
+	/// State Property for a new subClass of 'UINotificationFeedbackGenerator' (Haptic Feedback)
+	@State private var feedback = UINotificationFeedbackGenerator()
 	
 	/// State Property to track how far the User has dragged the "Card"
 	@State private var offset = CGSize.zero
@@ -74,28 +80,38 @@ struct CardView: View {
 						/// Fill Color depends on User Drag/Swipe direction (Right = Green, Left = Red)
 						.fill(offset.width > 0 ? .green : .red)
 				)
-				.shadow(radius: 10)
 				/// Shadow is added to add depth & separate 'RoundedRectangle' from the Background
+				.shadow(radius: 10)
 			
+			
+			/// Question Prompt & Answer VStack View
 			VStack {
-				Text(card.prompt)
-					.font(.largeTitle)
-					.foregroundColor(.black)
-				
-				/// Show 'answer' Text View only when 'isShowingAnswer' Property State is 'true'
-				if isShowingAnswer {
-					Text(card.answer)
-						.font(.title)
-						.foregroundColor(.gray)
+				/// Show the suitable Text View depending on iDevice's "VoiceOver" Accessibility setting
+				if voiceOverEnabled {
+					/// Show the suitable Text View depending on 'isShowingAnswer' Program State
+					Text(isShowingAnswer ? card.answer : card.prompt)
+						.font(.largeTitle)
+						.foregroundColor(.black)
+				} else {
+					Text(card.prompt)
+						.font(.largeTitle)
+						.foregroundColor(.black)
+					
+					/// Show 'answer' Text View only when 'isShowingAnswer' Property State is 'true'
+					if isShowingAnswer {
+						Text(card.answer)
+							.font(.title)
+							.foregroundColor(.gray)
 						/// Ternary Conditional Operator for 'opacity' depending on "Differentiate Without Color" Accessibility setting
-						.opacity(offset.width < 0 ? (differentiateWithoutColor ? (1 - Double(abs(offset.width / 50))) : 1) : 1)
+							.opacity(offset.width < 0 ? (differentiateWithoutColor ? (1 - Double(abs(offset.width / 50))) : 1) : 1)
 						/// '.opacity()' Code Explanation:
 						/*
-						• We’re going to take 1/50th of the "Drag" amount, so the card doesn’t fade out too quickly.
-						• We don’t care whether they have moved to the left (negative numbers) or to the right (positive numbers), so we’ll put our value through the 'abs()' (Absolute number) Function.
-						  If this is given a positive number it returns the same number, but if it’s given a negative number it removes the negative sign and returns the same value as a positive number.
-						• We then use this result to subtract from '1'.
-						*/
+						 • We’re going to take 1/50th of the "Drag" amount, so the card doesn’t fade out too quickly.
+						 • We don’t care whether they have moved to the left (negative numbers) or to the right (positive numbers), so we’ll put our value through the 'abs()' (Absolute number) Function.
+						 If this is given a positive number it returns the same number, but if it’s given a negative number it removes the negative sign and returns the same value as a positive number.
+						 • We then use this result to subtract from '1'.
+						 */
+					}
 				}
 			}
 			.padding()
@@ -120,17 +136,37 @@ struct CardView: View {
 		 If this is given a positive number it returns the same number, but if it’s given a negative number it removes the negative sign and returns the same value as a positive number.
 		 • We then use this result to subtract from '2'.
 		*/
-		
+		.accessibilityAddTraits(.isButton)
 		.gesture(
 			/// Updates 'offset' Property's 'CGSize' value as the User drags the "Card" around.
 			DragGesture()
 				.onChanged { gesture in
-				/// Read the 'translation' Property to see where the User has dragged the "Card" to & set it as 'offset' value
+					/// Read the 'translation' Property to see where the User has dragged the "Card" to & set it as 'offset' value
 					offset = gesture.translation
+					
+					/// Prepare & Wamup the Haptic Engine (reduces Haptic Feeback event latency)
+					feedback.prepare()
 				}
 				.onEnded { _ in
 					/// Check whether the User has dragged the "Card" more than 100 points in either direction
 					if abs(offset.width) > 100 {
+						/// TRIGGER HAPTICS FOR "WRONG" (DRAGGESTURE TO THE LEFT)
+						if offset.width < 0 {
+							/// Play '.error' Haptic feeback pattern if User Drag Gesture is to the LEFT
+							feedback.notificationOccurred(.error)
+						}
+						/*
+						/// TRIGGER HAPTICS FOR BOTH 'CORRECT' & 'WRONG'
+						/// Check the direction of the User's Drag Gesture & play the coressponding Haptic feedback
+						if offset.width > 0 {
+							/// Play '.success' Haptic feeback pattern if User Drag Gesture is to the right
+							feedback.notificationOccurred(.success)
+						} else {
+							/// Play '.error' Haptic feeback pattern if User Drag Gesture is to the other direction
+							feedback.notificationOccurred(.error)
+						}
+						*/
+						
 						/// Remove the "Card" by attempting to call 'removal' Closure (do nothing if failed)
 						removal?()
 					} else {
@@ -143,6 +179,9 @@ struct CardView: View {
 			/// Toggle 'isShowingAnswer' Property's Bool State
 			isShowingAnswer.toggle()
 		}
+		/// This make the "Card" that are not fully "Swiped/Dragged" to return to the top w/ 'spring' Animation
+		/// Watches the 'offset' State Property value
+		.animation(.spring(), value: offset)
     }
 }
 
