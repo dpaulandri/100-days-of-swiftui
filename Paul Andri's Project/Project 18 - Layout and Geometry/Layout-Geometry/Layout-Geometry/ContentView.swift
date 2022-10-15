@@ -8,7 +8,7 @@
 import SwiftUI
 
 // DAY 92 MATERIALS
-//
+/*
 // HOW LAYOUT WORKS IN SWIFTUI
 /*
 /// PARENT-CHILD VIEW RELATIONSHIP, VIEW MODIFIER ORDER & "LAYOUT NEUTRAL" VIEW
@@ -196,7 +196,7 @@ struct ContentView: View {
 
 
 // CREATE CUSTOM ALIGNMENT GUIDE
-//
+/*
 /// STEP 1: Create an extension for 'VerticalAlignment' (OR 'HorizontalAlignment')
 extension VerticalAlignment {
 	/// STEP 2: Create a custom Type 'enum' that conforms to 'AlignmentID' Protocol
@@ -262,19 +262,205 @@ struct ContentView: View {
 		}
 	}
 }
-//
-
-//
-
-
-
-/*
- struct ContentView: View {
-	 var body: some View {
-		 Text("Hello, world!")
-	 }
- }
 */
+
+*/
+
+
+
+// DAY 93 MATERIALS
+//
+// ABSOLUTE POSITIONING FOR SWIFTUI VIEWS - '.position()' Modifier
+/*
+/// '.position()' Modifier - Absolute Positioning vs '.offset()' Modifier - Relative Positioning
+struct ContentView: View {
+	var body: some View {
+		VStack {
+			// '.position()' View Modifier - "Absolute" Positioning
+			Text("Hello, world!")
+			/// '.position()' View take up ALL AVAILABLE SPACES in order to position its 'Text' Child View properly
+				.position(x: 100, y: 100)
+			/// '.background()' View take up ALL AVAILABLE SPACES in order to position its '.position()' Child View properly
+				.background(.red)
+				.frame(width: 300, height: 300)
+			
+			// 'offset()' View Modifier - "Relative" Positioning
+			Text("Hello, world!")
+			/// '.offset()' View take up ALL AVAILABLE SPACES in order to position its 'Text' Child View properly
+				.offset(x: 100, y: 100)
+			/// '.background()' View take up ALL AVAILABLE SPACES in order to position its '.position()' Child View properly
+				.background(.red)
+				.frame(width: 300, height: 300)
+			
+				// '.offset()' Modifier behaviour explanation:
+				/*
+				 When we use the '.offset()' Modifier, we’re changing the location where a View should be rendered without actually changing its underlying geometry. This means when we apply '.background()' afterwards it uses the original position of the 'Text' View, not its "offset".
+				 
+				 If you move the modifier order so that '.background()' comes before '.offset()' then things work more like you might have expected, showing once again that MODIFIER ORDER MATTERS.
+				 */
+		}
+	}
+}
+*/
+
+
+// 'GeometryReader' - UNDERSTANDING '.frame(in: )' & "SPACE COORDINATES"
+/*
+// BASIC 'GeometryReader'
+/*
+struct ContentView: View {
+	var body: some View {
+		VStack {
+			// 'GeometryReader' return View that has a flexible "preferred size" (NOT ABSOLUTE), which means it will expand to take up more space as needed.
+			GeometryReader { geo in
+				/// 'geo' parameter is a 'GeometryProxy':
+				/// Contains the proposed 'View' size, any "safe area insets" that have been applied, plus a Method for reading 'frame' values
+				Text("Hello, world!")
+					.frame(width: geo.size.width * 0.9)
+					.background(.red)
+			}
+			.background(.green)
+			
+			Text("More text")
+				.background(.yellow)
+			Text("More text")
+				.background(.gray)
+			Text("More text")
+				.background(.blue)
+		}
+	}
+}
+*/
+
+// ADVANCED'GeometryReader' W/ 'GeometryProxy's '.frame(in: )' Method & '.coordinateSpace()' Modifier
+/*
+// '.frame(in: )' Method - Use to read the 'frame' value of a 'View'
+// '.coordinateSpace()' Modifier - Use to create custom "Coordinate Spaces"
+// SwiftUI "Coordinate Spaces":
+/// - The "Global space" - measuring our View’s frame relative to the whole screen
+/// - The "Local space" - measuring our View’s frame relative to its "Parent View"
+/// - The "Custom Coordinate space" - measuring our View’s frame relative to a "Coordinate Space"
+
+struct OuterView: View {
+	var body: some View {
+		VStack {
+			Text("Top")
+			InnerView()
+				.background(.green)
+			Text("Bottom")
+		}
+	}
+}
+
+struct InnerView: View {
+	var body: some View {
+		HStack {
+			Text("Left")
+			
+			GeometryReader { geo in
+				Text("Center")
+					.background(.blue)
+					.onTapGesture {
+						/// Print the "Global space" frame center coordinate value
+						/// Measuring our 'GeometryReader' View’s frame relative to the whole screen
+						print("Global center: \(geo.frame(in: .global).midX) x \(geo.frame(in: .global).midY)")
+						
+						/// Print the "Local space" frame center coordinate value
+						/// Measuring our 'GeometryReader' View’s frame relative to its "Parent View" ('InnerView')
+						print("Local center: \(geo.frame(in: .local).midX) x \(geo.frame(in: .local).midY)")
+						
+						/// Print the "custom Coordinate space" frame center coordinate value
+						/// Measuring our 'GeometryReader' View’s frame relative to 'OuterView' inside 'ContentView'
+						print("Custom center: \(geo.frame(in: .named("Custom")).midX) x \(geo.frame(in: .named("Custom")).midY)")
+					}
+			}
+			.background(.orange)
+			
+			Text("Right")
+		}
+	}
+}
+
+struct ContentView: View {
+	var body: some View {
+		OuterView()
+			.background(.red)
+			/// Create custom "Coordinate Space"
+			.coordinateSpace(name: "Custom")
+	}
+}
+*/
+*/
+
+
+
+// 'GeometryReader' + 'SrollView' FXs
+//
+// SPINNING HELIX EFFECT
+//
+struct ContentView: View {
+	let colors: [Color] = [.red, .green, .blue, .orange, .pink, .purple, .yellow]
+	
+	var body: some View {
+		GeometryReader { fullView in /// <- get the size of the Full Main View
+			ScrollView {
+				ForEach(0..<50) { index in
+					GeometryReader { geo in
+						Text("Row #\(index)")
+							.font(.title)
+							.frame(maxWidth: .infinity)
+							.background(colors[index % 7]) /// '%' - Modulus / Remainder operator
+							/// 3D Rotation FX Modifier
+							.rotation3DEffect(
+								/// '.minY' = "Top edge" of the View
+								.degrees(geo.frame(in: .global).minY - fullView.size.height / 2) / 5,
+								// axis: (x: 0, y: 1, z: 0)
+								axis: (x: 0, y: 0, z: 1) /// Spin on both the 'y' Horizontal & 'z' Depth Axis
+								/// Other axis examples:
+								/*
+								 // axis: (x: 1, y: 0, z: 0) /// Spin only on the 'x' Vertical Axis
+								 // axis: (x: 0, y: 1, z: 0) /// Spin only on the 'y' Horizontal Axis
+								 // axis: (x: 0, y: 0, z: 1) /// Spin only on the 'z' Depth Axis
+								 */
+							)
+					}
+					.frame(height: 40)
+				}
+			}
+		}
+	}
+}
+//
+
+
+// COVER-FLOW STYLE SCROLLING EFFECT
+/*
+struct ContentView: View {
+	var body: some View {
+		ScrollView(.horizontal, showsIndicators: false) {
+			HStack(spacing: 0) {
+				ForEach(1..<20) { num in
+					GeometryReader { geo in
+						Text("Number \(num)")
+							.font(.largeTitle)
+							.padding()
+							.background(.red)
+							.rotation3DEffect(
+								.degrees(-geo.frame(in: .global).minX) / 8,
+								axis: (x: 0, y: 1, z: 0)
+							)
+							.frame(width: 200, height: 200)
+					}
+					.frame(width: 200, height: 200)
+				}
+			}
+		}
+	}
+}
+*/
+
+//
+
 
 
 
