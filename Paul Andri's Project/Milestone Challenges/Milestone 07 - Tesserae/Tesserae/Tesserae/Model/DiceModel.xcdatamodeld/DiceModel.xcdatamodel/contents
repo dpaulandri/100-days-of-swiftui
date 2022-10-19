@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21279" systemVersion="21G115" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="DiceThrow" representedClassName="DiceThrow" syncable="YES">
+    <entity name="DiceThrowValue" representedClassName="DiceThrowValue" syncable="YES">
         <attribute name="diceFaces" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="diceValues" optional="YES" attributeType="Transformable"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="sumValue" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="diceThrow" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="History" inverseName="savedHistory" inverseEntity="History"/>
+        <relationship name="diceThrow" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="History" inverseName="history" inverseEntity="History"/>
         <uniquenessConstraints>
             <uniquenessConstraint>
                 <constraint value="id"/>
@@ -13,7 +12,7 @@
         </uniquenessConstraints>
     </entity>
     <entity name="History" representedClassName="History" syncable="YES">
-        <attribute name="history" optional="YES" attributeType="Transformable"/>
-        <relationship name="savedHistory" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DiceThrow" inverseName="diceThrow" inverseEntity="DiceThrow"/>
+        <attribute name="throwHistory" optional="YES" attributeType="Transformable"/>
+        <relationship name="history" optional="YES" toMany="YES" deletionRule="Nullify" ordered="YES" destinationEntity="DiceThrowValue" inverseName="diceThrow" inverseEntity="DiceThrowValue"/>
     </entity>
 </model>
