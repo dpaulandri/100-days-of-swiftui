@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7BB056A5290FBFFD00162AF7 /* Facility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB056A4290FBFFD00162AF7 /* Facility.swift */; };
+		7BB056A7290FCDC500162AF7 /* Favorites.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BB056A6290FCDC500162AF7 /* Favorites.swift */; };
 		7BEF6D1A290A7AE500EEB2D1 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BEF6D19290A7AE500EEB2D1 /* Preview Assets.xcassets */; };
 		7BEF6D21290A7B2D00EEB2D1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7BEF6D20290A7B2C00EEB2D1 /* Assets.xcassets */; };
 		7BEF6D2D290A7BE100EEB2D1 /* SnowSeekerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BEF6D22290A7BDF00EEB2D1 /* SnowSeekerApp.swift */; };
@@ -22,6 +24,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7BB056A4290FBFFD00162AF7 /* Facility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Facility.swift; path = SnowSeeker/Model/Facility.swift; sourceTree = SOURCE_ROOT; };
+		7BB056A6290FCDC500162AF7 /* Favorites.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Favorites.swift; path = SnowSeeker/Model/Favorites.swift; sourceTree = SOURCE_ROOT; };
 		7BEF6D0F290A7ADD00EEB2D1 /* SnowSeeker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SnowSeeker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7BEF6D19290A7AE500EEB2D1 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		7BEF6D20290A7B2C00EEB2D1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -90,6 +94,8 @@
 			children = (
 				7BEF6D24290A7BDF00EEB2D1 /* resorts.json */,
 				7BEF6D25290A7BDF00EEB2D1 /* Resort.swift */,
+				7BB056A4290FBFFD00162AF7 /* Facility.swift */,
+				7BB056A6290FCDC500162AF7 /* Favorites.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -189,8 +195,10 @@
 			files = (
 				7BEF6D2F290A7BE100EEB2D1 /* Resort.swift in Sources */,
 				7BEF6D33290A7BE100EEB2D1 /* WelcomeView.swift in Sources */,
+				7BB056A5290FBFFD00162AF7 /* Facility.swift in Sources */,
 				7BEF6D34290A7BE100EEB2D1 /* ContentView.swift in Sources */,
 				7BEF6D2D290A7BE100EEB2D1 /* SnowSeekerApp.swift in Sources */,
+				7BB056A7290FCDC500162AF7 /* Favorites.swift in Sources */,
 				7BEF6D32290A7BE100EEB2D1 /* ResortView.swift in Sources */,
 				7BEF6D30290A7BE100EEB2D1 /* View.swift in Sources */,
 				7BEF6D38290A801F00EEB2D1 /* ResortDetailsView.swift in Sources */,
@@ -333,6 +341,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -364,6 +373,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

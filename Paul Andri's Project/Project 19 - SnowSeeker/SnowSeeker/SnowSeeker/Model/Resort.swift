@@ -20,6 +20,12 @@ struct Resort: Codable, Identifiable {
 	let runs: Int
 	let facilities: [String]
 	
+	/// Computed Property to create 'Facility' instances for every 'Facility' in a 'Resort'
+	var facilityTypes: [Facility] {
+		/// Initialises & passes in the Facility object's 'name' String values from Resort's 'facilities' property
+		facilities.map(Facility.init)
+	}
+	
 	/// Static properties to decode, store all 'Resort' data into an Array & extract the first 'Resort' object as an example
 	/// More flexible, expandable & reusable
 	static let allResorts: [Resort] = Bundle.main.decode("resorts.json")
